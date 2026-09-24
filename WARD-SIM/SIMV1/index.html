@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MOTIO Simulator V1 — live digitale twin van een mechanische patroontekenaar.">
+  <title>MOTIO Simulator V1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">WARD-SIM / SIMV1</p>
+      <h1>MOTIO <span>LIVE SIMULATOR V1</span></h1>
+    </div>
+    <div class="status-cluster">
+      <span id="run-status" class="status-badge paused">PAUSED</span>
+      <span id="boundary-status" class="status-badge ok">PEN INSIDE PAPER</span>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="control-panel panel">
+      <section>
+        <h2>Simulation</h2>
+        <div class="transport" aria-label="Simulation controls">
+          <button id="play-btn" class="primary">▶ Play</button>
+          <button id="pause-btn">Ⅱ Pause</button>
+          <button id="stop-btn">■ Stop</button>
+          <button id="reset-btn">↺ Reset</button>
+          <button id="clear-btn" class="wide">Clear drawing</button>
+        </div>
+        <label for="speed">Simulation speed <output id="speed-value">1×</output></label>
+        <input id="speed" type="range" min="0" max="4" step="1" value="2">
+        <div class="ticks"><span>0.25×</span><span>0.5×</span><span>1×</span><span>2×</span><span>5×</span></div>
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h2>Gear configuration</h2>
+          <span id="active-config" class="config-chip">20 / 60 / 37</span>
+        </div>
+        <div class="field-grid">
+          <label>Driver teeth<input id="driver-teeth" type="number" min="12" max="120" step="1" value="20"></label>
+          <label>Driver RPM<input id="driver-rpm" type="number" min="0.1" max="120" step="0.1" value="12"></label>
+          <label>Paper teeth<input id="paper-teeth" type="number" min="12" max="120" step="1" value="60"></label>
+          <label>Arm A teeth<input id="arm-a-teeth" type="number" min="12" max="120" step="1" value="37"></label>
+          <label>Arm B teeth<input id="arm-b-teeth" type="number" min="12" max="120" step="1" value="53"></label>
+        </div>
+        <label for="preset">Preset</label>
+        <select id="preset">
+          <option value="20,40,60,48">Simple · 20 / 40 / 60 / 48</option>
+          <option value="20,37,53,61">Flower · 20 / 37 / 53 / 61</option>
+          <option value="24,41,67,55">Orbit · 24 / 41 / 67 / 55</option>
+          <option value="18,47,71,59">Dense · 18 / 47 / 71 / 59</option>
+          <option value="23,59,83,71">Long Cycle · 23 / 59 / 83 / 71</option>
+          <option value="20,60,37,53" selected>Dual arm test · 20 / 60 / 37 / 53</option>
+        </select>
+        <div class="ratio-cards">
+          <div><span>Paper ratio</span><strong id="paper-ratio">−0.3333×</strong><small id="paper-direction">CCW</small></div>
+          <div><span>Arm A ratio</span><strong id="arm-a-ratio">−0.5405×</strong><small id="arm-a-direction">CCW</small></div>
+          <div><span>Arm B ratio</span><strong id="arm-b-ratio">−0.3774×</strong><small id="arm-b-direction">CCW</small></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Dual arm linkage</h2>
+        <div class="field-grid">
+          <label>Arm A pivot X<input id="arm-a-pivot-x" type="number" min="430" max="650" step="0.5" value="500"></label>
+          <label>Arm A pivot Y<input id="arm-a-pivot-y" type="number" min="-100" max="397" step="0.5" value="148.5"></label>
+          <label>Arm A crank<input id="arm-a-crank" type="number" min="10" max="100" step="1" value="55"></label>
+          <label>Arm A length<input id="arm-a-length" type="number" min="200" max="600" step="1" value="360"></label>
+          <label>Arm A phase<input id="arm-a-phase" type="number" min="0" max="360" step="1" value="0"></label>
+          <span class="field-spacer" aria-hidden="true"></span>
+          <label>Arm B pivot X<input id="arm-b-pivot-x" type="number" min="-100" max="520" step="0.5" value="210"></label>
+          <label>Arm B pivot Y<input id="arm-b-pivot-y" type="number" min="-180" max="-10" step="0.5" value="-100"></label>
+          <label>Arm B crank<input id="arm-b-crank" type="number" min="10" max="100" step="1" value="45"></label>
+          <label>Arm B length<input id="arm-b-length" type="number" min="150" max="500" step="1" value="270"></label>
+          <label>Arm B phase<input id="arm-b-phase" type="number" min="0" max="360" step="1" value="0"></label>
+        </div>
+      </section>
+
+      <section class="assumption">
+        <h2>Assumption V1</h2>
+        <p>Twee afzonderlijke tandwielen staan buiten het papier. Elke excentrische kruk beweegt één vaste arm. Hun geometrische snijpunt vormt de penwagen; alleen de pen bevindt zich boven het blad.</p>
+      </section>
+    </aside>
+
+    <section class="views">
+      <article class="panel view-card machine-card">
+        <div class="view-header"><div><p class="eyebrow">VIEW A</p><h2>Machine view</h2></div><span>WORLD FRAME</span></div>
+        <div class="canvas-wrap"><canvas id="machine-canvas" aria-label="Live bovenaanzicht van het mechanisme"></canvas></div>
+        <div class="legend"><span><i class="dot cyan"></i>Driver</span><span><i class="dot amber"></i>Paper drive</span><span><i class="dot violet"></i>Arm A</span><span><i class="dot green"></i>Arm B</span><span><i class="line"></i>Local trace</span></div>
+      </article>
+
+      <article class="panel view-card paper-card">
+        <div class="view-header"><div><p class="eyebrow">VIEW B</p><h2>Paper view</h2></div><span>420 × 297 MM · FIXED</span></div>
+        <div class="canvas-wrap"><canvas id="paper-canvas" aria-label="Live patroon in lokale papiercoördinaten"></canvas></div>
+        <div class="paper-key"><span>A3 boundary</span><span>20 mm safe margin</span><span id="point-count">0 trace points</span></div>
+      </article>
+    </section>
+
+    <aside class="data-panel panel">
+      <h2>Live data</h2>
+      <dl>
+        <div><dt>Simulation time</dt><dd id="data-time">0.00 s</dd></div>
+        <div><dt>Driver rotations</dt><dd id="data-rotations">0.000</dd></div>
+        <div><dt>Driver angle</dt><dd id="data-driver-angle">0.0°</dd></div>
+        <div><dt>Paper angle</dt><dd id="data-paper-angle">0.0°</dd></div>
+        <div><dt>Arm A angle</dt><dd id="data-arm-a-angle">0.0°</dd></div>
+        <div><dt>Arm B angle</dt><dd id="data-arm-b-angle">0.0°</dd></div>
+      </dl>
+      <h3>Speeds</h3>
+      <dl>
+        <div><dt>Driver RPM</dt><dd id="data-driver-rpm">12.00</dd></div>
+        <div><dt>Paper RPM</dt><dd id="data-paper-rpm">−4.00</dd></div>
+        <div><dt>Arm A RPM</dt><dd id="data-arm-a-rpm">−6.49</dd></div>
+        <div><dt>Arm B RPM</dt><dd id="data-arm-b-rpm">−4.53</dd></div>
+      </dl>
+      <h3>Gears</h3>
+      <dl>
+        <div><dt>Driver / Paper / A / B</dt><dd id="data-teeth">20T / 60T / 37T / 53T</dd></div>
+        <div><dt>Paper ratio</dt><dd id="data-paper-ratio">−1 / 3</dd></div>
+        <div><dt>Arm A ratio</dt><dd id="data-arm-a-ratio">−20 / 37</dd></div>
+        <div><dt>Arm B ratio</dt><dd id="data-arm-b-ratio">−20 / 53</dd></div>
+      </dl>
+      <h3>Exact repeat</h3>
+      <div class="repeat-card"><strong id="repeat-rotations">111 rotations</strong><span id="repeat-period">555.0 s</span></div>
+      <h3>Pen on paper</h3>
+      <dl>
+        <div><dt>X local</dt><dd id="data-pen-x">300.00 mm</dd></div>
+        <div><dt>Y local</dt><dd id="data-pen-y">148.50 mm</dd></div>
+        <div><dt>Inside paper</dt><dd id="data-inside">YES</dd></div>
+        <div><dt>Inside safe area</dt><dd id="data-safe">YES</dd></div>
+      </dl>
+      <div class="formula-note">All output motion derives from one driver angle. The trace is stored in the rotating paper's local frame.</div>
+    </aside>
+  </main>
+
+  <script src="js/math.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/renderers.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
