@@ -27,3 +27,7 @@ telkens andere visuele patronen.
 - [<img src="https://github.com/Ward-Elek.png" alt="Foto" width="25" style="margin-bottom:-6px;"> Ward Dereeper, fase 3](https://github.com/Ward-Elek)
 - [<img src="https://github.com/ToneyBacon.png" alt="Foto" width="25" style="margin-bottom:-6px;"> Cobe Dudal, fase 2](https://github.com/ToneyBacon)
 - [<img src="https://github.com/Tibo668.png" alt="Foto" width="25" style="margin-bottom:-6px;"> Tibo Morgan, fase 2](https://github.com/Tibo668)
+## Simulators
+
+- [SIMV1](WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
+- [SIMV2](WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](WARD-SIM/SIMV2/README.md).
