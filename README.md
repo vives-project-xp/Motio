@@ -23,11 +23,13 @@ telkens andere visuele patronen.
 
 ## Team
 
-- [Kyell De Windt, fase 3](https://github.com/kyell182) ![Kyell De Windt, fase 3](https://github.com/kyell182.png)
-- [Jarno Bostyn, fase 3](https://github.com/Jarno-max) ![Jarno Bostyn, fase 3](https://github.com/Jarno-max.png)
-- [Ward Dereeper, fase 3](https://github.com/Ward-Elek) ![Ward Dereeper, fase 3](https://github.com/Ward-Elek.png)
-- [Cobe Dudal, fase 2](https://github.com/ToneyBacon) ![Cobe Dudal, fase 2](https://github.com/ToneyBacon.png)
-- [Tibo Morgan, fase 2](https://github.com/Tibo668) ![Tibo Morgan, fase 2](https://github.com/Tibo668.png)
+| Teamlid | GitHub |
+| --- | --- |
+| <img src="https://github.com/kyell182.png" width="48" alt="Kyell De Windt"> | [kyell182](https://github.com/kyell182) |
+| <img src="https://github.com/Jarno-max.png" width="48" alt="Jarno Bostyn"> | [Jarno-max](https://github.com/Jarno-max) |
+| <img src="https://github.com/Ward-Elek.png" width="48" alt="Ward Dereeper"> | [Ward-Elek](https://github.com/Ward-Elek) |
+| <img src="https://github.com/ToneyBacon.png" width="48" alt="Cobe Dudal"> | [ToneyBacon](https://github.com/ToneyBacon) |
+| <img src="https://github.com/Tibo668.png" width="48" alt="Tibo Morgan"> | [Tibo668](https://github.com/Tibo668) |
 
 ## Simulators
 
