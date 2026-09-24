@@ -1,2 +1,2 @@
 # Research
-In deze map zal alles te maken met de software terug te vinden zijn.
+In deze map zal het gemaakte onderzoek in verband met dit project terug te vinden zijn.
