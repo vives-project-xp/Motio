@@ -23,11 +23,11 @@ telkens andere visuele patronen.
 
 ## Team
 
-- [![Kyell De Windt, fase 3](https://github.com/kyell182.png)](https://github.com/kyell182)
-- [![Jarno Bostyn, fase 3](https://github.com/Jarno-max.png)](https://github.com/Jarno-max)
-- [![Ward Dereeper, fase 3](https://github.com/Ward-Elek.png)](https://github.com/Ward-Elek)
-- [![Cobe Dudal, fase 2](https://github.com/ToneyBacon.png)](https://github.com/ToneyBacon)
-- [![Tibo Morgan, fase 2](https://github.com/Tibo668.png)](https://github.com/Tibo668)
+- [Kyell De Windt, fase 3](https://github.com/kyell182) ![Kyell De Windt, fase 3](https://github.com/kyell182.png)
+- [Jarno Bostyn, fase 3](https://github.com/Jarno-max) ![Jarno Bostyn, fase 3](https://github.com/Jarno-max.png)
+- [Ward Dereeper, fase 3](https://github.com/Ward-Elek) ![Ward Dereeper, fase 3](https://github.com/Ward-Elek.png)
+- [Cobe Dudal, fase 2](https://github.com/ToneyBacon) ![Cobe Dudal, fase 2](https://github.com/ToneyBacon.png)
+- [Tibo Morgan, fase 2](https://github.com/Tibo668) ![Tibo Morgan, fase 2](https://github.com/Tibo668.png)
 
 ## Simulators
 
