@@ -88,6 +88,6 @@ Motio/
 | Universiteit | VIVES Hogeschool         |
 | Opleiding    | Bachelor Elektronica-ICT |
 | Vak          | Project Experience       |
-| Academiejaar | 2025-2026                |
+| Academiejaar | 2026-2027                |
 
 Gemaakt door VIVES Bachelor Elektronica-ICT studenten.
