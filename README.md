@@ -22,11 +22,13 @@ telkens andere visuele patronen.
 ## Folder structuur
 
 ## Team
-- [<img src="https://github.com/kyell182.png" alt="Foto" width="25" style="margin-bottom:-6px;"> Kyell De Windt, fase 3](https://github.com/kyell182)
-- [<img src="https://github.com/Jarno-max.png" alt="Foto" width="25" style="margin-bottom:-6px;"> Jarno Bostyn, fase 3](https://github.com/Jarno-max)
-- [<img src="https://github.com/Ward-Elek.png" alt="Foto" width="25" style="margin-bottom:-6px;"> Ward Dereeper, fase 3](https://github.com/Ward-Elek)
-- [<img src="https://github.com/ToneyBacon.png" alt="Foto" width="25" style="margin-bottom:-6px;"> Cobe Dudal, fase 2](https://github.com/ToneyBacon)
-- [<img src="https://github.com/Tibo668.png" alt="Foto" width="25" style="margin-bottom:-6px;"> Tibo Morgan, fase 2](https://github.com/Tibo668)
+
+- [![Kyell De Windt, fase 3](https://github.com/kyell182.png)](https://github.com/kyell182)
+- [![Jarno Bostyn, fase 3](https://github.com/Jarno-max.png)](https://github.com/Jarno-max)
+- [![Ward Dereeper, fase 3](https://github.com/Ward-Elek.png)](https://github.com/Ward-Elek)
+- [![Cobe Dudal, fase 2](https://github.com/ToneyBacon.png)](https://github.com/ToneyBacon)
+- [![Tibo Morgan, fase 2](https://github.com/Tibo668.png)](https://github.com/Tibo668)
+
 ## Simulators
 
 - [SIMV1](WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
