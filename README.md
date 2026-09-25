@@ -4,7 +4,7 @@
 
 [![VIVES Elektronica-ICT](https://img.shields.io/badge/VIVES-Elektronica--ICT-blue)](https://www.vives.be/nl/technology/elektronica-ict)
 [![Project Experience](https://img.shields.io/badge/Project-Experience-brightgreen)](https://github.com/vives-project-xp)
-[![GitHub](https://img.shields.io/badge/GitHub-Motio-181717)]([https://github.com/](https://github.com/vives-project-xp/Motio))
+[![GitHub](https://img.shields.io/badge/GitHub-Motio-181717)](https://github.com/vives-project-xp/Motio/tree/main)
 
 > Een innovatief project voor het zichtbaar en tastbaar maken van beweging,
 > door meerdere bewegende elementen om te zetten in fysieke tekeningen op papier.
