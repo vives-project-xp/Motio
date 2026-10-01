@@ -4,7 +4,7 @@
 
 [![VIVES Elektronica-ICT](https://img.shields.io/badge/VIVES-Elektronica--ICT-blue)](https://www.vives.be/nl/technology/elektronica-ict)
 [![Project Experience](https://img.shields.io/badge/Project-Experience-brightgreen)](https://github.com/vives-project-xp)
-[![GitHub](https://img.shields.io/badge/GitHub-Motio-181717)](https://github.com/)
+[![GitHub](https://img.shields.io/badge/GitHub-Motio-181717)](https://github.com/vives-project-xp/Motio/tree/main)
 
 > Een innovatief project voor het zichtbaar en tastbaar maken van beweging,
 > door meerdere bewegende elementen om te zetten in fysieke tekeningen op papier.
@@ -22,6 +22,7 @@
     - [Software](#software)
   - [Project Structuur](#project-structuur)
   - [Simulators](#simulators)
+    - [Beginposter](#beginposter)
   - [Team](#team)
   - [Academische Context](#academische-context)
 
@@ -66,10 +67,15 @@ Motio/
 └── README.md         # Dit bestand
 ```
 
+
+
 ## Simulators
 
 - [SIMV1](WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
 - [SIMV2](WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](WARD-SIM/SIMV2/README.md).
+
+### Beginposter
+<img src="./doc/assets/begin_poster_motio.png" height="auto" width="420">
 
 ## Team
 
