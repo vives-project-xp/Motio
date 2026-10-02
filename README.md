@@ -67,14 +67,13 @@ Motio/
 └── README.md         # Dit bestand
 ```
 
-
-
 ## Simulators
 
 - [SIMV1](WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
 - [SIMV2](WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](WARD-SIM/SIMV2/README.md).
 
 ### Beginposter
+
 <img src="./doc/assets/begin_poster_motio.png" height="auto" width="420">
 
 ## Team
