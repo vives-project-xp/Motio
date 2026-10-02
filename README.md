@@ -49,7 +49,7 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 
 ### Software
 
-- Interactieve simulators (SIMV1 en SIMV2) voor het instellen en previewen van bewegingen.
+- Interactieve simulators (SIMV1, SIMV2 en SIMV3) voor het instellen en previewen van bewegingen.
 - Parameterbesturing voor snelheid, richting, fase en bewegingsverhouding.
 
 ## Project Structuur
@@ -61,16 +61,18 @@ Motio/
 ├── Materiaal/        # Materiaallijst en benodigdheden
 ├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing)
 ├── Software/         # Softwarecomponenten van het project
-├── WARD-SIM/         # Interactieve simulators
+├── Software/WARD-SIM/ # Interactieve simulators
 │   ├── SIMV1/        # Oorspronkelijke live simulator
-│   └── SIMV2/        # Virtueel prototype met machinebediening
+│   ├── SIMV2/        # Virtueel prototype met machinebediening
+│   └── SIMV3/        # Mechanisch prototype met drie motoren, 2D/3D en BOM
 └── README.md         # Dit bestand
 ```
 
 ## Simulators
 
-- [SIMV1](WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
-- [SIMV2](WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](WARD-SIM/SIMV2/README.md).
+- [SIMV1](Software/WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
+- [SIMV2](Software/WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](Software/WARD-SIM/SIMV2/README.md).
+- [SIMV3](Software/WARD-SIM/SIMV3/index.html): aparte mechanische prototypeversie met drie motoren, gekoppelde armketen, 2D/3D-ontwerp en componentenlijst. Zie [ontwerp en validatie](Software/WARD-SIM/SIMV3/README.md).
 
 ### Beginposter
 
