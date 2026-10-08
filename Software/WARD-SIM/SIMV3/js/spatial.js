@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 
-const {colors}=window.MotioRenderers;
+const {colors,gearOutline,gearAngle}=window.MotioRenderers;
 const {TAU}=window.MotioMath;
 class SpatialRenderer {
  constructor(canvas,onSelect) {
@@ -19,7 +19,7 @@ class SpatialRenderer {
     const contains=points=>{let yes=false;for(let i=0,j=points.length-1;i<points.length;j=i++){const a=points[i],b=points[j];if((a.y>y)!==(b.y>y)&&x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x)yes=!yes;}return yes;};
     const visible=(this.pickFaces||[]).filter(f=>f.part&&f.part.id!=='BASE'&&contains(f.points)).sort((a,b)=>b.depth-a.depth)[0];
     const hit=visible?{part:visible.part}:this.hits.filter(h=>Math.hypot(h.x-x,h.y-y)<Math.min(h.radius,24)).sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y))[0];
-    if(hit)this.onSelect(hit.part || hit.label);else this.onSelect('Klik dichter bij een motor, as, pulley, arm, lager of penhouder.');
+    if(hit)this.onSelect(hit.part || hit.label);else this.onSelect('Klik op een motor, tandwiel, arm, lager of penhouder.');
    }this.drag=null;
   });
   canvas.addEventListener('pointercancel',()=>this.drag=null);
@@ -95,6 +95,15 @@ class SpatialRenderer {
    for(let i=0;i<segments;i++)face([bottom[i],bottom[(i+1)%segments],top[(i+1)%segments],top[i]],color,.65+.15*Math.cos(i*TAU/segments));
    if(label)register({x,y,z:z+h/2},label,r+10);
   };
+  const spurGear=(b,color)=>{
+   const angle=gearAngle(DESIGN,b.key,sim.q[b.key],b.motor),outline=gearOutline(b.teeth,b.module,angle);
+   const bottom=outline.map(p=>({x:b.x+p.x,y:b.y+p.y,z:b.z-b.h/2})),top=outline.map(p=>({x:b.x+p.x,y:b.y+p.y,z:b.z+b.h/2}));
+   // Fan from the gear axis: the tooth outline is star-shaped, but not convex.
+   face([{x:b.x,y:b.y,z:b.z-b.h/2},...bottom,bottom[0]],color,.55);
+   face([{x:b.x,y:b.y,z:b.z+b.h/2},...top,top[0]],color,1);
+   for(let i=0;i<outline.length;i++)face([bottom[i],bottom[(i+1)%outline.length],top[(i+1)%outline.length],top[i]],color,.70+.12*Math.cos(i*TAU/outline.length));
+   register({x:b.x,y:b.y,z:b.z+b.h/2},b.id,b.r+b.module);
+  };
   const beam=(a,b,z,w,h,color,label)=>{
    const dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy),nx=-dy/length*w/2,ny=dx/length*w/2;
    const p=[{x:a.x+nx,y:a.y+ny,z:z-h/2},{x:b.x+nx,y:b.y+ny,z:z-h/2},{x:b.x-nx,y:b.y-ny,z:z-h/2},{x:a.x-nx,y:a.y-ny,z:z-h/2}];
@@ -125,16 +134,34 @@ class SpatialRenderer {
    if(exploded||mode==='exploded')b.z+=b.group==='moving'||b.group==='joint'?(b.id.endsWith('B')?85:50):b.group==='platter'?30:b.group==='pen'?105:0;
    const key=b.id.slice(-1),col=colors[key]||'#8ba7ba';
    const color=b.group==='frame'?(b.id==='BASE'?'#33465a44':'#344c61'):b.group==='bearing'||b.group==='joint'?'#d6e1e7':b.group==='moving'?col:b.group==='drive'?col:b.group==='platter'?'#8a9ba9':b.group==='pen'?(b.id==='pen'?'#f4c367':'#62a7bb'):b.group==='support'?'#4b6377':'#b2c4d3';
-   if(b.shape==='box')box(b.x,b.y,b.z,b.w,b.l,b.h,color,b.id);
+   if(b.shape==='box'){
+    box(b.x,b.y,b.z,b.w,b.l,b.h,color,b.id);
+    if(b.id.startsWith('motor')&&!b.id.startsWith('motorShaft')){
+     const z=b.z+b.h/2+.02,pitch=DESIGN.motor.mountingPitch/2;
+     box(b.x,b.y,z-.75,b.w,b.l,1.5,'#9badbb');
+     for(const x of [-pitch,pitch])for(const y of [-pitch,pitch])cylinder(b.x+x,b.y+y,z+.04,1.5,.08,'#12202d');
+    }
+   }
    else if(b.shape==='beam')beam(b.a,b.b,b.z,b.w,b.h,color,b.id);
    else if(b.shape==='ring')ring(b,color);
+   else if(b.shape==='gear')spurGear(b,color);
    else cylinder(b.x,b.y,b.z,b.r,b.h,color,b.id);
   }
   if(['assembly','section','exploded'].includes(mode)){
    currentPart=null;
    const p=DESIGN.paper,z=p.z+p.thickness/2+.2+((exploded||mode==='exploded')?30:0);
-   const corners=[[-p.width/2,-p.height/2],[p.width/2,-p.height/2],[p.width/2,p.height/2],[-p.width/2,p.height/2]].map(([x,y])=>({...window.MotioPaper.paperToMachine({x,y},sim.q.C,DESIGN),z}));
-   face(corners,'#f4f0e7',1);
+   const paperPoint=(pt,height=z)=>({...window.MotioPaper.paperToMachine(pt,sim.q.C,DESIGN),z:height});
+   const edge=Array.from({length:72},(_,i)=>paperPoint({x:p.radius*Math.cos(i*TAU/72),y:p.radius*Math.sin(i*TAU/72)}));
+   face(edge,'#f4f0e7',1);
+   const paperLine=(a,b,width,color)=>{
+    const dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy);if(L<1e-6)return;
+    const nx=-dy/L*width/2,ny=dx/L*width/2;
+    face([{x:a.x+nx,y:a.y+ny},{x:b.x+nx,y:b.y+ny},{x:b.x-nx,y:b.y-ny},{x:a.x-nx,y:a.y-ny}].map(pt=>paperPoint(pt,z+.05)),color,1);
+   };
+   // The circle and trace belong to the paper and rotate with motor C.
+   for(let i=0;i<96;i+=2){const a=i*TAU/96,b=(i+1)*TAU/96;paperLine({x:p.safeRadius*Math.cos(a),y:p.safeRadius*Math.sin(a)},{x:p.safeRadius*Math.cos(b),y:p.safeRadius*Math.sin(b)},.5,'#b5a284');}
+   paperLine({x:p.radius-p.margin/2-1.5,y:0},{x:p.radius-p.margin/2+1.5,y:0},1,'#b5a284');
+   for(let i=Math.max(1,sim.trace.length-12000);i<sim.trace.length;i++)if(!sim.trace[i].break)paperLine(sim.trace[i-1],sim.trace[i],.55,'#263846');
   }
   faces.sort((a,b)=>a.depth-b.depth);
   this.pickFaces=faces;
@@ -142,8 +169,7 @@ class SpatialRenderer {
    ctx.font='14px system-ui,sans-serif';ctx.fillStyle='#c5dceb';ctx.fillText('3D vraagt WebGL in deze browser.',20,60);ctx.fillText('Open de 2D-tekening en doorsnede voor de mechanische opbouw.',20,88);return;
   }
   for(const label of labels){ctx.font='bold 11px Consolas,monospace';ctx.fillStyle='#0a1421';ctx.fillRect(label.x-18,label.y-24,38,17);ctx.fillStyle='#d7e8f5';ctx.fillText(label.text,label.x-14,label.y-12);}
-  ctx.font='11px Consolas,monospace';ctx.fillStyle='#97b2c8';ctx.fillText((exploded||mode==='exploded')?'EXPLODED · geen bedrijfsstand':'MAATGEBASEERD 3D · '+mode.toUpperCase(),16,22);
-  ctx.fillText(mode==='pen'?'Holle penas · onafhankelijke 6804-lagers · manuele M4-klem':'Gedeelde geometrie · klik onderdeel voor BOM en maatvoering',16,rect.height-16);
+  ctx.font='11px Consolas,monospace';ctx.fillStyle='#97b2c8';ctx.fillText((exploded||mode==='exploded')?'Exploded view':'MOTIO V4 · 3D',16,22);
  }
 }
 window.MotioSpatial={SpatialRenderer};

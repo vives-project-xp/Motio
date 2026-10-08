@@ -1,10 +1,10 @@
 const fs=require('fs'),path=require('path');
 global.window=global;
-for(const f of ['math','machineGeometry','kinematics','paperTransform','singularityAnalysis','collisionDetection','structuralEstimate','motorAnalysis','mechanics','validation','bom','simulation','renderers'])require('../js/'+f+'.js');
+for(const f of ['math','machineGeometry','kinematics','paperTransform','singularityAnalysis','collisionDetection','structuralEstimate','motorAnalysis','mechanics','validation','bom','bubbleText','patterns','simulation','renderers'])require('../js/'+f+'.js');
 const folder=path.resolve(__dirname,'../exports');fs.mkdirSync(folder,{recursive:true});
 const sim=new MotioSimulation.Simulation();
-fs.writeFileSync(path.join(folder,'MOTIO-SimV3-mechanical.svg'),MotioRenderers.mechanismSVG(sim,true));
-fs.writeFileSync(path.join(folder,'MOTIO-SimV3-section.svg'),MotioRenderers.sectionSVG(sim));
-fs.writeFileSync(path.join(folder,'MOTIO-SimV3-pen-detail.svg'),MotioRenderers.detailSVG(sim,'pen'));
-fs.writeFileSync(path.join(folder,'MOTIO-SimV3-BOM.csv'),MotioBOM.csv(sim.geometry));
+fs.writeFileSync(path.join(folder,'MOTIO-V4-mechanical.svg'),MotioRenderers.mechanismSVG(sim,true));
+fs.writeFileSync(path.join(folder,'MOTIO-V4-section.svg'),MotioRenderers.sectionSVG(sim));
+fs.writeFileSync(path.join(folder,'MOTIO-V4-pen-detail.svg'),MotioRenderers.detailSVG(sim,'pen'));
+fs.writeFileSync(path.join(folder,'MOTIO-V4-BOM.csv'),MotioBOM.csv(sim.geometry));
 console.log('Shared-geometry mechanical, spindle, pen detail and BOM exports generated.');
