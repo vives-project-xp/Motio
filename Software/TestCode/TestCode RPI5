@@ -1,5 +1,5 @@
-▶️ Start: nohup python3 motor.py > motor.log 2>&1 &
-⏹️ Stop: pkill -f motor.py
+#▶️ Start: nohup python3 motor.py > motor.log 2>&1 &
+#⏹️ Stop: pkill -f motor.py
 
 
 from gpiozero import DigitalOutputDevice
