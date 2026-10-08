@@ -1,0 +1,10 @@
+{
+  "autodeskProduct": "Fusion360",
+  "type": "script",
+  "author": "Kyell",
+  "description": {
+    "": "Builds the cycloid drawer assembly: box, gears, hardware, arms, paper and pen"
+  },
+  "supportedOS": "windows|mac",
+  "editEnabled": true
+}
