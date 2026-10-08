@@ -49,7 +49,7 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 
 ### Software
 
-- Interactieve simulators (SIMV1, SIMV2 en SIMV3) voor het instellen en previewen van bewegingen.
+- MOTIO V4 (verfijnd in SIMV3), met SIMV1 en SIMV2 als historische referenties.
 - Parameterbesturing voor snelheid, richting, fase en bewegingsverhouding.
 
 ## Project Structuur
@@ -64,7 +64,7 @@ Motio/
 ├── Software/WARD-SIM/ # Interactieve simulators
 │   ├── SIMV1/        # Oorspronkelijke live simulator
 │   ├── SIMV2/        # Virtueel prototype met machinebediening
-│   └── SIMV3/        # Mechanisch prototype met drie motoren, 2D/3D en BOM
+│   └── SIMV3/        # MOTIO V4: rond papier, tandwielen, drie motoren, 2D/3D en BOM
 └── README.md         # Dit bestand
 ```
 
@@ -72,7 +72,7 @@ Motio/
 
 - [SIMV1](Software/WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
 - [SIMV2](Software/WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](Software/WARD-SIM/SIMV2/README.md).
-- [SIMV3](Software/WARD-SIM/SIMV3/index.html): aparte mechanische prototypeversie met drie motoren, gekoppelde armketen, 2D/3D-ontwerp en componentenlijst. Zie [ontwerp en validatie](Software/WARD-SIM/SIMV3/README.md).
+- [MOTIO V4](Software/WARD-SIM/SIMV3/index.html): huidige simulator met rond papier Ø210 mm, veilige tekenzone Ø190 mm, drie SY42STH38-1684A-motoren, directe tandwielen en vereenvoudigde 2D/3D-interface. Zie [ontwerp en controles](Software/WARD-SIM/SIMV3/README.md).
 
 ### Beginposter
 

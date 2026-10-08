@@ -17,14 +17,7 @@ function segmentsDistance(a,b,c,d) {
  }
  return Math.min(pointSegment(a,c,d),pointSegment(b,c,d),pointSegment(c,a,b),pointSegment(d,a,b));
 }
-function beltLength(center,small,large) {
- const alpha=Math.asin((large-small)/center);
- return 2*Math.sqrt(center*center-(large-small)**2)+Math.PI*(small+large)+2*alpha*(large-small);
-}
-function beltCenter(length,small,large) {
- let lo=large-small+.001,hi=length;
- for(let i=0;i<60;i++){const mid=(lo+hi)/2;if(beltLength(mid,small,large)<length)lo=mid;else hi=mid;}
- return (lo+hi)/2;
-}
-window.MotioMath={TAU,distance,cross,subtract,pointSegment,segmentsDistance,beltLength,beltCenter};
+const gearPitchRadius=(teeth,module)=>teeth*module/2;
+const gearCenter=(motorTeeth,outputTeeth,module)=>gearPitchRadius(motorTeeth,module)+gearPitchRadius(outputTeeth,module);
+window.MotioMath={TAU,distance,cross,subtract,pointSegment,segmentsDistance,gearPitchRadius,gearCenter};
 })();
