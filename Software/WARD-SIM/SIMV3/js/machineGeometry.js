@@ -2,15 +2,15 @@
 'use strict';
 const {gearPitchRadius,gearCenter}=window.MotioMath;
 // Length mm, angle rad, time s, force N, mass kg; motor calculations convert to SI.
-const DEFAULT_CONFIG=Object.freeze({patternId:'flower5',wordText:'MOTIO',rpmA:.8,rpmB:-.425,rpmC:-.9,phaseA:77.22318703736887,phaseB:-.20186710707678643,phaseC:0,radiusA:65,radiusB:65,lengthA:360,lengthB:340,
+const DEFAULT_CONFIG=Object.freeze({patternId:'flower5',wordText:'MOTIO',rpmA:.8,rpmB:-.425,rpmC:-1.8,phaseA:77.22318703736887,phaseB:-.20186710707678643,phaseC:0,radiusA:65,radiusB:65,lengthA:360,lengthB:340,
  pivotAx:550,pivotAy:148.5,pivotBx:210,pivotBy:-185,paperX:210,paperY:148.5,paperRadius:105,paperMargin:10,paperThickness:4,paperMass:.45,
  outputTeethA:60,outputTeethB:60,outputTeethC:80,motorTeeth:20,gearModule:1.5,motorDirectionA:0,motorDirectionB:-90,motorDirectionC:0,
  motorStepAngle:1.8,motorCurrent:1.68,motorVoltage:2.8,motorHoldingTorque:.36,motorWidth:42.3,motorLength:38,motorShaftDiameter:5,motorMountPitch:31,
  motorSupplyVoltage:24,motorDriveCurrent:1.68,motorStepsPerFullStep:2,motorCurveConditionsConfirmed:0,motorRadialLimit:28,motorRadialReference:20,motorAxialLimit:10,
  rodWidth:20,rodHeight:20,rodWall:1.5,materialE:69000,density:2700,crankWidth:16,crankHeight:8,rodZA:84,rodZB:116,crankZA:64,crankZB:96,
  baseX:75,baseY:-320,baseWidth:605,baseHeight:605,baseThickness:8,frameBraceX:85,paperZ:30,clearance:3,branch:-1,
- // Output-axis limits, with 3:1 A/B and 4:1 C reduction. At the new VIVES
- // tempo, estimated peaks are 8.3/4.5/48 motor RPM and about 0.06 Nm load.
+ // Output-axis limits, with 3:1 A/B and 4:1 C reduction. Faster presets keep
+ // these limits unchanged; the full-profile tests check speed and acceleration.
  // Provisional build settings for the datasheet's 24 V, 1.68 A drive; the
  // published torque curve does not establish capacity below 30 motor RPM.
  maxRPM:8,maxPaperRPM:16,acceleration:1,paperAcceleration:3,maxPenSpeed:120,maxPenAcceleration:150,

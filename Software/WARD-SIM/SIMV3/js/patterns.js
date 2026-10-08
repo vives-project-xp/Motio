@@ -5,15 +5,19 @@ const {TAU}=window.MotioMath;
 // the paper to put the ink in the requested place, including bubble words.
 const list=Object.freeze([
  // Profile RPM sets drawing progress, not the instantaneous motor-shaft RPM.
- {id:'circle',name:'Cirkel',detail:'Een gesloten cirkel',min:.68,max:.68,frequency:0,turns:1,rpm:1.4},
- {id:'flower3',name:'Bloem · 3 blaadjes',detail:'Drie brede lussen',min:.12,max:.86,frequency:3,turns:1,rpm:1.2},
- {id:'flower5',name:'Bloem · 5 blaadjes',detail:'Vijf symmetrische lussen',min:.12,max:.86,frequency:5,turns:1,rpm:.9},
- {id:'flower7',name:'Bloem · 7 blaadjes',detail:'Zeven fijne lussen',min:.24,max:.86,frequency:7,turns:1,rpm:.7},
- {id:'ripple12',name:'Golfring',detail:'Twaalf golven rond de cirkel',min:.43,max:.71,frequency:12,turns:1,rpm:.8},
- {id:'rosette52',name:'Rozet · 2 rondes',detail:'Vijf overlappende lussen',min:.24,max:.84,frequency:2.5,turns:2,rpm:1.2},
- {id:'rosette73',name:'Rozet · 3 rondes',detail:'Zeven overlappende lussen',min:.24,max:.84,frequency:7/3,turns:3,rpm:1.2},
- {id:'spiral',name:'Spiraal',detail:'Drie rondes van binnen naar buiten',min:.08,max:.86,turns:3,rpm:1.2},
- {id:'vives',name:'VIVES',detail:'Vloeiende bubbelletters · verbonden · vaste pen',turns:1,rpm:.6}
+ {id:'circle',name:'Cirkel',detail:'Een gesloten cirkel',min:.68,max:.68,frequency:0,turns:1,rpm:5.6},
+ {id:'flower3',name:'Bloem · 3 blaadjes',detail:'Drie brede lussen',min:.12,max:.86,frequency:3,turns:1,rpm:2.4},
+ {id:'flower5',name:'Bloem · 5 blaadjes',detail:'Vijf symmetrische lussen',min:.12,max:.86,frequency:5,turns:1,rpm:1.8},
+ {id:'flower7',name:'Bloem · 7 blaadjes',detail:'Zeven fijne lussen',min:.24,max:.86,frequency:7,turns:1,rpm:1.4},
+ {id:'ripple12',name:'Golfring',detail:'Twaalf golven rond de cirkel',min:.43,max:.71,frequency:12,turns:1,rpm:1.2},
+ {id:'rosette52',name:'Rozet · 2 rondes',detail:'Vijf overlappende lussen',min:.24,max:.84,frequency:2.5,turns:2,rpm:3.6},
+ {id:'rosette73',name:'Rozet · 3 rondes',detail:'Zeven overlappende lussen',min:.24,max:.84,frequency:7/3,turns:3,rpm:3.6},
+ {id:'wovenFlower',name:'Verweven bloem',detail:'73 verschoven lussen · 18 rondes',min:.12,max:.86,frequency:73/18,turns:18,rpm:2.4},
+ {id:'openRosette',name:'Open rozet',detail:'17 ruime lussen · 6 rondes',min:.24,max:.76,frequency:17/6,turns:6,rpm:3.6},
+ {id:'wovenRosette',name:'Dichte rozet',detail:'61 verweven lussen · 16 rondes',min:.08,max:.86,frequency:61/16,turns:16,rpm:2.4},
+ {id:'wovenStar',name:'Sterrozet',detail:'79 overlappende lussen met open kern · 18 rondes',min:.18,max:.86,frequency:79/18,turns:18,rpm:2.4},
+ {id:'spiral',name:'Spiraal',detail:'Drie rondes van binnen naar buiten',min:.08,max:.86,turns:3,rpm:4.8},
+ {id:'vives',name:'VIVES',detail:'Vloeiende bubbelletters · verbonden · vaste pen',turns:1,rpm:.64}
 ].map(Object.freeze));
 // Rounded outlines joined in one pen-down stroke. The knots stay above the
 // paper centre so the polar paper angle remains defined throughout the word.
@@ -29,7 +33,7 @@ const word=Object.freeze([
  [41,-17],[41,-22],[45,-24],[50,-22],[57,-23],[58,-26],[51,-29],[45,-31],[41,-36],[42,-41],[48,-44],[58,-44],[65,-41],[65,-37],[61,-35],[56,-37],[50,-36],[49,-33],[57,-31],[63,-28],[66,-23],[64,-17],[58,-14],[48,-14], // S
  [58,-11],[68,-14] // rounded exit
 ].map(Object.freeze));
-const generated=Object.freeze({id:'word',name:'Eigen woord',detail:'Verbonden bubbelletters',turns:1,rpm:.6});
+const generated=Object.freeze({id:'word',name:'Eigen woord',detail:'Verbonden bubbelletters',turns:1,rpm:.9});
 const isText=p=>p?.id==='vives'||p?.id==='word';
 const textPath=(g,p)=>p?.id==='word'?window.MotioBubbleText.path(g):word;
 function textPoint(phase,g,p=get(g.patternId)) {
@@ -54,6 +58,30 @@ function radius(p,phase,g) {
  return {value:p.min*R+span*(1+Math.cos(p.frequency*phase))/2,derivative:-span*p.frequency*Math.sin(p.frequency*phase)/2};
 }
 function point(g,r) {const a=g.reachAngle*Math.PI/180;return {x:g.paper.x+r*Math.cos(a),y:g.paper.y+r*Math.sin(a)};}
+function textRPM(config,p,g) {
+ // Check the actual word once before drawing. Short letters can require faster
+ // paper reversals than long words; leave 30% reserve in the existing limits.
+ const count=(textPath(g,p).length-1)*64,a=g.reachAngle*Math.PI/180;
+ let previous=null,last=null,limit=Infinity;
+ for(let i=0;i<=count;i++){
+  const phase=TAU*i/count,next=pose(config,p,phase,previous);
+  if(!next.valid)throw Error('Woord niet bereikbaar met deze geometrie.');
+  previous=next.pose;
+  const v=next.r.derivative,px=Math.cos(a)*v,py=Math.sin(a)*v,J=next.pose.J,det=J.ax*J.by-J.ay*J.bx;
+  const w={A:(J.by*px-J.bx*py)/det,B:(J.ax*py-J.ay*px)/det,C:next.paperDerivative,pen:v};
+  for(const key of ['A','B','C','pen']){
+   const speedLimit=key==='pen'?g.maxPenSpeed:(key==='C'?g.maxPaperRPM:g.maxRPM)*TAU/60;
+   const accelerationLimit=key==='pen'?g.maxPenAcceleration:key==='C'?g.paperAcceleration:g.acceleration;
+   if(w[key])limit=Math.min(limit,.7*speedLimit/Math.abs(w[key]));
+   if(last){const derivative=Math.abs(w[key]-last[key])*count/TAU;
+    if(derivative)limit=Math.min(limit,Math.sqrt(.7*accelerationLimit/derivative));
+   }
+  }
+  last=w;
+ }
+ const pace=(textPath(g,p).length-1)/(word.length-1);
+ return limit*60/TAU*pace;
+}
 function prepare(config) {
  const p=get(config.patternId);if(!p)return config;
  if(!config.rpmC)throw Error('Een patroon vraagt papierrotatie. Kies Eigen motorinstellingen voor stilstaand papier.');
@@ -62,7 +90,8 @@ function prepare(config) {
  if(!ik.valid)throw Error('Patroon niet bereikbaar met deze geometrie. Herstel bouwgeometrie.');
  const start=isText(p)?textPoint(0,g,p):null;
  const phaseC=start?g.reachAngle-Math.atan2(start.y,start.x)*180/Math.PI:config.phaseC;
- return window.MotioGeometry.normalize({...config,phaseA:ik.q.A*180/Math.PI,phaseB:ik.q.B*180/Math.PI,phaseC});
+ const rpmC=p.id==='word'?Math.sign(config.rpmC)*Math.min(Math.abs(config.rpmC),textRPM(config,p,g)):config.rpmC;
+ return window.MotioGeometry.normalize({...config,rpmC,phaseA:ik.q.A*180/Math.PI,phaseB:ik.q.B*180/Math.PI,phaseC});
 }
 function pose(config,p,phase,previous) {
  const g=window.MotioGeometry.build(config),r=radius(p,phase,g),ik=window.MotioKinematics.inverse(config,point(g,r.value),previous,true);
