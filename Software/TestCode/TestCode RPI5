@@ -1,0 +1,156 @@
+▶️ Start: nohup python3 motor.py > motor.log 2>&1 &
+⏹️ Stop: pkill -f motor.py
+
+
+from gpiozero import DigitalOutputDevice
+from time import sleep, perf_counter
+
+
+# ============================================================
+# GPIO PINS
+# ============================================================
+
+# X AXIS
+X_STEP = DigitalOutputDevice(19, initial_value=False)
+X_DIR  = DigitalOutputDevice(11, initial_value=False)
+
+# Y AXIS
+Y_STEP = DigitalOutputDevice(13, initial_value=False)
+Y_DIR  = DigitalOutputDevice(9, initial_value=False)
+
+# Z AXIS
+Z_STEP = DigitalOutputDevice(0, initial_value=False)
+Z_DIR  = DigitalOutputDevice(10, initial_value=False)
+
+# STEPPER ENABLE
+ENABLE = DigitalOutputDevice(22, initial_value=True)
+
+
+# ============================================================
+# SNELHEID
+# ============================================================
+
+# Lager = sneller
+STEP_DELAY_US = 300
+
+# Lengte van de STEP-puls
+PULSE_WIDTH_US = 100
+
+
+# ============================================================
+# RICHTING
+# ============================================================
+
+# Elke 3 seconden omkeren
+DIRECTION_TIME = 3.0
+
+
+# ============================================================
+# STEP PULSE
+# ============================================================
+
+def step_all():
+
+    # Alle STEP-pinnen tegelijk HIGH
+    X_STEP.on()
+    Y_STEP.on()
+    Z_STEP.on()
+
+    # STEP puls
+    sleep(PULSE_WIDTH_US / 1_000_000)
+
+    # Alle STEP-pinnen tegelijk LOW
+    X_STEP.off()
+    Y_STEP.off()
+    Z_STEP.off()
+
+    # Snelheidsvertraging
+    sleep(STEP_DELAY_US / 1_000_000)
+
+
+# ============================================================
+# RICHTING
+# ============================================================
+
+def set_direction(reverse):
+
+    if reverse:
+
+        X_DIR.on()
+        Y_DIR.on()
+        Z_DIR.on()
+
+    else:
+
+        X_DIR.off()
+        Y_DIR.off()
+        Z_DIR.off()
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+try:
+
+    print("================================")
+    print(" X / Y / Z MOTOR TEST")
+    print("================================")
+
+    # Drivers inschakelen
+    ENABLE.off()
+
+    sleep(0.5)
+
+    # Beginrichting
+    direction = False
+
+    set_direction(direction)
+
+    direction_start = perf_counter()
+
+    print("Richting: 1")
+
+    while True:
+
+        # ----------------------------------------------------
+        # NA 3 SECONDEN RICHTING OMDRAAIEN
+        # ----------------------------------------------------
+
+        if perf_counter() - direction_start >= DIRECTION_TIME:
+
+            direction = not direction
+
+            set_direction(direction)
+
+            direction_start = perf_counter()
+
+            if direction:
+                print("Richting: 2")
+            else:
+                print("Richting: 1")
+
+        # ----------------------------------------------------
+        # X + Y + Z TEGELIJK
+        # ----------------------------------------------------
+
+        step_all()
+
+
+except KeyboardInterrupt:
+
+    print("")
+    print("Programma gestopt.")
+
+
+finally:
+
+    # STEP outputs LOW
+    X_STEP.off()
+    Y_STEP.off()
+    Z_STEP.off()
+
+    # Drivers uitschakelen
+    ENABLE.on()
+
+    print("Drivers uitgeschakeld.")
