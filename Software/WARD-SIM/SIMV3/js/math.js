@@ -4,14 +4,6 @@ const TAU = 2 * Math.PI;
 const distance = (a,b) => Math.hypot(a.x-b.x,a.y-b.y);
 const cross = (a,b) => a.x*b.y-a.y*b.x;
 const subtract = (a,b) => ({x:a.x-b.x,y:a.y-b.y});
-function worldToPaper(x,y,angle,cx=210,cy=148.5) {
- const dx=x-cx,dy=y-cy,c=Math.cos(angle),s=Math.sin(angle);
- return {x:cx+dx*c+dy*s,y:cy-dx*s+dy*c};
-}
-function paperToWorld(x,y,angle,cx=210,cy=148.5) {
- const dx=x-cx,dy=y-cy,c=Math.cos(angle),s=Math.sin(angle);
- return {x:cx+dx*c-dy*s,y:cy+dx*s+dy*c};
-}
 function pointSegment(p,a,b) {
  const dx=b.x-a.x,dy=b.y-a.y,den=dx*dx+dy*dy;
  const t=den ? Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/den)) : 0;
@@ -34,5 +26,5 @@ function beltCenter(length,small,large) {
  for(let i=0;i<60;i++){const mid=(lo+hi)/2;if(beltLength(mid,small,large)<length)lo=mid;else hi=mid;}
  return (lo+hi)/2;
 }
-window.MotioMath={TAU,distance,cross,subtract,worldToPaper,paperToWorld,pointSegment,segmentsDistance,beltLength,beltCenter};
+window.MotioMath={TAU,distance,cross,subtract,pointSegment,segmentsDistance,beltLength,beltCenter};
 })();

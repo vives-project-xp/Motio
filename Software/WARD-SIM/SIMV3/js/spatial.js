@@ -1,6 +1,6 @@
 (function () {
 'use strict';
-const {DESIGN,pitchRadius}=window.MotioMechanics;
+
 const {colors}=window.MotioRenderers;
 const {TAU}=window.MotioMath;
 class SpatialRenderer {
@@ -16,8 +16,10 @@ class SpatialRenderer {
   canvas.addEventListener('pointerup',e=>{
    if(this.drag&&Math.hypot(e.clientX-this.drag.startX,e.clientY-this.drag.startY)<5){
     const r=canvas.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-    const hit=this.hits.filter(h=>Math.hypot(h.x-x,h.y-y)<h.radius).sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y))[0];
-    if(hit)this.onSelect(hit.label);else this.onSelect('Klik dichter bij een motor, as, pulley, arm, lager of penhouder.');
+    const contains=points=>{let yes=false;for(let i=0,j=points.length-1;i<points.length;j=i++){const a=points[i],b=points[j];if((a.y>y)!==(b.y>y)&&x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x)yes=!yes;}return yes;};
+    const visible=(this.pickFaces||[]).filter(f=>f.part&&f.part.id!=='BASE'&&contains(f.points)).sort((a,b)=>b.depth-a.depth)[0];
+    const hit=visible?{part:visible.part}:this.hits.filter(h=>Math.hypot(h.x-x,h.y-y)<Math.min(h.radius,24)).sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y))[0];
+    if(hit)this.onSelect(hit.part || hit.label);else this.onSelect('Klik dichter bij een motor, as, pulley, arm, lager of penhouder.');
    }this.drag=null;
   });
   canvas.addEventListener('pointercancel',()=>this.drag=null);
@@ -60,19 +62,26 @@ class SpatialRenderer {
   gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);draw(transparent);gl.depthMask(true);
   this.ctx.drawImage(this.depthCanvas,0,0,width,height);return true;
  }
- render(sim,exploded=false) {
+ render(sim,exploded=false,mode='assembly') {
   const rect=this.canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
   const dpr=Math.min(window.devicePixelRatio||1,2),ctx=this.ctx;
   if(this.canvas.width!==Math.round(rect.width*dpr)||this.canvas.height!==Math.round(rect.height*dpr)){this.canvas.width=Math.round(rect.width*dpr);this.canvas.height=Math.round(rect.height*dpr);}
   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,rect.width,rect.height);ctx.fillStyle='#0d1621';ctx.fillRect(0,0,rect.width,rect.height);
-  const scale=Math.min(rect.width/970,rect.height/730)*this.zoom,cy=Math.cos(this.yaw),sy=Math.sin(this.yaw),cp=Math.cos(this.pitch),sp=Math.sin(this.pitch);
+  const DESIGN=sim.geometry,detail=mode==='pen',focus=detail&&sim.pose.valid?sim.pose.pen:{x:DESIGN.base.x+DESIGN.base.width/2,y:DESIGN.base.y+DESIGN.base.height/2};
+  const scale=Math.min(rect.width/(detail?190:DESIGN.base.width+180),rect.height/(detail?210:DESIGN.base.height+100))*this.zoom,cy=Math.cos(this.yaw),sy=Math.sin(this.yaw),cp=Math.cos(this.pitch),sp=Math.sin(this.pitch);
   const project=p=>{
-   const x=p.x-305,y=p.y-75,z=p.z-30,rx=x*cy-y*sy,ry=x*sy+y*cy;
+   const x=p.x-focus.x,y=p.y-focus.y,z=p.z-(detail?85:30),rx=x*cy-y*sy,ry=x*sy+y*cy;
    return {x:rect.width/2+this.panX+rx*scale,y:rect.height*.56+this.panY+(ry*sp-z*cp)*scale,depth:ry*cp+z*sp};
   };
-  const faces=[],labels=[];this.hits=[];
-  const face=(points,color,shade=1)=>{const pp=points.map(project);faces.push({points:pp,depth:pp.reduce((s,p)=>s+p.depth,0)/pp.length,color,shade});};
-  const register=(p,label,radius=22,visibleLabel='')=>{const pp=project(p);this.hits.push({...pp,label,radius:Math.max(12,radius*scale)});if(visibleLabel)labels.push({...pp,text:visibleLabel});};
+  const faces=[],labels=[];this.hits=[];let currentPart=null;
+  const face=(points,color,shade=1)=>{
+   if(mode==='section'||mode==='pen'){
+    const cut=mode==='pen'?focus.y:DESIGN.paper.y,clipped=[];
+    for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length],ina=a.y<=cut,inb=b.y<=cut;if(ina)clipped.push(a);if(ina!==inb){const t=(cut-a.y)/(b.y-a.y);clipped.push({x:a.x+t*(b.x-a.x),y:cut,z:a.z+t*(b.z-a.z)});}}
+    points=clipped;if(points.length<3)return;
+   }
+   const pp=points.map(project);faces.push({points:pp,depth:pp.reduce((s,p)=>s+p.depth,0)/pp.length,color,shade,part:currentPart});};
+  const register=(p,label,radius=22,visibleLabel='')=>{const pp=project(p);this.hits.push({...pp,label,part:currentPart,radius:Math.max(12,radius*scale)});if(visibleLabel)labels.push({...pp,text:visibleLabel});};
   const box=(x,y,z,w,l,h,color,label)=>{
    const p=[{x:x-w/2,y:y-l/2,z:z-h/2},{x:x+w/2,y:y-l/2,z:z-h/2},{x:x+w/2,y:y+l/2,z:z-h/2},{x:x-w/2,y:y+l/2,z:z-h/2}, {x:x-w/2,y:y-l/2,z:z+h/2},{x:x+w/2,y:y-l/2,z:z+h/2},{x:x+w/2,y:y+l/2,z:z+h/2},{x:x-w/2,y:y+l/2,z:z+h/2}];
    for(const [indices,shade] of [[[0,1,2,3],.55],[[0,1,5,4],.72],[[1,2,6,5],.82],[[2,3,7,6],.64],[[3,0,4,7],.75],[[4,5,6,7],1]])face(indices.map(i=>p[i]),color,shade);
@@ -93,72 +102,48 @@ class SpatialRenderer {
    for(let i=0;i<4;i++)face([p[i],p[(i+1)%4],top[(i+1)%4],top[i]],color,.75);
    if(label)register({x:(a.x+b.x)/2,y:(a.y+b.y)/2,z:z+h/2},label,30);
   };
-  const base=DESIGN.base;
-  for(const y of [base.y+10,base.y+base.height-10])box(base.x+base.width/2,y,-18,base.width,20,20,'#344c61');
-  for(const x of [base.x+10,base.x+base.width-10,DESIGN.frameBraceX])box(x,base.y+base.height/2,-18,20,base.height,20,'#344c61');
-  for(const x of [base.x+10,base.x+base.width-10])for(const y of [base.y+10,base.y+base.height-10])box(x,y,-55,20,20,70,'#344c61');
-  // Base intentionally transparent in the projection: under-deck belt drives stay inspectable.
-  box(base.x+base.width/2,base.y+base.height/2,4,base.width,base.height,8,'#33465a55');
-  for(const key of ['A','B','C']) {
-   const d=DESIGN[key],m=d.motor,o=d.pivot,color=colors[key];
-   box(m.x,m.y,-54,42,42,48,'#3a4a5b','Motor '+key+' · NEMA17, frontvlak z−30');
-   // Open mounting plate around the Ø22 motor pilot; risers stay away from belt tangents.
-   for(const sign of [-1,1]) {
-    box(m.x+sign*19.5,m.y,-27.5,15,54,5,'#7895ac','Motorbeugel '+key+' · 5 mm plaat, centrale doorvoer');
-    box(m.x,m.y+sign*19.5,-27.5,24,15,5,'#7895ac');
-    if(key==='B')box(m.x+sign*27,m.y,-12.5,5,54,25,'#7895ac');
-    else box(m.x,m.y+sign*27,-12.5,54,5,25,'#7895ac');
+  const ring=(b,color)=>{
+   const count=40;
+   for(let i=0;i<count;i++){
+    const a=i*TAU/count,t=(i+1)*TAU/count,pt=(angle,r,z)=>({x:b.x+r*Math.cos(angle),y:b.y+r*Math.sin(angle),z});
+    const lo=b.z-b.h/2,hi=b.z+b.h/2;
+    face([pt(a,b.r,hi),pt(t,b.r,hi),pt(t,b.inner,hi),pt(a,b.inner,hi)],color,1);
+    face([pt(a,b.r,lo),pt(t,b.r,lo),pt(t,b.inner,lo),pt(a,b.inner,lo)],color,.6);
+    face([pt(a,b.r,lo),pt(t,b.r,lo),pt(t,b.r,hi),pt(a,b.r,hi)],color,.8);
+    face([pt(a,b.inner,lo),pt(t,b.inner,lo),pt(t,b.inner,hi),pt(a,b.inner,hi)],color,.55);
    }
-   cylinder(m.x,m.y,-18,2.5,24,'#c7d6e0','Motoras '+key+' · Ø5 × 24, z−30…−6');
-   cylinder(m.x,m.y,-12,pitchRadius(20),9,color,'20T motorpulley '+key+' · klemnaaf Ø5');
-   cylinder(o.x,o.y,-12,pitchRadius(d.outputTeeth),9,color,d.outputTeeth+'T werkaspulley '+key+' · '+d.ratio+':1 reductie');
-   const small=pitchRadius(20),large=pitchRadius(d.outputTeeth),phi=Math.atan2(o.y-m.y,o.x-m.x),alpha=Math.asin((large-small)/Math.hypot(o.x-m.x,o.y-m.y));
-   for(const sign of [-1,1]){const theta=phi+sign*(Math.PI/2+alpha);beam({x:m.x+small*Math.cos(theta),y:m.y+small*Math.sin(theta)},{x:o.x+large*Math.cos(theta),y:o.y+large*Math.sin(theta)},-12,1.5,9,'#8fa9bb','Tandriem '+key+' · HTD 3M, 9 mm breed');}
-   for(const z of [-17,-7]){cylinder(m.x,m.y,z,pitchRadius(20)+1,1,color);cylinder(o.x,o.y,z,pitchRadius(d.outputTeeth)+1,1,color);}
-   const zs=d.bearings,houseBottom=key==='C'?zs[0]-4:8,houseTop=zs[1]+4;
-   cylinder(o.x,o.y,(houseBottom+houseTop)/2,key==='C'?21:22,houseTop-houseBottom,'#4b6377','Vast lagerhuis '+key+' · doorlopend tot draagplaat, één zwevende zitting');
-   if(key!=='C')box(o.x,o.y,10.5,60,60,5,'#4b6377','Geboute montagevoet lagersteun '+key);
-   for(const z of zs)cylinder(o.x,o.y,z,key==='C'?14:11,key==='C'?8:7,'#d6e1e7','Lager '+key+' · '+(key==='C'?'6001 12×28×8':'608 8×22×7'));
-   const top=key==='C'?30:d.crankZ+4,bottom=key==='C'?-65:-30;
-   cylinder(o.x,o.y,(top+bottom)/2,key==='C'?6:4,top-bottom,'#b2c4d3','Gelagerde werkas '+key+' · Ø'+(key==='C'?'12':'8')+' mm');
-   cylinder(o.x,o.y,zs[0]-7,key==='C'?9:7,5,'#a8bcca','Axiaal lokaliserende askraag '+key+' · lagerafstand geborgd');
-   register({x:m.x,y:m.y,z:4},'Motor '+key+' · '+(key==='C'?'papier':'kruk '+key),25,'M-'+key);
+   register({x:b.x,y:b.y,z:b.z+b.h/2},b.id,b.r);
+  };
+  const catalog=window.MotioBOM.create(DESIGN);
+  const parts=window.MotioGeometry.bodies(DESIGN,sim.pose);
+  for(const source of parts) {
+   if(mode==='drive'&&!['drive','shaft','bearing','support'].includes(source.group))continue;
+   if(mode==='bearing'&&!['shaft','bearing','joint','pen'].includes(source.group))continue;
+   if(mode==='pen'&&!['pen','joint'].includes(source.group)&&!source.id.startsWith('endP')&&!source.id.startsWith('rod'))continue;
+   const b={...source},entry=catalog.find(r=>r.id===b.bom);
+   currentPart={...b,entry};
+   if(exploded||mode==='exploded')b.z+=b.group==='moving'||b.group==='joint'?(b.id.endsWith('B')?85:50):b.group==='platter'?30:b.group==='pen'?105:0;
+   const key=b.id.slice(-1),col=colors[key]||'#8ba7ba';
+   const color=b.group==='frame'?(b.id==='BASE'?'#33465a44':'#344c61'):b.group==='bearing'||b.group==='joint'?'#d6e1e7':b.group==='moving'?col:b.group==='drive'?col:b.group==='platter'?'#8a9ba9':b.group==='pen'?(b.id==='pen'?'#f4c367':'#62a7bb'):b.group==='support'?'#4b6377':'#b2c4d3';
+   if(b.shape==='box')box(b.x,b.y,b.z,b.w,b.l,b.h,color,b.id);
+   else if(b.shape==='beam')beam(b.a,b.b,b.z,b.w,b.h,color,b.id);
+   else if(b.shape==='ring')ring(b,color);
+   else cylinder(b.x,b.y,b.z,b.r,b.h,color,b.id);
   }
-  const plateLift=exploded?30:0;
-  cylinder(210,148.5,24+plateLift,30,8,'#b5c5d2','Spindelflens · Ø60, gebout aan plateau');
-  cylinder(210,148.5,30+plateLift,263,4,'#8a9ba9','Papierplateau · Ø526 × 4 mm, draait met C');
-  const paperCorners=[[-210,-148.5],[210,-148.5],[210,148.5],[-210,148.5]].map(([x,y])=>({x:210+x*Math.cos(sim.q.C)-y*Math.sin(sim.q.C),y:148.5+x*Math.sin(sim.q.C)+y*Math.cos(sim.q.C),z:32.2+plateLift}));
-  face(paperCorners,'#f4f0e7',1);
-  for(const key of ['A','B']) {
-   const d=DESIGN[key],e=key==='A'?sim.pose.a:sim.pose.b,color=colors[key],lift=exploded?(key==='A'?50:85):0;
-   beam(d.pivot,e,d.crankZ+lift,16,8,color,'Kruk '+key+' · '+sim.config['radius'+key]+' mm, star aan uitgaande as');
-   cylinder(d.pivot.x,d.pivot.y,d.crankZ+lift,12,8,color,'Klemnaaf kruk '+key+' · torsiestijf aan de as');
-   cylinder(e.x,e.y,(d.crankZ-4+d.rodZ+16)/2+lift,4,d.rodZ-d.crankZ+20,'#b8c9d6','Elleboog '+key+' · Ø8 schouderpost, volledige vrije omloop');
-   // A cantilevered shoulder post has no fork wall in the rod's 360° swept volume.
-   const lowerLength=d.rodZ-3.5-(d.crankZ+4);
-   cylinder(e.x,e.y,d.crankZ+4+lowerLength/2+lift,5,lowerLength,'#b8c9d6','Binnenring-afstandsbus '+key+' · klemkracht op de binnenring');
-   cylinder(e.x,e.y,d.rodZ+7.75+lift,5,8.5,'#b8c9d6');
-   cylinder(e.x,e.y,d.rodZ+13+lift,7,2,'#b8c9d6');
-   cylinder(e.x,e.y,d.rodZ+15+lift,6,2,'#b8c9d6','Geborgde schouderpost '+key+' · buitenring blijft vrij');
-   if(sim.pose.valid)beam(e,sim.pose.pen,d.rodZ+lift,20,20,color,'Arm '+key+' · koker 20×20×1,5; lengte '+sim.config['length'+key]+' mm');
-   cylinder(e.x,e.y,d.rodZ+lift,14,20,color,'Metalen armeindstuk '+key+' · Ø22 lagerzitting');
-   cylinder(e.x,e.y,d.rodZ+lift,11,7,'#dce5ec','Vrij 608-scharnier E_'+key);
-   if(sim.pose.valid){cylinder(sim.pose.pen.x,sim.pose.pen.y,d.rodZ+lift,14,20,color,'Penlagerhuis '+key+' · vrij draaibaar');cylinder(sim.pose.pen.x,sim.pose.pen.y,d.rodZ+lift,11,7,'#dce5ec','Onafhankelijk penlager '+key+' · geen starre koppeling aan de andere arm');}
-  }
-  if(sim.pose.valid) {
-   const p=sim.pose.pen;
-   cylinder(p.x,p.y,88,4,94,'#c6d6e1','Gemeenschappelijke penas P · twee losse lagers, coaxiaal XY');
-   cylinder(p.x,p.y,58,9,38,'#526d85','Veerbelaste penbus · circa 2 N, vrije Z-schuif');
-   cylinder(p.x,p.y,38.2+(sim.penDown?0:5),2,12,'#f4c367','Pen · tip op papier z32,2 bij pen down');
-   register({x:p.x,y:p.y,z:134},'P · gemeenschappelijke penhouder',18,'P');
+  if(['assembly','section','exploded'].includes(mode)){
+   currentPart=null;
+   const p=DESIGN.paper,z=p.z+p.thickness/2+.2+((exploded||mode==='exploded')?30:0);
+   const corners=[[-p.width/2,-p.height/2],[p.width/2,-p.height/2],[p.width/2,p.height/2],[-p.width/2,p.height/2]].map(([x,y])=>({...window.MotioPaper.paperToMachine({x,y},sim.q.C,DESIGN),z}));
+   face(corners,'#f4f0e7',1);
   }
   faces.sort((a,b)=>a.depth-b.depth);
+  this.pickFaces=faces;
   if(!this.drawDepth(faces,rect.width,rect.height)) {
    ctx.font='14px system-ui,sans-serif';ctx.fillStyle='#c5dceb';ctx.fillText('3D vraagt WebGL in deze browser.',20,60);ctx.fillText('Open de 2D-tekening en doorsnede voor de mechanische opbouw.',20,88);return;
   }
   for(const label of labels){ctx.font='bold 11px Consolas,monospace';ctx.fillStyle='#0a1421';ctx.fillRect(label.x-18,label.y-24,38,17);ctx.fillStyle='#d7e8f5';ctx.fillText(label.text,label.x-14,label.y-12);}
-  ctx.font='11px Consolas,monospace';ctx.fillStyle='#97b2c8';ctx.fillText(exploded?'SEMI-EXPLODED · onderdelen verticaal ontkoppeld':'MAATGEBASEERD 3D · montage zonder behuizing',16,22);
-  ctx.fillText('Transparante draagplaat toont aandrijvingen onder de tafel',16,rect.height-16);
+  ctx.font='11px Consolas,monospace';ctx.fillStyle='#97b2c8';ctx.fillText((exploded||mode==='exploded')?'EXPLODED · geen bedrijfsstand':'MAATGEBASEERD 3D · '+mode.toUpperCase(),16,22);
+  ctx.fillText(mode==='pen'?'Holle penas · onafhankelijke 6804-lagers · manuele M4-klem':'Gedeelde geometrie · klik onderdeel voor BOM en maatvoering',16,rect.height-16);
  }
 }
 window.MotioSpatial={SpatialRenderer};
