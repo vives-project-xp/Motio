@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="nl">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>MOTIO SIMV4 · Mechanische simulator</title>
+ <meta name="description" content="Drie stappenmotoren, twee gekoppelde penarmen en een roterende papieren cirkel van 210 mm.">
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar"><div><p class="eyebrow">MOTIO SIMV4</p><h1>MOTIO <span>Mechanische simulator · SIMV4</span></h1></div><span id="run-status" class="badge">UIT</span></header>
+<nav class="navigation" aria-label="Hoofdnavigatie"><button id="nav-simulator" aria-pressed="false">Simulator</button><button id="nav-mechanical" class="active" aria-pressed="true">Mechanical Design</button><button id="nav-validation" aria-pressed="false">Validation</button><button id="nav-components" aria-pressed="false">Components / BOM</button><span>3 aparte motoren · box 358 × 404 × 108 mm</span></nav>
+<main>
+<section id="simulator-view" class="workspace" hidden>
+ <aside class="panel controls">
+  <section><p class="eyebrow">BEDIENING</p><h2>Tekenen met MOTIO</h2><div class="transport"><button id="power-btn">Power on</button><button id="home-btn">⌂ Home</button><button id="play-btn" class="primary">▶ Play</button><button id="pause-btn">Ⅱ Pause</button><button id="stop-btn">■ Stop</button><button id="reset-btn">↺ Reset</button><button id="clear-btn" class="wide">Wis tekening</button></div><p id="machine-message" role="status">Power on → Home → Play</p><label>Simulatiesnelheid <output id="speed-value">1×</output><input id="speed" type="range" min="0" max="4" value="2"></label><div class="ticks"><span>0,25×</span><span>0,5×</span><span>1×</span><span>2×</span><span>5×</span></div></section>
+  <section id="word-generator" class="word-generator">
+   <p class="eyebrow">JOUW WOORD</p><h2>Woordgenerator</h2>
+   <form id="word-form" novalidate>
+    <label for="word-input">Woord · maximaal 8 letters</label>
+    <div class="word-entry"><input id="word-input" type="text" maxlength="8" value="MOTIO" placeholder="MOTIO" autocomplete="off" spellcheck="false" required aria-describedby="word-hint word-message"><span id="word-count" aria-live="polite">5 / 8</span></div>
+    <p id="word-hint" class="hint">A–Z · verbonden bubbelletters · automatisch op maat</p>
+    <div id="word-preview" class="word-preview" aria-label="Voorbeeld van je woord"></div>
+    <button id="word-apply" class="primary" type="submit" aria-pressed="false">Gebruik woord</button>
+    <p id="word-message" class="hint" role="status"></p>
+   </form>
+  </section>
+  <section><h2>Kies een patroon</h2><p class="hint">Bekijk het volledige resultaat vóór je tekent. Een keuze maakt het papier leeg en vraagt Home.</p><div id="pattern-gallery" class="pattern-gallery" role="group" aria-label="Patronen met voorbeeldafbeeldingen"><button id="pattern-circle" class="pattern-card" aria-pressed="false"></button><button id="pattern-flower3" class="pattern-card" aria-pressed="false"></button><button id="pattern-flower5" class="pattern-card" aria-pressed="false"></button><button id="pattern-flower7" class="pattern-card" aria-pressed="false"></button><button id="pattern-ripple12" class="pattern-card" aria-pressed="false"></button><button id="pattern-rosette52" class="pattern-card" aria-pressed="false"></button><button id="pattern-rosette73" class="pattern-card" aria-pressed="false"></button><button id="pattern-wovenFlower" class="pattern-card" aria-pressed="false"></button><button id="pattern-openRosette" class="pattern-card" aria-pressed="false"></button><button id="pattern-wovenRosette" class="pattern-card" aria-pressed="false"></button><button id="pattern-wovenStar" class="pattern-card" aria-pressed="false"></button><button id="pattern-spiral" class="pattern-card" aria-pressed="false"></button><button id="pattern-vives" class="pattern-card" aria-pressed="false"></button></div><p id="pattern-info" class="hint"></p><button id="custom-pattern" class="custom-pattern" aria-pressed="false">Eigen motorinstellingen</button></section>
+  <section id="manual-controls" hidden><h2>Eigen motorinstellingen</h2><p class="hint">Snelheid en richting van de krukken en het papier. Een tandwielpaar keert de motorrichting om.</p><div class="motor-controls"><div class="motor-control"><strong class="a">A · kruk</strong><label>Snelheid · RPM<input id="rpm-a" type="number" min="0" max="8" step="0.01" value="1"></label><label>Richting<select id="dir-a"><option value="1">Met klok mee</option><option value="-1">Tegen klok in</option></select></label><label>Beginhoek · °<input id="phase-a" type="number" min="-360" max="360" step="1" value="0"></label></div><div class="motor-control"><strong class="b">B · kruk</strong><label>Snelheid · RPM<input id="rpm-b" type="number" min="0" max="8" step="0.01" value="1"></label><label>Richting<select id="dir-b"><option value="1">Met klok mee</option><option value="-1">Tegen klok in</option></select></label><label>Beginhoek · °<input id="phase-b" type="number" min="-360" max="360" step="1" value="0"></label></div><div class="motor-control"><strong class="c">C · papier</strong><label>Snelheid · RPM<input id="rpm-c" type="number" min="0" max="16" step="0.01" value="0.5"></label><label>Richting<select id="dir-c"><option value="1">Met klok mee</option><option value="-1">Tegen klok in</option></select></label><label>Beginhoek · °<input id="phase-c" type="number" min="-360" max="360" step="1" value="0"></label></div></div></section>
+  <section class="technical-settings"><details><summary>Technische instellingen</summary><p class="hint">Maten tussen scharniercentra. Een wijziging vraagt opnieuw Home.</p><div class="fields"><label>Kruk A · mm<input id="radius-a" type="number" min="20" max="110" step="1" value="65"></label><label>Kruk B · mm<input id="radius-b" type="number" min="20" max="110" step="1" value="65"></label><label>Arm A · mm<input id="length-a" type="number" min="120" max="440" step="1" value="180"></label><label>Arm B · mm<input id="length-b" type="number" min="120" max="440" step="1" value="160"></label></div><button id="restore-btn">Herstel bouwgeometrie</button><h3>Centrale configuratie</h3><p class="hint">Deze configuratie stuurt simulatie, modellen, controles en onderdelenlijst aan.</p><textarea id="machine-config" rows="12" spellcheck="false" aria-label="Centrale machineconfiguratie JSON"></textarea><button id="apply-config">Pas configuratie toe</button><button id="export-config">Download configuratie</button><p id="config-message" class="hint" role="status"></p></details></section>
+  <p class="hint fixed-pen">Penhoogte handmatig vastgezet. Home en afremmen kunnen ook een spoor achterlaten.</p>
+ </aside>
+ <div class="views">
+  <article class="panel machine-panel"><div class="view-header"><div><p class="eyebrow">BOVENAANZICHT</p><h2>De machine</h2></div><span id="boundary-status" class="badge">Veilige tekenzone</span></div><div id="machine-diagram" class="diagram" role="img" aria-label="Live bovenaanzicht van drie motoren, tandwielen en twee gekoppelde penarmen"></div><div class="legend"><span class="a">● A · kruk en arm</span><span class="b">● B · kruk en arm</span><span class="c">● C · papier</span></div></article>
+  <article class="panel paper-panel"><div class="view-header"><div><p class="eyebrow">TEKENRESULTAAT</p><h2>Op het papier</h2></div><span id="paper-size">Ø210 mm</span></div><div class="paper-wrap"><canvas id="paper-canvas" aria-label="Tekening op het ronde papier; gestippelde grens toont de veilige tekenzone"></canvas></div><div class="preview-control"><label><input id="show-preview" type="checkbox" checked> Voorbeeld tonen</label><span id="preview-caption">Voorbeeld licht · getekend donker</span></div><div class="legend"><span id="paper-margin">10 mm marge · tekenzone Ø190 mm</span><span id="point-count">0 spoorpunten</span></div></article>
+  <aside class="panel data"><p class="eyebrow">LIVE</p><h2>Machine in beweging</h2><dl id="live-data"></dl><p id="live-check" class="check" role="status" hidden></p></aside>
+ </div>
+</section>
+<section id="mechanical-view" class="design-page">
+ <div class="page-intro"><p class="eyebrow">MECHANICAL DESIGN · SIMV4</p><h2>Een gesloten armketen, drie aandrijvingen.</h2><p>Twee krukken bepalen de penpositie. De derde motor draait het ronde papier onder de pen. Start en bedien de beweging via de tab Simulator.</p><div class="toolbar"><button id="mode-2d" aria-pressed="false">2D technische tekening</button><button id="mode-3d" class="active" aria-pressed="true">Interactief 3D-model</button><button id="export-svg">Download 2D SVG</button></div></div>
+ <div class="design-layout">
+  <article class="panel drawing-panel">
+   <div id="mechanical-diagram" class="diagram technical" role="img" aria-label="Technisch bovenaanzicht van het mechanisme met maten" hidden></div>
+   <div id="spatial-wrap">
+    <fieldset class="enclosure-controls" aria-describedby="enclosure-hint">
+     <legend>Behuizing · 358 × 404 × 108 mm</legend>
+     <div class="enclosure-options" role="group" aria-label="Zichtbare panelen">
+      <label><input id="enclosure-front" type="checkbox" checked> Voorwand</label>
+      <label><input id="enclosure-back" type="checkbox" checked> Achterwand</label>
+      <label><input id="enclosure-left" type="checkbox" checked> Linkerwand</label>
+      <label><input id="enclosure-right" type="checkbox" checked> Rechterwand</label>
+      <label><input id="enclosure-bottom" type="checkbox" checked> Bodem</label>
+      <label class="enclosure-top-label" for="enclosure-top">Bovenplaat <select id="enclosure-top"><option value="opaque">Ondoorzichtig</option><option value="semi">Semi-transparant</option><option value="transparent">Transparant</option></select></label>
+     </div>
+     <p id="enclosure-hint" class="hint">Vink een paneel uit om het binnenwerk te bekijken. Dit verandert alleen de weergave.</p>
+    </fieldset>
+    <canvas id="spatial-canvas" tabindex="0" aria-label="Interactieve 3D machine; sleep om te draaien, Shift sleep om te pannen, scroll om te zoomen"></canvas>
+    <div class="toolbar small"><button id="camera-iso">Isometrisch</button><button id="camera-top">Boven</button><button id="camera-side">Zijaanzicht</button><span>Sleep: draaien · Shift/rechts: verplaatsen · scroll: zoom</span></div>
+    <p id="part-label" role="status">Klik op een onderdeel om het te bekijken.</p>
+   </div>
+   <div class="legend"><span class="a">A · violet</span><span class="b">B · groen</span><span class="c">C · amber</span><span>Hout · box · grijs · lagering</span></div>
+  </article>
+  <aside class="panel design-notes"><h2>Het bouwconcept</h2><p>Drie SY42STH38-1684A-stappenmotoren drijven elk een eigen tandwielpaar aan. De armen sluiten via vrije scharnieren op één penpunt.</p><p>De houten box heeft buitenmaten 358 × 404 mm en is 108 mm hoog. De drie aandrijvingen blijven onafhankelijk bedienbaar.</p><p>Een ronde schijf uit A4 ligt gecentreerd op het draaiplateau van Ø210 mm. De buitenste 10 mm blijven vrij.</p><p>De pen schuift door de houder en wordt op vaste hoogte geklemd met een manuele schroef.</p><h3>Geselecteerd onderdeel</h3><div id="component-details" class="component-details">Klik in de tekening of het 3D-model op een onderdeel.</div></aside>
+ </div>
+</section>
+<section id="validation-view" class="design-page" hidden>
+ <div class="page-intro"><p class="eyebrow">VALIDATION</p><h2>Kan dit mechanisme doen wat we verwachten?</h2><p>Vijf gerichte controles. PASS vraagt onderbouwing; een geslaagde steekproef bewijst geen volledig bewegingsbereik.</p><div class="toolbar"><button id="run-test" class="primary">Start controle</button><button id="cancel-test" disabled>Annuleer</button><button id="export-report">Download testgegevens</button></div><progress id="test-progress" max="1" value="0"></progress><p id="test-status" role="status">Nog geen bewegingstest uitgevoerd.</p></div>
+ <div class="panel table-wrap"><table class="validation-table"><thead><tr><th>Controle</th><th>Resultaat</th><th>Toelichting</th></tr></thead><tbody id="validation-body"></tbody></table></div>
+</section>
+<section id="components-view" class="components-page" hidden>
+ <div class="page-intro"><p class="eyebrow">COMPONENTS / BOM</p><h2>Onderdelenlijst</h2><p>Afgeleid uit dezelfde configuratie als het model. Nog te kiezen details staan bij het betreffende onderdeel.</p><button id="export-bom">Download CSV</button></div><div class="panel table-wrap"><table class="bom-table"><caption>MOTIO SIMV4 · mechanische onderdelen</caption><thead id="bom-head"></thead><tbody id="bom-body"></tbody></table></div><p class="hint note">Motoren: SY42STH38-1684A · 1,8° · 1,68 A · 2,8 V · houdkoppel 0,36 Nm. Het houdkoppel bepaalt het beschikbare koppel tijdens beweging niet.</p>
+</section>
+</main>
+<footer>MOTIO SIMV4 · studentenprototype · <a href="README.md">Ontwerp en technische controles</a></footer>
+<script src="js/math.js"></script><script src="js/machineGeometry.js"></script><script src="js/kinematics.js"></script><script src="js/paperTransform.js"></script><script src="js/singularityAnalysis.js"></script><script src="js/collisionDetection.js"></script><script src="js/structuralEstimate.js"></script><script src="js/motorAnalysis.js"></script><script src="js/mechanics.js"></script><script src="js/validation.js"></script><script src="js/bom.js"></script><script src="js/bubbleText.js"></script><script src="js/patterns.js"></script><script src="js/simulation.js"></script><script src="js/renderers.js"></script><script src="js/spatial.js"></script><script src="js/ui.js"></script><script src="js/app.js"></script>
+</body></html>

@@ -49,7 +49,7 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 
 ### Software
 
-- MOTIO V4 (verfijnd in SIMV3), met SIMV1 en SIMV2 als historische referenties.
+- MOTIO SIMV4 in een zelfstandige map, met SIMV3 als behouden werkende basis.
 - Parameterbesturing voor snelheid, richting, fase en bewegingsverhouding.
 
 ## Project Structuur
@@ -64,7 +64,8 @@ Motio/
 ├── Software/WARD-SIM/ # Interactieve simulators
 │   ├── SIMV1/        # Oorspronkelijke live simulator
 │   ├── SIMV2/        # Virtueel prototype met machinebediening
-│   └── SIMV3/        # MOTIO V4: rond papier, tandwielen, drie motoren, 2D/3D en BOM
+│   ├── SIMV3/        # Behouden werkende basis met drie motoren, 2D/3D en BOM
+│   └── SIMV4/        # Compacte box 358 × 404 × 108 mm en instelbare zichtbaarheid
 └── README.md         # Dit bestand
 ```
 
@@ -72,7 +73,8 @@ Motio/
 
 - [SIMV1](Software/WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
 - [SIMV2](Software/WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](Software/WARD-SIM/SIMV2/README.md).
-- [MOTIO V4](Software/WARD-SIM/SIMV3/index.html): huidige simulator met rond papier Ø210 mm, veilige tekenzone Ø190 mm, drie SY42STH38-1684A-motoren, directe tandwielen en vereenvoudigde 2D/3D-interface. Zie [ontwerp en controles](Software/WARD-SIM/SIMV3/README.md).
+- [MOTIO SIMV3](Software/WARD-SIM/SIMV3/index.html): behouden werkende basis met rond papier Ø210 mm, veilige tekenzone Ø190 mm, drie SY42STH38-1684A-motoren en 2D/3D-interface. Zie [ontwerp en controles](Software/WARD-SIM/SIMV3/README.md).
+- [MOTIO SIMV4](Software/WARD-SIM/SIMV4/index.html): huidige simulator met compacte opstelling, box 358 × 404 × 108 mm en afzonderlijke zichtbaarheid van wanden, bodem en bovenplaat. De drie motoren en bestaande bediening blijven behouden. Zie [starten en controles](Software/WARD-SIM/SIMV4/README.md).
 
 ### Beginposter
 

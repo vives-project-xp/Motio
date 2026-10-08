@@ -1,0 +1,105 @@
+{
+  "scope": "Numerical sampling of all 13 SIMV4 pattern profiles and generated MOTIO/VIVES words at 20 ms; normal complete runs, no pause/resume/homing. Geometry and output paths unchanged; direct ratio 1 applies only to load calculation. No SIMV3/SIMV4 files changed.",
+  "assumptions": {
+    "sampleSeconds": 0.02,
+    "dragForceN": 2,
+    "frictionABNm": 0.025,
+    "frictionCNm": 0.03,
+    "paperMassKg": 0.45,
+    "directEfficiency": 1,
+    "gearInertiaRetainedKgm2": 2E-05,
+    "holdingTorqueNm": 0.36,
+    "optionalCouplingEfficiency": 0.95
+  },
+  "peakEstimates": {
+    "A": {
+      "directMotorTorqueNm": 0.1554174,
+      "existingReducedMotorTorqueNm": 0.0609574,
+      "outputRpm": 3.99323,
+      "staticLoadNm": 0.1300852,
+      "dynamicLoadNm": 0.0003907,
+      "directMotorTorqueAt95percentEfficiencyNm": 0.163597
+    },
+    "B": {
+      "directMotorTorqueNm": 0.1555832,
+      "existingReducedMotorTorqueNm": 0.0610218,
+      "outputRpm": 3.98691,
+      "staticLoadNm": 0.1302479,
+      "dynamicLoadNm": 0.000427,
+      "directMotorTorqueAt95percentEfficiencyNm": 0.163772
+    },
+    "C": {
+      "directMotorTorqueNm": 0.1938201,
+      "existingReducedMotorTorqueNm": 0.0570101,
+      "outputRpm": 12.81569,
+      "staticLoadNm": 0.1634,
+      "dynamicLoadNm": 0.0053104,
+      "directMotorTorqueAt95percentEfficiencyNm": 0.204021
+    }
+  },
+  "nominalSingleAxisPenDisplacementMm": {
+    "routeRadiusMm": [
+      0,
+      95
+    ],
+    "routeSampleSpacingMm": 0.05,
+    "A": {
+      "fullStep": [
+        1.85783,
+        2.04337
+      ],
+      "eighthStep": [
+        0.23223,
+        0.25542
+      ],
+      "sixteenthStep": [
+        0.11611,
+        0.12771
+      ],
+      "thirtySecondStep": [
+        0.05806,
+        0.06386
+      ],
+      "existingReductionFullStep": [
+        0.61928,
+        0.68112
+      ]
+    },
+    "B": {
+      "fullStep": [
+        1.85358,
+        2.04593
+      ],
+      "eighthStep": [
+        0.2317,
+        0.25574
+      ],
+      "sixteenthStep": [
+        0.11585,
+        0.12787
+      ],
+      "thirtySecondStep": [
+        0.05792,
+        0.06394
+      ],
+      "existingReductionFullStep": [
+        0.61786,
+        0.68198
+      ]
+    },
+    "C_at95mmRadius": {
+      "fullStep": 2.98451,
+      "eighthStep": 0.37306,
+      "sixteenthStep": 0.18653,
+      "thirtySecondStep": 0.09327,
+      "existingReductionFullStep": 0.74613
+    }
+  },
+  "limits": [
+    "Inputs are provisional model assumptions, not measured physical loads.",
+    "SIMV4 evaluates 2 N drag separately in conservative directions for each axis; torque peaks are not necessarily simultaneous.",
+    "Microstep values are nominal commanded spacing from the Jacobian, not guaranteed positioning accuracy.",
+    "Direct motor speeds are below the supplied 30 rpm minimum pull-out curve range; holding torque is not a substitute for measured running torque.",
+    "Efficiency 1 ignores coupling loss; using 0.95 raises estimates by about 5 percent."
+  ]
+}
