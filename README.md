@@ -84,7 +84,7 @@ Alle beelden komen uit de huidige simulator ([SIMV4](Software/WARD-SIM/SIMV4/ind
 
 **Simulator** – de bloem met vijf blaadjes, getekend op het ronde papier terwijl de machine in bovenaanzicht meebeweegt.
 
-![Simulator met voltooide bloemtekening](./doc/assets/simulator/simulator-tekening.png)
+![Simulator met voltooide bloemtekening](./doc/assets/simulator/simulator-tekening.png) 
 
 **Tekeningen** – het eindresultaat van de dertien ingebouwde patronen en een zelf getypt woord, zoals de simulator ze op het ronde papier tekent.
 
