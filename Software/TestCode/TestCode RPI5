@@ -1,0 +1,384 @@
+#Test code voor in de raspberry Pi 5, met hardware-PWM voor de pulsen naar de stepper drivers.
+#Start de GUI met python3 motio.py, als PWM niet lukt, wordt software-pulsen gebruikt.
+
+
+import glob
+import os
+import subprocess
+import threading
+import time
+import tkinter as tk
+
+from gpiozero import OutputDevice
+
+# ============================================================
+# GPIO (nieuwe indeling)
+# ============================================================
+
+X_STEP = 12   # hardware-PWM kanaal 0 (fysieke pin 32)
+Y_STEP = 13   # hardware-PWM kanaal 1 (fysieke pin 33)
+Z_STEP = 18   # hardware-PWM kanaal 2 (fysieke pin 12)
+
+X_DIR = 5     # fysieke pin 29
+Y_DIR = 6     # fysieke pin 31
+Z_DIR = 23    # fysieke pin 16
+
+ENABLE = 22   # fysieke pin 15, laag = drivers aan
+
+# ============================================================
+# HARDWARE-PWM
+# ============================================================
+
+# Welk PWM-kanaal hoort bij welke pin
+PWM_CHANNEL = {12: 0, 13: 1, 18: 2}
+
+# Welke pinfunctie (alt) de pin op PWM zet.
+# Controleer op de Pi met:  pinctrl funcs 18
+PWM_ALT = {12: "a0", 13: "a0", 18: "a3"}
+
+# None = automatisch zoeken. Lukt dat niet, vul dan het nummer
+# in van /sys/class/pwm/pwmchipX (bv. 0 of 2).
+PWM_CHIP = None
+
+# Motoren uitschakelen zodra alle drie stilstaan
+DRIVERS_UIT_BIJ_STOP = True
+
+# ============================================================
+# SNELHEID
+# ============================================================
+
+# Snelheid in stappen per seconde (de slider gaat van MIN tot MAX)
+MIN_SNELHEID = 50
+MAX_SNELHEID = 5000
+START_SNELHEID = 1000
+SLIDER_STAP = 10
+
+
+# ============================================================
+# PULSGENERATOR: HARDWARE-PWM
+# ============================================================
+
+def zoek_pwm_chip():
+    if PWM_CHIP is not None:
+        pad = f"/sys/class/pwm/pwmchip{PWM_CHIP}"
+        return pad if os.path.isdir(pad) else None
+
+    for chip in sorted(glob.glob("/sys/class/pwm/pwmchip*")):
+        try:
+            apparaat = os.path.realpath(os.path.join(chip, "device"))
+            with open(os.path.join(chip, "npwm")) as f:
+                kanalen = int(f.read())
+        except (OSError, ValueError):
+            continue
+        # PWM0 van de RP1-chip op de Pi 5 (de ventilator gebruikt een andere)
+        if "98000.pwm" in apparaat and kanalen >= 3:
+            return chip
+    return None
+
+
+def zet_pin_op_pwm(pin):
+    try:
+        subprocess.run(
+            ["pinctrl", "set", str(pin), PWM_ALT[pin]],
+            check=True, capture_output=True
+        )
+        uit = subprocess.run(
+            ["pinctrl", "get", str(pin)],
+            capture_output=True, text=True
+        ).stdout
+        return "PWM" in uit
+    except (OSError, subprocess.CalledProcessError):
+        return False
+
+
+class HardwareStappen:
+
+    soort = "hardware-PWM"
+
+    def __init__(self, chip, kanaal):
+        self.chip = chip
+        self.kanaal = kanaal
+        self.pad = f"{chip}/pwm{kanaal}"
+
+        if not os.path.isdir(self.pad):
+            self._schrijf(f"{chip}/export", kanaal)
+            for _ in range(50):
+                if os.access(f"{self.pad}/period", os.W_OK):
+                    break
+                time.sleep(0.02)
+
+        self._schrijf(f"{self.pad}/enable", 0)
+
+        with open(f"{self.pad}/period") as f:
+            self.periode_ns = int(f.read())
+
+    def _schrijf(self, pad, waarde):
+        with open(pad, "w") as f:
+            f.write(str(waarde))
+
+    def zet_snelheid(self, stappen_per_s):
+        nieuw = int(round(1e9 / stappen_per_s))
+        duty = nieuw // 2
+
+        # duty mag nooit groter zijn dan de periode
+        if nieuw >= self.periode_ns:
+            self._schrijf(f"{self.pad}/period", nieuw)
+            self._schrijf(f"{self.pad}/duty_cycle", duty)
+        else:
+            self._schrijf(f"{self.pad}/duty_cycle", duty)
+            self._schrijf(f"{self.pad}/period", nieuw)
+
+        self.periode_ns = nieuw
+
+    def start(self):
+        self._schrijf(f"{self.pad}/enable", 1)
+
+    def stop(self):
+        self._schrijf(f"{self.pad}/enable", 0)
+
+    def sluit(self):
+        try:
+            self.stop()
+            self._schrijf(f"{self.chip}/unexport", self.kanaal)
+        except OSError:
+            pass
+
+
+# ============================================================
+# PULSGENERATOR: SOFTWARE (reserve als PWM niet lukt)
+# ============================================================
+
+class SoftwareStappen:
+
+    soort = "software"
+
+    def __init__(self, pin):
+        self.pin = OutputDevice(pin, initial_value=False)
+        self.half = 0.5 / START_SNELHEID
+        self.loopt = False
+
+    def zet_snelheid(self, stappen_per_s):
+        self.half = 0.5 / stappen_per_s
+
+    def _lus(self):
+        while self.loopt:
+            self.pin.on()
+            time.sleep(self.half)
+            self.pin.off()
+            time.sleep(self.half)
+
+    def start(self):
+        if self.loopt:
+            return
+        self.loopt = True
+        threading.Thread(target=self._lus, daemon=True).start()
+
+    def stop(self):
+        self.loopt = False
+        self.pin.off()
+
+    def sluit(self):
+        self.stop()
+        self.pin.close()
+
+
+def maak_stappen(pin, chip):
+    if chip is not None and zet_pin_op_pwm(pin):
+        try:
+            return HardwareStappen(chip, PWM_CHANNEL[pin])
+        except OSError as fout:
+            print(f"GPIO {pin}: hardware-PWM mislukt ({fout})")
+    print(f"GPIO {pin}: software-pulsen worden gebruikt")
+    return SoftwareStappen(pin)
+
+
+# ============================================================
+# GPIO OPENEN
+# ============================================================
+
+enable = OutputDevice(ENABLE, initial_value=True)   # hoog = drivers uit
+
+pwm_chip = zoek_pwm_chip()
+if pwm_chip is None:
+    print("Geen hardware-PWM gevonden, controleer config.txt")
+else:
+    print(f"Hardware-PWM gevonden: {pwm_chip}")
+
+motors = {
+    "X": {
+        "step": maak_stappen(X_STEP, pwm_chip),
+        "dir": OutputDevice(X_DIR, initial_value=False),
+        "running": False,
+        "snelheid": START_SNELHEID
+    },
+    "Y": {
+        "step": maak_stappen(Y_STEP, pwm_chip),
+        "dir": OutputDevice(Y_DIR, initial_value=False),
+        "running": False,
+        "snelheid": START_SNELHEID
+    },
+    "Z": {
+        "step": maak_stappen(Z_STEP, pwm_chip),
+        "dir": OutputDevice(Z_DIR, initial_value=False),
+        "running": False,
+        "snelheid": START_SNELHEID
+    }
+}
+
+for m in motors.values():
+    m["step"].zet_snelheid(m["snelheid"])
+
+status_labels = {}
+speed_labels = {}
+
+# ============================================================
+# BEDIENING
+# ============================================================
+
+def set_direction(axis, direction):
+    if direction:
+        motors[axis]["dir"].on()
+    else:
+        motors[axis]["dir"].off()
+
+
+def drivers_uit_als_alles_stil():
+    if DRIVERS_UIT_BIJ_STOP and not any(m["running"] for m in motors.values()):
+        enable.on()
+
+
+def start_motor(axis):
+    motor = motors[axis]
+    if motor["running"]:
+        return
+    enable.off()
+    motor["running"] = True
+    motor["step"].start()
+    status_labels[axis].config(text="DRAAIT")
+
+
+def stop_motor(axis):
+    motor = motors[axis]
+    motor["running"] = False
+    motor["step"].stop()
+    status_labels[axis].config(text="STOP")
+    drivers_uit_als_alles_stil()
+
+
+def stop_all():
+    for axis, motor in motors.items():
+        motor["running"] = False
+        motor["step"].stop()
+        if axis in status_labels:
+            status_labels[axis].config(text="STOP")
+    drivers_uit_als_alles_stil()
+
+
+def slider_bewogen(axis, waarde):
+    """Wordt opgeroepen telkens de slider verschuift, ook tijdens het draaien."""
+    motor = motors[axis]
+    snelheid = int(float(waarde))
+    if snelheid == motor["snelheid"]:
+        return
+    motor["snelheid"] = snelheid
+    motor["step"].zet_snelheid(snelheid)
+    speed_labels[axis].config(text=f"{snelheid} stappen/s")
+
+
+def stop_program():
+    stop_all()
+    enable.on()
+    for motor in motors.values():
+        motor["step"].sluit()
+        motor["dir"].close()
+    enable.close()
+    root.destroy()
+
+
+# ============================================================
+# MOTOR PANEL
+# ============================================================
+
+def create_motor_panel(parent, axis, title):
+
+    panel = tk.Frame(parent, bg="#303030", bd=3, relief="groove")
+    panel.pack(side="left", fill="both", expand=True, padx=5, pady=5)
+
+    tk.Label(panel, text=title, font=("Arial", 18, "bold"),
+             fg="white", bg="#303030").pack(pady=(8, 0))
+
+    tk.Label(panel, text=f"pulsen: {motors[axis]['step'].soort}",
+             font=("Arial", 10), fg="#aaaaaa", bg="#303030").pack()
+
+    status = tk.Label(panel, text="STOP", font=("Arial", 13, "bold"),
+                      fg="yellow", bg="#303030")
+    status.pack(pady=3)
+    status_labels[axis] = status
+
+    knoppen = [
+        ("◀ LINKS", lambda: set_direction(axis, 0)),
+        ("RECHTS ▶", lambda: set_direction(axis, 1)),
+        ("START", lambda: start_motor(axis)),
+        ("STOP", lambda: stop_motor(axis)),
+    ]
+    for tekst, actie in knoppen:
+        tk.Button(panel, text=tekst, font=("Arial", 13, "bold"),
+                  width=12, height=2, command=actie).pack(pady=3)
+
+    tk.Label(panel, text="SNELHEID", font=("Arial", 12, "bold"),
+             fg="white", bg="#303030").pack(pady=(8, 2))
+
+    speed = tk.Label(
+        panel,
+        text=f"{START_SNELHEID} stappen/s",
+        font=("Arial", 14, "bold"), fg="white", bg="#303030"
+    )
+    speed.pack(pady=2)
+    speed_labels[axis] = speed
+
+    slider = tk.Scale(
+        panel,
+        from_=MIN_SNELHEID, to=MAX_SNELHEID, resolution=SLIDER_STAP,
+        orient="horizontal", showvalue=False,
+        width=34, sliderlength=56, length=260,
+        bg="#303030", troughcolor="#555555", activebackground="#4fc3a1",
+        highlightthickness=0, bd=0,
+        command=lambda waarde: slider_bewogen(axis, waarde)
+    )
+    slider.set(START_SNELHEID)
+    slider.pack(fill="x", padx=16, pady=(4, 2))
+
+    schaal = tk.Frame(panel, bg="#303030")
+    schaal.pack(fill="x", padx=16, pady=(0, 10))
+    tk.Label(schaal, text="traag", font=("Arial", 10),
+             fg="#aaaaaa", bg="#303030").pack(side="left")
+    tk.Label(schaal, text="snel", font=("Arial", 10),
+             fg="#aaaaaa", bg="#303030").pack(side="right")
+
+
+# ============================================================
+# HOOFDVENSTER
+# ============================================================
+
+root = tk.Tk()
+root.title("Cycloid Drawing Machine")
+root.geometry("1200x720")
+root.minsize(1000, 670)
+root.configure(bg="#202020")
+root.protocol("WM_DELETE_WINDOW", stop_program)
+
+tk.Label(root, text="CYCLOID DRAWING MACHINE", font=("Arial", 24, "bold"),
+         fg="white", bg="#202020").pack(pady=8)
+
+motor_frame = tk.Frame(root, bg="#202020")
+motor_frame.pack(fill="both", expand=True, padx=8)
+
+create_motor_panel(motor_frame, "X", "MOTOR 1 / X")
+create_motor_panel(motor_frame, "Y", "MOTOR 2 / Y")
+create_motor_panel(motor_frame, "Z", "MOTOR 3 / Z")
+
+tk.Button(root, text="ALLES STOP", font=("Arial", 18, "bold"),
+          bg="red", fg="white", height=2, command=stop_all
+          ).pack(fill="x", padx=20, pady=8)
+
+root.mainloop()
