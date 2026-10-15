@@ -5,7 +5,7 @@ const {colors}=window.MotioRenderers;
 const {TAU}=window.MotioMath;
 class SpatialRenderer {
  constructor(canvas,onSelect) {
-  this.canvas=canvas;this.ctx=canvas.getContext('2d');this.onSelect=onSelect;this.enclosure={front:true,back:true,left:true,right:true,bottom:true,top:'opaque'};this.resetCamera();this.hits=[];this.initDepthRenderer();
+  this.canvas=canvas;this.ctx=canvas.getContext('2d');this.onSelect=onSelect;this.enclosure={front:true,back:true,left:true,right:true,bottom:true,top:'opaque'};this.resetCamera();this.hits=[];this.meshes=new Map();this.initDepthRenderer();
   canvas.addEventListener('contextmenu',e=>e.preventDefault());
   canvas.addEventListener('pointerdown',e=>{this.drag={x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,pan:e.shiftKey||e.button===2};canvas.setPointerCapture(e.pointerId);});
   canvas.addEventListener('pointermove',e=>{
@@ -67,14 +67,23 @@ class SpatialRenderer {
   const dpr=Math.min(window.devicePixelRatio||1,2),ctx=this.ctx;
   if(this.canvas.width!==Math.round(rect.width*dpr)||this.canvas.height!==Math.round(rect.height*dpr)){this.canvas.width=Math.round(rect.width*dpr);this.canvas.height=Math.round(rect.height*dpr);}
   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,rect.width,rect.height);ctx.fillStyle='#0d1621';ctx.fillRect(0,0,rect.width,rect.height);
-  const DESIGN=sim.geometry,detail=mode==='pen',focus=detail&&sim.pose.valid?sim.pose.pen:{x:DESIGN.base.x+DESIGN.base.width/2,y:DESIGN.base.y+DESIGN.base.height/2};
-  const scale=Math.min(rect.width/(detail?190:DESIGN.base.width+(assembly?220:100)),rect.height/(detail?210:DESIGN.base.height+75))*this.zoom,cy=Math.cos(this.yaw),sy=Math.sin(this.yaw),cp=Math.cos(this.pitch),sp=Math.sin(this.pitch);
+  const DESIGN=sim.geometry,detail=mode==='pen',preview=assembly?.preview;
+  const parts=assembly?.parts||window.MotioGeometry.bodies(DESIGN,sim.pose);
+  let focus=detail&&sim.pose.valid?sim.pose.pen:{x:DESIGN.base.x+DESIGN.base.width/2,y:DESIGN.base.y+DESIGN.base.height/2,z:detail?85:10};
+  let width=detail?190:DESIGN.base.width+(assembly?220:100),height=detail?210:DESIGN.base.height+75;
+  if(preview){
+   const b=window.MotioGeometry.bounds(parts);focus=b;
+   width=Math.max(b.w,b.l)*1.6+12;height=Math.max(b.h,b.l,b.w)*1.7+12;
+  }
+  if(assembly?.view){focus=assembly.view.focus;width=assembly.view.width;height=assembly.view.height;}
+  const scale=Math.min(rect.width/width,rect.height/height)*this.zoom,cy=Math.cos(this.yaw),sy=Math.sin(this.yaw),cp=Math.cos(this.pitch),sp=Math.sin(this.pitch);
   const project=p=>{
-   const x=p.x-focus.x,y=p.y-focus.y,z=p.z-(detail?85:10),rx=x*cy-y*sy,ry=x*sy+y*cy;
-   return {x:rect.width/2+this.panX+rx*scale,y:rect.height*(detail?.56:this.pitch===Math.PI/2?.5:.42)+this.panY+(ry*sp-z*cp)*scale,depth:ry*cp+z*sp};
+   const x=p.x-focus.x,y=p.y-focus.y,z=p.z-(focus.z??85),rx=x*cy-y*sy,ry=x*sy+y*cy;
+   return {x:rect.width/2+this.panX+rx*scale,y:rect.height*(preview?.5:detail?.56:this.pitch===Math.PI/2?.5:.42)+this.panY+(ry*sp-z*cp)*scale,depth:ry*cp+z*sp};
   };
   const faces=[],labels=[];this.hits=[];let currentPart=null;
   const face=(points,color,shade=1)=>{
+   if(currentPart?.axis==='x')points=points.map(p=>{const a=currentPart.angle||0,dx=p.z-currentPart.z,dy=p.y-currentPart.y;return {x:currentPart.x+dx*Math.cos(a)-dy*Math.sin(a),y:currentPart.y+dx*Math.sin(a)+dy*Math.cos(a),z:currentPart.z-(p.x-currentPart.x)};});
    if(mode==='section'||mode==='pen'){
     const cut=mode==='pen'?focus.y:DESIGN.paper.y,clipped=[];
     for(let i=0;i<points.length;i++){const a=points[i],b=points[(i+1)%points.length],ina=a.y<=cut,inb=b.y<=cut;if(ina)clipped.push(a);if(ina!==inb){const t=(cut-a.y)/(b.y-a.y);clipped.push({x:a.x+t*(b.x-a.x),y:cut,z:a.z+t*(b.z-a.z)});}}
@@ -82,19 +91,6 @@ class SpatialRenderer {
    }
    const pp=points.map(project);faces.push({points:pp,depth:pp.reduce((s,p)=>s+p.depth,0)/pp.length,color,shade,part:currentPart});};
   const register=(p,label,radius=22,visibleLabel='')=>{const pp=project(p);this.hits.push({...pp,label,part:currentPart,radius:Math.max(12,radius*scale)});if(visibleLabel)labels.push({...pp,text:visibleLabel});};
-  const box=(x,y,z,w,l,h,color,label)=>{
-   const p=[{x:x-w/2,y:y-l/2,z:z-h/2},{x:x+w/2,y:y-l/2,z:z-h/2},{x:x+w/2,y:y+l/2,z:z-h/2},{x:x-w/2,y:y+l/2,z:z-h/2}, {x:x-w/2,y:y-l/2,z:z+h/2},{x:x+w/2,y:y-l/2,z:z+h/2},{x:x+w/2,y:y+l/2,z:z+h/2},{x:x-w/2,y:y+l/2,z:z+h/2}];
-   for(const [indices,shade] of [[[0,1,2,3],.55],[[0,1,5,4],.72],[[1,2,6,5],.82],[[2,3,7,6],.64],[[3,0,4,7],.75],[[4,5,6,7],1]])face(indices.map(i=>p[i]),color,shade);
-   if(label)register({x,y,z:z+h/2},label,Math.max(w,l)/2);
-  };
-  const cylinder=(x,y,z,r,h,color,label)=>{
-   const bottom=[],top=[];
-   const segments=r>100?72:18;
-   for(let i=0;i<segments;i++){const a=i*TAU/segments;bottom.push({x:x+r*Math.cos(a),y:y+r*Math.sin(a),z:z-h/2});top.push({x:x+r*Math.cos(a),y:y+r*Math.sin(a),z:z+h/2});}
-   face(bottom,color,.55);face(top,color,1);
-   for(let i=0;i<segments;i++)face([bottom[i],bottom[(i+1)%segments],top[(i+1)%segments],top[i]],color,.65+.15*Math.cos(i*TAU/segments));
-   if(label)register({x,y,z:z+h/2},label,r+10);
-  };
   const beam=(a,b,z,w,h,color,label)=>{
    const dx=b.x-a.x,dy=b.y-a.y,length=Math.hypot(dx,dy),nx=-dy/length*w/2,ny=dx/length*w/2;
    const p=[{x:a.x+nx,y:a.y+ny,z:z-h/2},{x:b.x+nx,y:b.y+ny,z:z-h/2},{x:b.x-nx,y:b.y-ny,z:z-h/2},{x:a.x-nx,y:a.y-ny,z:z-h/2}];
@@ -102,33 +98,12 @@ class SpatialRenderer {
    for(let i=0;i<4;i++)face([p[i],p[(i+1)%4],top[(i+1)%4],top[i]],color,.75);
    if(label)register({x:(a.x+b.x)/2,y:(a.y+b.y)/2,z:z+h/2},label,30);
   };
-  const ring=(b,color)=>{
-   const count=40;
-   for(let i=0;i<count;i++){
-    const a=i*TAU/count,t=(i+1)*TAU/count,pt=(angle,r,z)=>({x:b.x+r*Math.cos(angle),y:b.y+r*Math.sin(angle),z});
-    const lo=b.z-b.h/2,hi=b.z+b.h/2;
-    face([pt(a,b.r,hi),pt(t,b.r,hi),pt(t,b.inner,hi),pt(a,b.inner,hi)],color,1);
-    face([pt(a,b.r,lo),pt(t,b.r,lo),pt(t,b.inner,lo),pt(a,b.inner,lo)],color,.6);
-    face([pt(a,b.r,lo),pt(t,b.r,lo),pt(t,b.r,hi),pt(a,b.r,hi)],color,.8);
-    face([pt(a,b.inner,lo),pt(t,b.inner,lo),pt(t,b.inner,hi),pt(a,b.inner,hi)],color,.55);
-   }
-   register({x:b.x,y:b.y,z:b.z+b.h/2},b.id,b.r);
-  };
   const catalog=window.MotioBOM.create(DESIGN);
-  // Only the current assembly group moves; all earlier groups stay in place.
-  const assemblyOffset=part=>{
-   if(!assembly||window.MotioAssembly.stageOf(part)!==assembly.step)return {x:0,y:0,z:0};
-   const delay=assembly.step===4&&part.id.endsWith('B')?.22:.08;
-   const t=Math.max(0,Math.min(1,(assembly.progress-delay)/(.9-delay))),remaining=1-t*t*(3-2*t);
-   if(part.id==='box-bottom')return {x:0,y:0,z:-40*remaining};
-   if(part.id.startsWith('box-'))return {x:(part.id==='box-left'?-65:part.id==='box-right'?65:0)*remaining,y:(part.id==='box-back'?-65:part.id==='box-front'?65:0)*remaining,z:0};
-   return {x:0,y:0,z:75*remaining};
-  };
-  const parts=window.MotioGeometry.bodies(DESIGN,sim.pose);
+  const assemblyOffset=part=>!assembly||preview?{x:0,y:0,z:0}:window.MotioAssembly.offset(part,assembly.step,assembly.progress);
   for(const source of parts) {
    if(assembly&&window.MotioAssembly.stageOf(source)>assembly.step)continue;
-   if(source.id.startsWith('box-')&&!this.enclosure[source.id.slice(4)])continue;
-   if(source.id==='BASE'&&this.enclosure.top==='transparent')continue;
+   if(!assembly&&source.id.startsWith('box-')&&!this.enclosure[source.id.slice(4)])continue;
+   if(!assembly&&source.id==='BASE'&&this.enclosure.top==='transparent')continue;
    if(mode==='drive'&&!['drive','shaft','bearing','support'].includes(source.group))continue;
    if(mode==='bearing'&&!['shaft','bearing','joint','pen'].includes(source.group))continue;
    if(mode==='pen'&&!['pen','joint'].includes(source.group)&&!source.id.startsWith('endP')&&!source.id.startsWith('rod'))continue;
@@ -136,38 +111,32 @@ class SpatialRenderer {
    const offset=assemblyOffset(b);b.z+=offset.z;
    if(b.shape==='beam'){b.a={x:b.a.x+offset.x,y:b.a.y+offset.y};b.b={x:b.b.x+offset.x,y:b.b.y+offset.y};}
    else {b.x+=offset.x;b.y+=offset.y;}
-   currentPart={...b,entry};
    if(exploded||mode==='exploded')b.z+=b.group==='moving'||b.group==='joint'?(b.id.endsWith('B')?85:50):b.group==='platter'?30:b.group==='pen'?105:0;
-   const key=b.id.slice(-1),col=colors[key]||'#8ba7ba';
-   const seeThrough=assembly&&['BASE','box-front','box-right'].includes(b.id);
-   const color=b.group==='frame'?(seeThrough?'#c1a47733':b.id==='BASE'&&this.enclosure.top==='semi'?'#c1a47766':'#c1a477'):b.group==='bearing'||b.group==='joint'?'#d6e1e7':b.group==='moving'?col:b.group==='drive'?col:b.group==='platter'?'#8a9ba9':b.group==='pen'?(b.id==='pen'?'#f4c367':'#62a7bb'):b.group==='support'?'#4b6377':'#b2c4d3';
-   if(b.shape==='box'){
-    if(b.id==='BASE'){
-     // Simple rectangular shaft openings. No geometry cutting system is needed.
-     const deck=DESIGN.base,holes=['A','B','C'].map(key=>({x:DESIGN[key].pivot.x,y:DESIGN[key].pivot.y,r:key==='C'?22:6}));
-     const xs=[deck.x,deck.x+deck.width,...holes.flatMap(h=>[h.x-h.r,h.x+h.r])].filter(x=>x>=deck.x&&x<=deck.x+deck.width).sort((a,b)=>a-b);
-     const ys=[deck.y,deck.y+deck.height,...holes.flatMap(h=>[h.y-h.r,h.y+h.r])].filter(y=>y>=deck.y&&y<=deck.y+deck.height).sort((a,b)=>a-b);
-     for(let i=1;i<xs.length;i++)for(let j=1;j<ys.length;j++){
-      const x=(xs[i-1]+xs[i])/2,y=(ys[j-1]+ys[j])/2;
-      if(!holes.some(h=>Math.abs(x-h.x)<h.r&&Math.abs(y-h.y)<h.r))box(x,y,b.z,xs[i]-xs[i-1],ys[j]-ys[j-1],b.h,color);
-     }
-    }else box(b.x,b.y,b.z,b.w,b.l,b.h,color,b.id);
-    if(b.id.startsWith('motor')&&!b.id.startsWith('motorShaft')){
-     const z=b.z+b.h/2+.02,pitch=DESIGN.motor.mountingPitch/2;
-     box(b.x,b.y,z-.75,b.w,b.l,1.5,'#9badbb');
-     for(const x of [-pitch,pitch])for(const y of [-pitch,pitch])cylinder(b.x+x,b.y+y,z+.04,1.5,.08,'#12202d');
-    }
+   currentPart={...b,entry};
+   const key=/^(H|K|L)-[ABC]$/.test(b.bom)?b.bom.slice(-1):b.id.slice(-1),col=colors[key]||'#8ba7ba';
+   const active=assembly&&!preview&&window.MotioAssembly.isCurrent(b,assembly.step);
+   const seeThrough=assembly&&!preview&&['BASE','box-front','box-right'].includes(b.id);
+   let color=entry.material.includes('PETG')?col:entry.material.includes('Messing')?'#d6ad61':entry.material.includes('Multiplex')||entry.material.includes('Hout')?'#c1a477':b.bom==='PAPER'?'#f4f0e7':b.bom==='PAD'?'#edaa79':b.id==='pen'?'#f4c367':b.id.startsWith('motor')&&b.shape==='box'?'#344658':'#c9d6df';
+   if(active)color='#62e9e2';
+   else if(seeThrough)color='#c1a47733';
+   else if(!assembly&&b.id==='BASE'&&this.enclosure.top==='semi')color='#c1a47766';
+   else if(assembly&&!preview&&entry.material.includes('PETG')&&b.assemblyGroup==='housing')color+='aa';
+   if(b.shape==='beam')beam(b.a,b.b,b.z,b.w,b.h,color,b.id);
+   else {
+    const signature=JSON.stringify([source.shape,source.x,source.y,source.z,source.w,source.l,source.h,source.r,source.inner,source.holes,source.flats,source.arc,source.segments]);
+    let mesh=this.meshes.get(source.id);
+    if(mesh?.signature!==signature){mesh={signature,faces:window.MotioGeometry.surfaces(source)};this.meshes.set(source.id,mesh);}
+    const compression=assembly&&!preview&&b.id.startsWith('retainerClip')&&window.MotioAssembly.stageOf(b)===assembly.step?1-.08*(1-Math.min(1,Math.max(0,(assembly.progress-.9)/.08))):1;
+    for(const f of mesh.faces)face(f.points.map(p=>({x:source.x+(p.x-source.x)*compression+offset.x,y:source.y+(p.y-source.y)*compression+offset.y,z:p.z+b.z-source.z})),color,f.shade);
+    register({x:b.x,y:b.y,z:b.z+b.h/2},b.id,b.r||Math.max(b.w,b.l)/2);
    }
-   else if(b.shape==='beam')beam(b.a,b.b,b.z,b.w,b.h,color,b.id);
-   else if(b.shape==='ring')ring(b,color);
-   else cylinder(b.x,b.y,b.z,b.r,b.h,color,b.id);
   }
-  if(['assembly','section','exploded'].includes(mode)&&(!assembly||assembly.step>=3)){
+  const sheet=parts.find(p=>p.id==='paper');
+  if(!preview&&sheet&&['assembly','section','exploded'].includes(mode)&&(!assembly||window.MotioAssembly.stageOf(sheet)<=assembly.step)){
    currentPart=null;
-   const p=DESIGN.paper,z=p.z+p.thickness/2+.2+((exploded||mode==='exploded')?30:0)+assemblyOffset({id:'platter',group:'platter'}).z;
+   const p=DESIGN.paper,z=p.z+p.thickness/2+.2+((exploded||mode==='exploded')?30:0)+assemblyOffset(sheet).z;
    const paperPoint=(pt,height=z)=>({...window.MotioPaper.paperToMachine(pt,sim.q.C,DESIGN),z:height});
    const edge=Array.from({length:72},(_,i)=>paperPoint({x:p.radius*Math.cos(i*TAU/72),y:p.radius*Math.sin(i*TAU/72)}));
-   face(edge,'#f4f0e7',1);
    const paperLine=(a,b,width,color)=>{
     const dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy);if(L<1e-6)return;
     const nx=-dy/L*width/2,ny=dx/L*width/2;
@@ -188,7 +157,7 @@ class SpatialRenderer {
    }
   }
   for(const label of labels){ctx.font='bold 11px Consolas,monospace';ctx.fillStyle='#0a1421';ctx.fillRect(label.x-18,label.y-24,38,17);ctx.fillStyle='#d7e8f5';ctx.fillText(label.text,label.x-14,label.y-12);}
-  ctx.font='11px Consolas,monospace';ctx.fillStyle='#97b2c8';ctx.fillText(assembly?'MOTIO · stap '+(assembly.step+1)+' van '+window.MotioAssembly.steps.length:(exploded||mode==='exploded')?'Exploded view':'SIMV5 · direct 1:1 · '+DESIGN.base.width+' × '+DESIGN.base.height+' × '+DESIGN.box.height+' mm',16,22);
+  ctx.font='11px Consolas,monospace';ctx.fillStyle='#97b2c8';ctx.fillText(preview?'LOS ONDERDEEL':assembly?'MOTIO · stap '+(assembly.step+1)+' van '+window.MotioAssembly.steps.length:(exploded||mode==='exploded')?'Exploded view':'SIMV5 · direct 1:1 · '+DESIGN.base.width+' × '+DESIGN.base.height+' × '+DESIGN.box.height+' mm',16,22);
  }
 }
 window.MotioSpatial={SpatialRenderer};

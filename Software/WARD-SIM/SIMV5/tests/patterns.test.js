@@ -11,7 +11,7 @@ for(const {pattern,wordText='MOTIO'} of cases){
  assert.equal(s.config.motorStepsPerFullStep,16);
  assert.ok(s.drawingArea.proven,'Continuous route certificate, not a sample-only reach claim');
  assert.equal(s.geometry.base.width,358);assert.equal(s.geometry.base.height,404);assert.equal(s.geometry.box.height,108);
- assert.match(MotioBOM.create(s.geometry).find(r=>r.id==='BASE').dimensions,/358 × 404 × 108/);
+ assert.match(MotioBOM.create(s.geometry).find(r=>r.id==='BASE').spec,/358 × 404 × 108/);
  assert.ok(s.patternPreview.every(p=>Math.hypot(p.x,p.y)<95));
  s.power();s.home();s.update(2);s.play();
  let maxRadius=0,maxError=0,reversals={A:0,B:0},previous={A:0,B:0},paused=false,maxSpeed=0,maxAcceleration=0,maxTorque=0,minSafetyFactor=Infinity;

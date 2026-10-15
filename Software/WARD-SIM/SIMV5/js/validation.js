@@ -139,6 +139,7 @@ function rows(sim,test) {
  add('Motoren kunnen de beweging aan',motorState,overload?'Gevraagd koppel te hoog':'Driver en belastingen bevestigen','SY42STH38-1684A: afgelezen koppelcurve geldt voor 24 V, 1,68 A, halfstep en 30–750 RPM. Directe aandrijving gebruikt standaard 1/16 microstepping en blijft onder 30 RPM; de halfstepcurve bewijst dit niet. Houdkoppel 0,36 Nm bewijst geen dynamische capaciteit; belasting, wrijving en inertie zijn ontwerpschattingen.');
  const fitFail=area.proven&&area.minClearanceBound<g.clearance;
  add('Belangrijkste mechanische spelingen',fitFail?'FAIL':'NIET BEWEZEN',area.proven?'Modelvrijloop ≥ '+area.minClearanceBound.toFixed(1)+' mm; passing nog testen':'Vrijloop nog niet bewezen','Het model gebruikt '+g.clearance+' mm minimale vrijloop. Lagerspeling, koppelingsspeling, aspassing, fabricagetoleranties en papierloop moeten aan het prototype worden gecontroleerd.');
+ add('3D-geprinte constructiedelen','NIET BEWEZEN',g.material.name+' · E '+g.materialE+' MPa · ρ '+g.density+' kg/m³','Isotrope rekenschatting voor de dikkere kokerarmen. Printoriëntatie, laaghechting, kruip, passing en bevestigingen moeten fysiek worden getest. Een vrije tekenroute bewijst de sterkte van de print niet.');
  return result;
 }
 window.MotioValidation={workspace,drawingArea,audit,EngineeringTest,rows};

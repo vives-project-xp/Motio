@@ -59,27 +59,32 @@
    </div>
    <div class="legend"><span class="a">A · violet</span><span class="b">B · groen</span><span class="c">C · amber</span><span>Hout · box · grijs · lagering</span></div>
   </article>
-  <aside class="panel design-notes"><h2>Het bouwconcept</h2><p>Drie SY42STH38-1684A-stappenmotoren drijven elk direct hun eigen gelagerde as aan via een flexibele koppeling (1:1). De armen sluiten via vrije scharnieren op één penpunt.</p><p>De houten box heeft buitenmaten 358 × 404 mm en is 108 mm hoog. De drie aandrijvingen blijven onafhankelijk bedienbaar. De lagers dragen de arm- en plateaulasten; de koppelingen brengen het motorkoppel over.</p><p>Een ronde schijf uit A4 ligt gecentreerd op het draaiplateau van Ø210 mm. De buitenste 10 mm blijven vrij.</p><p>De pen schuift door de houder en wordt op vaste hoogte geklemd met een manuele schroef.</p><h3>Geselecteerd onderdeel</h3><div id="component-details" class="component-details">Klik in de tekening of het 3D-model op een onderdeel.</div></aside>
+  <aside class="panel design-notes"><h2>Het bouwconcept</h2><p>Drie SY42STH38-1684A-stappenmotoren drijven elk direct hun eigen gelagerde as aan via een flexibele koppeling (1:1). De armen sluiten via vrije scharnieren op één penpunt.</p><p>Beugels, lagerhouders, krukken en dikkere penarmen zijn voorlopig in PETG voorzien; assen en lagers blijven van staal. De houten box heeft buitenmaten 358 × 404 mm en is 108 mm hoog. De drie aandrijvingen blijven onafhankelijk bedienbaar. De lagers dragen de arm- en plateaulasten; de koppelingen brengen het motorkoppel over.</p><p>Een ronde schijf uit A4 ligt gecentreerd op het draaiplateau van Ø210 mm. De buitenste 10 mm blijven vrij.</p><p>De pen schuift door de houder en wordt op vaste hoogte geklemd met een manuele schroef.</p><h3>Geselecteerd onderdeel</h3><div id="component-details" class="component-details">Klik in de tekening of het 3D-model op een onderdeel.</div></aside>
  </div>
 </section>
 <section id="assembly-view" class="design-page" hidden>
  <div class="page-intro"><p class="eyebrow">MONTAGEHANDLEIDING · SIMV5</p><h2>Bouw MOTIO stap voor stap.</h2><p>Volg de korte animatie en ga op je eigen tempo verder.</p></div>
  <div class="assembly-layout">
   <article class="panel assembly-step" aria-labelledby="assembly-title">
-   <div aria-live="polite" aria-atomic="true"><p id="assembly-counter" class="eyebrow">Stap 1 van 6</p><h2 id="assembly-title">Bodem en wanden</h2><p id="assembly-instruction">Zet de vier zijwanden op de bodemplaat en maak de hoeken vast.</p></div>
-   <progress id="assembly-progress" max="6" value="1" aria-label="Voortgang montage"></progress>
+   <div aria-live="polite" aria-atomic="true"><p id="assembly-counter" class="eyebrow"></p><h2 id="assembly-title"></h2><p id="assembly-instruction"></p></div>
+   <progress id="assembly-progress" value="1" aria-label="Voortgang montage"></progress>
    <div class="assembly-navigation" role="group" aria-label="Montagestappen"><button id="assembly-prev" type="button" aria-label="Vorige stap" title="Vorige stap" disabled>←</button><span>Blader door de stappen</span><button id="assembly-next" class="primary" type="button" aria-label="Volgende stap" title="Volgende stap">→</button></div>
+  </article>
+  <article class="panel assembly-parts-panel" aria-label="Onderdelen in deze stap">
+   <div class="assembly-part-preview"><canvas id="assembly-part-canvas" aria-label="Uitvergroot los onderdeel"></canvas><p id="assembly-part-caption" class="hint"></p></div>
+   <div id="assembly-parts" class="component-details"></div>
+   <a id="assembly-reference" class="hint" href="references/motor-dimensions.png" target="_blank" rel="noopener" hidden>Bekijk de meegeleverde motortekening</a>
   </article>
   <article class="panel assembly-model">
    <div class="view-header"><h2>Montageanimatie</h2><button id="assembly-replay" type="button" aria-label="Animatie opnieuw afspelen" title="Animatie opnieuw afspelen">↻ Opnieuw</button></div>
    <canvas id="assembly-canvas" tabindex="0" aria-label="3D montageanimatie van de huidige stap"></canvas>
-   <div class="legend"><span class="a">A · penarm</span><span class="b">B · penarm</span><span class="c">C · papier</span><span>Doorzichtig hout houdt het binnenwerk zichtbaar.</span></div>
-   <p class="hint assembly-hint">Sleep: draaien · scroll: zoom · pijltjestoetsen op het model: draaien</p>
+   <div class="legend"><span style="color:var(--cyan)">● Nieuw in deze stap</span><span>Doorzichtig hout en PETG houden de verbindingen zichtbaar.</span></div>
+   <p id="assembly-camera-hint" class="hint assembly-hint">Sleep: draaien · scroll: zoom · pijltjestoetsen op het model: draaien</p>
   </article>
  </div>
 </section>
 <section id="validation-view" class="design-page" hidden>
- <div class="page-intro"><p class="eyebrow">VALIDATION</p><h2>Kan dit mechanisme doen wat we verwachten?</h2><p>Vijf gerichte controles. PASS vraagt onderbouwing; een geslaagde steekproef bewijst geen volledig bewegingsbereik.</p><div class="toolbar"><button id="run-test" class="primary">Start controle</button><button id="cancel-test" disabled>Annuleer</button><button id="export-report">Download testgegevens</button></div><progress id="test-progress" max="1" value="0"></progress><p id="test-status" role="status">Nog geen bewegingstest uitgevoerd.</p></div>
+ <div class="page-intro"><p class="eyebrow">VALIDATION</p><h2>Kan dit mechanisme doen wat we verwachten?</h2><p>Geometrie, beweging en de nog te testen printconstructie. PASS vraagt onderbouwing; een geslaagde steekproef bewijst geen volledig bewegingsbereik.</p><div class="toolbar"><button id="run-test" class="primary">Start controle</button><button id="cancel-test" disabled>Annuleer</button><button id="export-report">Download testgegevens</button></div><progress id="test-progress" max="1" value="0"></progress><p id="test-status" role="status">Nog geen bewegingstest uitgevoerd.</p></div>
  <div class="panel table-wrap"><table class="validation-table"><thead><tr><th>Controle</th><th>Resultaat</th><th>Toelichting</th></tr></thead><tbody id="validation-body"></tbody></table></div>
 </section>
 <section id="components-view" class="components-page" hidden>

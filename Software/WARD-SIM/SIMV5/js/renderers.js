@@ -34,7 +34,7 @@ function mechanismSVG(sim,technical=false,mode='assembly') {
  for(const key of ['A','B','C']) {
   const a=d[key],m=a.motor,o=a.pivot,color=colors[key];
   const mw=d.motor.width,hole=d.motor.mountingPitch/2,hidden=!exposed;
-  s+='<g '+(hidden?'opacity=".45"':'')+'><g data-bom="M-'+key+'" tabindex="0" role="button" aria-label="Motor '+key+'"><rect x="'+n(m.x-mw/2)+'" y="'+n(m.y-mw/2)+'" width="'+mw+'" height="'+mw+'" fill="'+(hidden?'none':'#263443')+'" stroke="'+color+'" '+(hidden?'stroke-dasharray="3 4"':'')+'/>';
+  s+='<g '+(hidden?'opacity=".45"':'')+'><g data-bom="MOTOR" tabindex="0" role="button" aria-label="Motor '+key+'"><rect x="'+n(m.x-mw/2)+'" y="'+n(m.y-mw/2)+'" width="'+mw+'" height="'+mw+'" fill="'+(hidden?'none':'#263443')+'" stroke="'+color+'" '+(hidden?'stroke-dasharray="3 4"':'')+'/>';
   for(const x of [-hole,hole])for(const y of [-hole,hole])s+=circle({x:m.x+x,y:m.y+y},1.5,hidden?'none':'#0d1621',color,.5);
   s+=text('M-'+key,m.x-mw/2,m.y-mw/2-9,color,12)+'</g>';
   s+='<g data-bom="CP-'+key+'" tabindex="0" role="button" aria-label="Askoppeling '+key+'">'+circle(o,d.coupling.radius,'none',color,.7)+line(o,{x:o.x+d.coupling.radius*Math.cos(sim.q[key]),y:o.y+d.coupling.radius*Math.sin(sim.q[key])},color,1)+'</g></g>';

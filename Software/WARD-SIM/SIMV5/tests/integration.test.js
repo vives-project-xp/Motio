@@ -16,27 +16,37 @@ frames(10);assert.equal(get('run-status').textContent,'UIT');assert.equal((html.
 assert.equal(MotioV5.ui.view,'mechanical');assert.equal(MotioV5.ui.mode,'3d');assert.equal(get('spatial-wrap').hidden,false);
 assert.deepEqual(MotioV5.spatial.enclosure,{front:true,back:true,left:true,right:true,bottom:true,top:'opaque'});
 // The guide builds the existing geometry cumulatively without changing the simulator.
+const stepCount=MotioAssembly.steps.length;assert.ok(stepCount>6);
 const guide=MotioV5.ui.assembly,simBefore=JSON.stringify({q:MotioV5.simulation.q,state:MotioV5.simulation.state,trace:MotioV5.simulation.trace,config:MotioV5.simulation.config});
 click('nav-assembly');assert.equal(get('assembly-view').hidden,false);assert.equal(get('mechanical-view').hidden,true);assert.equal(guide.active,true);
-assert.equal(get('assembly-counter').textContent,'Stap 1 van 6');assert.equal(get('assembly-prev').disabled,true);assert.equal(get('assembly-next').disabled,false);
+assert.equal(get('assembly-counter').textContent,'Stap 1 van '+stepCount);assert.equal(get('assembly-prev').disabled,true);assert.equal(get('assembly-next').disabled,false);
 const allParts=MotioGeometry.bodies(guide.model.geometry,guide.model.pose),visibleIds=()=>new Set(guide.renderer.pickFaces.filter(f=>f.part).map(f=>f.part.id));
+assert.ok(allParts.every(p=>MotioAssembly.stageOf(p)>=0),'Every model body has an explicit mounting step');
+assert.equal(MotioBOM.create(guide.model.geometry).filter(r=>r.qty===0).length,0,'No unmodelled BOM entries');
 const faceFor=id=>guide.renderer.pickFaces.find(f=>f.part?.id===id);
+const placement=id=>{const p=faceFor(id).part;return JSON.stringify({x:p.x,y:p.y,z:p.z,a:p.a,b:p.b});};
 let stableFaces=new Map();
 for(let step=0;step<MotioAssembly.steps.length;step++){
  assert.equal(guide.step,step);assert.equal(guide.progress,0);assert.equal(guide.startedAt,null);
- frames(1);const activePart=allParts.find(p=>MotioAssembly.stageOf(p)===step),startFace=JSON.stringify(faceFor(activePart.id).points);
- for(const [id,points] of stableFaces)assert.equal(JSON.stringify(faceFor(id).points),points,'Earlier part stays in place: '+id);
+ frames(1);const activePart=guide.current[0],startFace=placement(activePart.id);
+ assert.ok(get('assembly-parts').innerHTML.includes('in deze stap')&&get('assembly-parts').innerHTML.includes('Materiaal'));
+ assert.ok(guide.preview.pickFaces.length>0,'Isolated close-up is drawn');
+ assert.ok(guide.preview.pickFaces.every(f=>!f.part||MotioAssembly.isCurrent(f.part,step)),'Close-up contains the component being mounted');
+ assert.deepEqual(new Set(guide.previewParts.map(p=>p.bom)),new Set(guide.current.map(p=>p.bom)),'Every new component type gets an isolated example');
+ for(const [id,points] of stableFaces)assert.equal(placement(id),points,'Earlier part stays in its mounting position at the start of the next step: '+id);
  assert.deepEqual(visibleIds(),new Set(allParts.filter(p=>MotioAssembly.stageOf(p)<=step).map(p=>p.id)),'No future parts; all previous parts remain');
- now+=guide.duration/2;frames(2);assert.ok(guide.progress>0&&guide.progress<1);const midwayFace=JSON.stringify(faceFor(activePart.id).points);assert.notEqual(midwayFace,startFace,'Current part moves during playback');
- now+=guide.duration/2;frames(2);assert.equal(guide.progress,1);assert.notEqual(JSON.stringify(faceFor(activePart.id).points),midwayFace,'Current part reaches its final position');
- assert.equal(get('assembly-counter').textContent,'Stap '+(step+1)+' van 6');assert.equal(get('assembly-title').textContent,MotioAssembly.steps[step].title);assert.equal(get('assembly-progress').value,step+1);
- stableFaces=new Map(allParts.filter(p=>MotioAssembly.stageOf(p)<=step).map(p=>[p.id,JSON.stringify(faceFor(p.id).points)]));
+ now+=guide.duration/2;frames(2);assert.ok(guide.progress>0&&guide.progress<1);const midwayFace=placement(activePart.id);assert.notEqual(midwayFace,startFace,'Current part moves during playback');
+ for(const [id,position] of stableFaces)if(!MotioAssembly.isCurrent(allParts.find(p=>p.id===id),step))assert.equal(placement(id),position,'Unrelated earlier part stays fixed throughout playback: '+id);
+ now+=guide.duration/2;frames(2);assert.equal(guide.progress,1);assert.notEqual(placement(activePart.id),midwayFace,'Current part reaches its final position');
+ assert.equal(get('assembly-counter').textContent,'Stap '+(step+1)+' van '+stepCount);assert.equal(get('assembly-title').textContent,MotioAssembly.steps[step].title);assert.equal(get('assembly-progress').value,step+1);
+ stableFaces=new Map(allParts.filter(p=>MotioAssembly.stageOf(p)<=step).map(p=>[p.id,placement(p.id)]));
  click('assembly-next');
 }
-assert.equal(guide.step,5);assert.equal(get('assembly-next').disabled,true);assert.equal(get('assembly-prev').disabled,false);
+assert.equal(guide.step,stepCount-1);assert.equal(get('assembly-next').disabled,true);assert.equal(get('assembly-prev').disabled,false);
+assert.deepEqual(visibleIds(),new Set(allParts.map(p=>p.id)),'Completed model contains every mechanical body');
 assert.equal(guide.renderer.pickFaces.filter(f=>!f.part).length>0,true,'Paper is visible on the assembled platter');
 click('assembly-replay');assert.equal(guide.progress,0);frames(1);assert.equal(guide.progress,0);now+=guide.duration;frames(2);assert.equal(guide.progress,1);
-for(let step=4;step>=0;step--){click('assembly-prev');assert.equal(guide.step,step);assert.equal(guide.progress,0);frames(1);assert.deepEqual(visibleIds(),new Set(allParts.filter(p=>MotioAssembly.stageOf(p)<=step).map(p=>p.id)));}
+for(let step=stepCount-2;step>=0;step--){click('assembly-prev');assert.equal(guide.step,step);assert.equal(guide.progress,0);frames(1);assert.deepEqual(visibleIds(),new Set(allParts.filter(p=>MotioAssembly.stageOf(p)<=step).map(p=>p.id)));}
 click('assembly-prev');assert.equal(guide.step,0);assert.equal(get('assembly-prev').disabled,true);
 assert.equal(guide.renderer.pickFaces.filter(f=>!f.part).length,0,'Paper stays hidden until the platter step');
 assert.equal(JSON.stringify({q:MotioV5.simulation.q,state:MotioV5.simulation.state,trace:MotioV5.simulation.trace,config:MotioV5.simulation.config}),simBefore);
@@ -81,12 +91,11 @@ get('rpm-b').value='.3';get('dir-b').value='1';get('dir-b').handlers.change();as
 click('restore-btn');frames(2);assert.equal(MotioV5.simulation.config.radiusA,65);assert.equal(MotioV5.simulation.config.rpmA,.8);assert.ok(MotioV5.simulation.insideSafe);
 for(const p of MotioPatterns.list){click('pattern-'+p.id);assert.equal(MotioV5.simulation.pattern.id,p.id);assert.ok(MotioV5.simulation.insideSafe);assert.ok(MotioV5.simulation.safe);assert.match(get('pattern-'+p.id).innerHTML,/<svg.*<path/);assert.equal(get('manual-controls').hidden,true);}
 get('show-preview').handlers.change({target:{checked:false}});assert.equal(MotioV5.simulation.showPreview,false);click('custom-pattern');assert.equal(get('manual-controls').hidden,false);assert.equal(MotioV5.simulation.config.patternId,'');
-click('nav-validation');frames(2);assert.equal((get('validation-body').innerHTML.match(/<tr>/g)||[]).length,5);assert.match(get('validation-body').innerHTML,/NIET BEWEZEN/);click('run-test');for(let i=0;i<800&&MotioV5.ui.test.running;i++)frames(1);assert.ok(MotioV5.ui.test.report.complete);assert.match(get('test-status').textContent,/Controle afgerond/);
+click('nav-validation');frames(2);assert.equal((get('validation-body').innerHTML.match(/<tr>/g)||[]).length,6);assert.match(get('validation-body').innerHTML,/NIET BEWEZEN/);click('run-test');for(let i=0;i<6000&&MotioV5.ui.test.running;i++)frames(1);assert.ok(MotioV5.ui.test.report.complete);assert.match(get('test-status').textContent,/Controle afgerond/);
 // Shared config edits reset test and trace, update geometry and BOM, and reject invalid edits.
 const cfg={...MotioV5.simulation.config,patternId:'',couplingRadius:10,lengthA:190,pivotAx:285};get('machine-config').value=JSON.stringify(cfg);click('apply-config');frames(2);assert.equal(MotioV5.ui.test,null);assert.equal(MotioV5.simulation.geometry.A.pivot.x,285);assert.match(get('bom-body').innerHTML,/Ø20/);assert.match(get('bom-body').innerHTML,/190/);click('nav-mechanical');click('mode-2d');frames(2);assert.doesNotMatch(get('mechanical-diagram').innerHTML,/NaN|undefined/);
 get('machine-config').value=JSON.stringify({...cfg,couplingRadius:0});click('apply-config');assert.match(get('config-message').textContent,/positief/);assert.equal(MotioV5.simulation.config.couplingRadius,cfg.couplingRadius);
 click('restore-btn');click('nav-simulator');click('home-btn');frames(110);click('play-btn');frames(60);click('stop-btn');frames(110);assert.equal(get('run-status').textContent,'GEPAUZEERD');click('clear-btn');assert.equal(MotioV5.simulation.trace.length,0);click('reset-btn');assert.equal(get('run-status').textContent,'HOME VEREIST');click('power-btn');assert.equal(get('run-status').textContent,'UIT');
 MotioV5.simulation.fault='Grens veilige tekencirkel bereikt (radius 95 mm)';MotioV5.ui.render();assert.equal(get('run-status').textContent,'VEILIGE GRENS');assert.ok(get('live-data').innerHTML.includes('<dt>Mechanica</dt><dd>OK</dd>'));
 assert.ok(MotioGeometry.bodies(MotioV5.simulation.geometry,MotioV5.simulation.pose).every(b=>MotioBOM.create(MotioV5.simulation.geometry).some(r=>r.id===b.bom)),'Every rendered part maps to the BOM');
-console.log('V5 integration: six cumulative assembly steps, automatic animation and replay, backward navigation and limits, fixed prior parts, unchanged simulation, five tabs, existing controls/cameras, enclosure, patterns, canvas fallback, SVG/CSV, shared config and validation passed.');
-
+console.log('V5 integration: detailed cumulative assembly steps, automatic animation and replay, backward navigation and limits, fixed prior parts, unchanged simulation, five tabs, existing controls/cameras, enclosure, patterns, canvas fallback, SVG/CSV, shared config and validation passed.');

@@ -13,8 +13,8 @@ function analyze(g,p) {
  // Worst signed rod extensions, propagated through the two unit-length constraints.
  const det=p.ua.x*p.ub.y-p.ua.y*p.ub.x;let errorXY=0;
  for(const sa of [-1,1])for(const sb of [-1,1])errorXY=Math.max(errorXY,Math.hypot((p.ub.y*arms.A.axial*sa-p.ua.y*arms.B.axial*sb)/det,(-p.ub.x*arms.A.axial*sa+p.ua.x*arms.B.axial*sb)/det));
- return {state:'ESTIMATE',arms,errorXY,verticalEnvelope:Math.max(arms.A.vertical,arms.B.vertical),totalPositionError:null,
-  assumptions:'Cantilever upper-bound surrogate for Z bending; axial tube stretch propagated to XY. End fittings, joint play, shaft bending, tooth backlash and paper runout unmodelled.'};
+ return {state:'ESTIMATE',material:g.material,printValidated:false,arms,errorXY,verticalEnvelope:Math.max(arms.A.vertical,arms.B.vertical),totalPositionError:null,
+  assumptions:'Isotrope PETG-schatting voor een volledig gevulde kokerwand; geen bewijs voor een specifieke print. Laaghechting, kruip, verbindingen, lagerpassingen en asbuiging niet bewezen. Kokerbuiging in Z en axiale rek in XY zijn alleen rekenindicaties.'};
 }
 window.MotioStructure={analyze};
 })();

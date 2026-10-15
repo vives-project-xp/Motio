@@ -56,7 +56,7 @@ const low=normalize({...c,rodZA:c.paperZ});assert.ok(MotioCollision.analyze(buil
 const nearWall=normalize({...c,paperX:c.baseX+20});assert.ok(MotioCollision.analyze(build(nearWall),solve(nearWall,p.q)).minima.drive<0);
 const s=MotioStructure.analyze(g,p),I=(c.rodWidth*c.rodHeight**3-(c.rodWidth-2*c.rodWall)*(c.rodHeight-2*c.rodWall)**3)/12,L=c.lengthA,mass=(c.rodWidth*c.rodHeight-(c.rodWidth-2*c.rodWall)*(c.rodHeight-2*c.rodWall))*L*1e-9*c.density;
 close(s.arms.A.vertical,c.verticalForce*L**3/(3*c.materialE*I)+mass*9.80665*L**3/(8*c.materialE*I));assert.equal(s.totalPositionError,null);
-const softer=MotioStructure.analyze(build(normalize({...c,materialE:34500})),p);close(softer.arms.A.vertical,2*s.arms.A.vertical);
+const softer=MotioStructure.analyze(build(normalize({...c,materialE:c.materialE/2})),p);close(softer.arms.A.vertical,2*s.arms.A.vertical);
 // Independent kinetic-energy check of coupled mass matrix using finite difference body motion.
 const v={A:.3,B:-.2,C:.1},h=1e-6,p2=solve(c,{A:p.q.A+h*v.A,B:p.q.B+h*v.B,C:0}),M=MotioMotor.massMatrix(g,p);
 let energy=.5*g.penMass*(distance(p.pen,p2.pen)/(h*1000))**2;
@@ -101,7 +101,7 @@ for(let r=0;r<=95;r+=5){const ik=inverse(c,route(r),centre,true);assert.ok(ik.va
 assert.notEqual(MotioValidation.drawingArea(normalize({...c,radiusA:10,radiusB:10})).reachState,'PASS');
 assert.equal(MotioValidation.drawingArea(normalize({...c,paperX:1000})).reachState,'FAIL');
 assert.equal(MotioValidation.drawingArea(normalize({...c,rodZB:c.rodZA})).collisionState,'FAIL');
-const test=new MotioValidation.EngineeringTest(c);while(test.running)test.step(50);assert.ok(test.report.complete);assert.ok(test.report.critical>0);assert.equal(test.report.assemblyChanges,0);assert.ok(test.report.curveMissing);assert.equal(MotioValidation.rows(sim,test).length,5);assert.equal(MotioValidation.rows(sim,test)[3].state,'NIET BEWEZEN');
+const test=new MotioValidation.EngineeringTest(c);while(test.running)test.step(50);assert.ok(test.report.complete);assert.ok(test.report.critical>0);assert.equal(test.report.assemblyChanges,0);assert.ok(test.report.curveMissing);assert.equal(MotioValidation.rows(sim,test).length,6);assert.equal(MotioValidation.rows(sim,test)[3].state,'NIET BEWEZEN');
 const cancelled=new MotioValidation.EngineeringTest(c);cancelled.step(5);cancelled.cancel();assert.ok(!cancelled.report.complete);
 // Core geometry propagates to primitives, solver, coordinates, SVG, BOM and coaxial shafts.
 const changed=normalize({...c,lengthA:190,pivotAx:285,couplingRadius:10}),gc=build(changed),pc=solve(changed,p.q),parts=bodies(gc,pc),bom=MotioBOM.create(gc);
@@ -112,3 +112,22 @@ assert.equal(MotioBOM.headers.length,5);assert.ok(MotioBOM.create(g).every(r=>Mo
 const svg=MotioRenderers.mechanismSVG({geometry:gc,config:changed,pose:pc,q:p.q,trace:[]},true);assert.match(svg,/A 190/);assert.match(svg,/210/);assert.doesNotMatch(svg,/NaN|undefined/);
 console.log(`V5: ${inverseCount} FK/IK/Jacobian poses; independent direct drive, coaxial shafts, 1/16 microstepping, radial reach, datasheet conditions, inertia, controls and BOM passed.`);
 console.log(JSON.stringify({reach:sim.drawingArea.reachState,clearanceBound:sim.drawingArea.minClearanceBound,samples:test.report.samples,critical:test.report.critical,collisions:test.report.collisions,maxTorque:test.report.maxTorque}));
+
+
+// Material, reference dimensions and quantities are shared by the visible model and BOM.
+const detailed=bodies(g,MotioBOM.referencePose(g)),catalog=MotioBOM.create(g);
+for(const row of catalog){
+ assert.equal(row.qty,new Set(detailed.filter(p=>p.bom===row.id).map(p=>p.instance)).size,row.name+' physical instance count');
+ assert.ok(row.qty>0&&row.dimensions&&row.material&&row.method);
+}
+assert.ok(detailed.every(p=>catalog.some(r=>r.id===p.bom)));
+for(const [id,qty] of [['MOTOR',3],['BR',3],['608',6],['6001',2],['6804',2],['CP-SCREW',6],['M3-BOLT',12],['M4-BOLT',18],['M4-CSK',4],['M4-NUT',22],['M4-WASHER',40],['M4-INSERT',3]])assert.equal(catalog.find(r=>r.id===id).qty,qty,id);
+assert.match(catalog.find(r=>r.id==='L-A').material,/PETG/);assert.match(catalog.find(r=>r.id==='PL').material,/Hout/);
+close(g.motor.holeDepth,4.5);close(g.motor.bossRadius,11);close(g.motor.bossHeight,4.5);close(g.materialE,1500);close(g.density,1270);
+assert.equal(MotioStructure.analyze(g,p).printValidated,false);assert.equal(MotioValidation.rows(sim,test).at(-1).state,'NIET BEWEZEN');
+// Moving fixtures follow the shaft/arm pose rather than remaining fixed in space.
+const movedPose=solve(c,{...p.q,A:p.q.A+.1,B:p.q.B+.05,C:.5}),movedBodies=bodies(g,movedPose);
+for(const id of ['elbowNutA','elbowWasherB','crankFixA-screw','plateFix0-head','flangeFix-screw','couplingScrewA1']){
+ const a=detailed.find(b=>b.id===id),b=movedBodies.find(b=>b.id===id);assert.ok(Math.hypot(a.x-b.x,a.y-b.y)>.001,id+' follows its mechanism');
+}
+console.log('Shared PETG/wood/steel BOM, all physical quantities, reference motor dimensions, moving fasteners and unvalidated print status passed.');

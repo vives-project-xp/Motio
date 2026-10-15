@@ -19,11 +19,11 @@ function analyze(g,pose,motionBounds=null) {
  const minima={arm:Infinity,frame:Infinity,holder:Infinity,platform:Infinity,drive:Infinity,support:Infinity},violations=[];let minimum=Infinity,closest=null;
  // A body displacement bound subtracts the largest possible gap change over a
  // continuous radial-route interval. Static geometry has zero displacement.
- const movement=b=>!motionBounds?0:b.group==='pen'?motionBounds.pen:b.group==='moving'?motionBounds[b.id.slice(-1)]||0:0;
+ const movement=b=>!motionBounds?0:b.group==='pen'?motionBounds.pen:b.group==='moving'||b.group==='fastener'?motionBounds[b.id.slice(-1)]||0:0;
  const check=(a,b,category)=>{const d=gap(a,b)-movement(a)-movement(b);minima[category]=Math.min(minima[category],d);if(d<minimum){minimum=d;closest=[a.id,b.id];}if(d<g.clearance)violations.push({a:a.id,b:b.id,gap:d,category,state:d<0?'COLLISION':'CLEARANCE'});};
  if(!pose.valid)return {minimum:null,minima,violations:[],state:'NOT CALCULATED'};
- let fixed=staticCache.get(g);if(!fixed){fixed=window.MotioGeometry.bodies(g,null);staticCache.set(g,fixed);}
- const full=window.MotioGeometry.bodies(g,pose),moving=full.filter(b=>b.group==='moving'),pen=full.filter(b=>b.group==='pen'&&!['pen','penSpacer','penShoulder','penNut'].includes(b.id));
+ let fixed=staticCache.get(g);if(!fixed){fixed=window.MotioGeometry.bodies(g,null,false);staticCache.set(g,fixed);}
+ const full=window.MotioGeometry.bodies(g,pose,false).map(b=>b.axis==='x'?{...b,shape:'box',w:b.h,l:2*b.r,h:2*b.r}:b),moving=full.filter(b=>b.group==='moving'||b.group==='fastener'),pen=full.filter(b=>b.group==='pen'&&!['pen','penSpacer','penShoulder','penNut'].includes(b.id));
  const obstacles=fixed.filter(b=>['frame','support','drive','platter'].includes(b.group));
  for(const a of moving)for(const b of obstacles)check(a,b,b.group==='frame'?'frame':b.group==='platter'?'platform':b.group==='drive'?'drive':'support');
  for(let i=0;i<moving.length;i++)for(let j=i+1;j<moving.length;j++){
