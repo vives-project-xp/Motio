@@ -1,7 +1,6 @@
 #Test code voor in de raspberry Pi 5, met hardware-PWM voor de pulsen naar de stepper drivers.
 #Start de GUI met python3 motio.py, als PWM niet lukt, wordt software-pulsen gebruikt.
 
-
 import glob
 import os
 import subprocess
