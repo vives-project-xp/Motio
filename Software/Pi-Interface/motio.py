@@ -1,5 +1,17 @@
-# MOTIO · los bestand voor de Raspberry Pi 5 (gemaakt met pi/maak_motio.py).
-# Starten:  python3 motio.py
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+# Dit bestand bevat alles wat nodig is om MOTIO op een Raspberry Pi 5 te laten werken,
+# naast de benodigde hardware. Het bevat de webserver, de motorbesturing en een simulatie
+# van de GPIO-pinnen.
+
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+# MOTIO voor de Raspberry Pi 5, gebaseerd op WARD-SIM.
+# De simulator start normaal automatisch wanneer de Pi wordt opgestart. Gebeurt dat niet,
+# start hem dan handmatig met:
+#   python3 pi/motio_pi.py
+#
+# Sluit de toepassing af via de knop EXIT rechtsboven en voer code 1234 in.
 
 # MOTIO op de Raspberry Pi 5: de SIMV5-simulator stuurt de echte motoren.
 #
@@ -11,10 +23,8 @@
 # De simulator blijft dus de baas: patronen, Home, veiligheidscontroles en
 # afremmen komen allemaal uit SIMV5. Deze code volgt alleen.
 #
-# Starten op de Pi:   python3 pi/motio_pi.py   (opent zelf Chromium schermvullend)
-# Testen zonder Pi:   python pi/motio_pi.py --demo
-# Controle motor:     python3 motio.py --test C   (precies 1 omwenteling)
-# Eén los bestand maken voor de Pi:  python pi/maak_motio.py  ->  pi/motio.py
+
+
 
 import argparse
 import glob
@@ -347,6 +357,7 @@ class As:
     def zet_richting(self, richting):
         if richting == self.richting:
             return
+        # Verander de DIR-pin pas nadat de pulsen gestopt en de positie bijgewerkt zijn.
         self.stappen.stop()
         self.verplaatsing_bijwerken()
         aan = (richting > 0) != OMKEREN[self.naam]
@@ -438,11 +449,13 @@ class Machine:
             elif self.fout:
                 pass   # eerst Power off nodig
             elif not self.aan:
+                # Bij inschakelen nemen we de simulatorstand als startpunt; er volgt nog geen beweging.
                 for naam, a in self.assen.items():
                     a.synchroniseer(float(assen[naam][0]))
                 self._drivers(True)
                 self.aan = True
             else:
+                # Daarna volgen we bij elk bericht de nieuwe hoek en hoeksnelheid.
                 for naam, a in self.assen.items():
                     a.nieuw_doel(float(assen[naam][0]), float(assen[naam][1]))
             return self.status()
@@ -1072,10 +1085,12 @@ class Bediening(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
+        # De browser vraagt hiermee de actuele motorstatus op.
         if self.path == "/api/status":
             with machine.slot:
                 self._json(machine.status())
             return
+        # Stuur de startpagina door naar de bedieningsinterface.
         if self.path in ("/", ""):
             self.send_response(302)
             self.send_header("Location", "/pi.html")
@@ -1099,9 +1114,11 @@ class Bediening(SimpleHTTPRequestHandler):
             self.send_error(404)
             return
         try:
+            # Beide POST-eindpunten verwachten een JSON-object in de request body.
             lengte = int(self.headers.get("Content-Length", 0))
             data = json.loads(self.rfile.read(lengte))
             if self.path == "/api/afsluiten":
+                # Sluit de toepassing alleen af als de ingevoerde code klopt.
                 ok = str(data.get("code")) == AFSLUIT_CODE
                 self._json({"ok": ok})
                 if ok:
@@ -1164,6 +1181,7 @@ def main():
     args = p.parse_args()
     DEMO = args.demo
 
+    # De motortest gebruikt de machine rechtstreeks en start daarom geen webserver.
     if args.test:
         test_omwenteling(args.test)
         return
@@ -1176,6 +1194,7 @@ def main():
     machine = Machine()
     url = f"http://localhost:{args.poort}/pi.html"
     print(f"MOTIO bediening: {url}   (stoppen: Ctrl+C)")
+    # Op een Pi openen we standaard Chromium; met --geen-browser blijft dit uit.
     if not args.geen_browser:
         browser = open_browser(url)
     try:
