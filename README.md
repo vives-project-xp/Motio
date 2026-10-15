@@ -97,8 +97,8 @@ Alle beelden komen uit de huidige simulator ([SIMV4](Software/WARD-SIM/SIMV4/ind
 
 **Mechanical Design** – interactief 3D-model van de box en een technisch bovenaanzicht met maten.
 
-| Interactief 3D-model | 2D technische tekening |
-| :---: | :---: |
+|                       Interactief 3D-model                        |                      2D technische tekening                       |
+| :---------------------------------------------------------------: | :---------------------------------------------------------------: |
 | ![Mechanical Design 3D](./doc/assets/simulator/mechanical-3d.png) | ![Mechanical Design 2D](./doc/assets/simulator/mechanical-2d.png) |
 
 **Validation** – vijf controles op bereik, botsingen, singulariteiten, motorcapaciteit en spelingen.
