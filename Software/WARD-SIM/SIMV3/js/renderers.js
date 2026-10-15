@@ -7,16 +7,33 @@ const n=v=>Number(v).toFixed(2);
 const line=(a,b,color,width=2,dash='')=>`<line x1="${n(a.x)}" y1="${n(a.y)}" x2="${n(b.x)}" y2="${n(b.y)}" stroke="${color}" stroke-width="${width}" ${dash?`stroke-dasharray="${dash}"`:''}/>`;
 const circle=(p,r,fill,stroke='#a9becd',w=1.5)=>`<circle cx="${n(p.x)}" cy="${n(p.y)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${w}"/>`;
 const text=(str,x,y,color='#b5c7d7',size=11)=>`<text x="${n(x)}" y="${n(y)}" fill="${color}" font-size="${size}" font-family="Consolas,monospace">${str}</text>`;
-function pulley(p,teeth,angle,color,g) {
- const r=g.pitchRadius(teeth);
- return circle(p,r,'#172733',color)+circle(p,4,'#9aadb9',color)+line({x:p.x+6*Math.cos(angle),y:p.y+6*Math.sin(angle)},{x:p.x+r*Math.cos(angle),y:p.y+r*Math.sin(angle)},color,2);
+// Standard 20° spur-gear outlines. Pitch radii and tooth counts come from the
+// same geometry as the transmission; these outlines are visual, not cutting CAD.
+function gearOutline(teeth,module,angle=0) {
+ const pitch=module*teeth/2,base=pitch*Math.cos(20*Math.PI/180),root=Math.max(.1,pitch-1.25*module),tip=pitch+module;
+ const involute=r=>{const a=Math.acos(Math.min(1,base/r));return Math.tan(a)-a;};
+ const half=r=>Math.PI/(2*teeth)+involute(pitch)-involute(r),points=[];
+ const add=(r,a)=>points.push({x:r*Math.cos(a),y:r*Math.sin(a)});
+ for(let i=0;i<teeth;i++) {
+  const a=angle+i*TAU/teeth,start=Math.max(root,base);
+  add(root,a-Math.PI/teeth);add(root,a-half(start));
+  for(let j=0;j<=4;j++){const r=start+(tip-start)*j/4;add(r,a-half(r));}
+  add(tip,a);add(tip,a+half(tip));
+  for(let j=3;j>=0;j--){const r=start+(tip-start)*j/4;add(r,a+half(r));}
+  add(root,a+half(start));add(root,a+Math.PI/teeth);
+ }
+ return points;
 }
-function belt(a,b,small,large) {
- // Actual open-belt tangent points, not a decorative center-to-center line.
- const phi=Math.atan2(b.y-a.y,b.x-a.x),alpha=Math.asin((large-small)/Math.hypot(b.x-a.x,b.y-a.y));
- let s='';
- for(const sign of [-1,1]){const theta=phi+sign*(Math.PI/2+alpha);s+=line({x:a.x+small*Math.cos(theta),y:a.y+small*Math.sin(theta)},{x:b.x+large*Math.cos(theta),y:b.y+large*Math.sin(theta)},'#7797ab',3,'5 3');}
- return s;
+function gearAngle(g,key,q,motor=false) {
+ const d=g[key],centerline=Math.atan2(d.motor.y-d.pivot.y,d.motor.x-d.pivot.x);
+ // At zero output angle a tooth faces the motor, whose tooth gap faces back.
+ // The negative ratio implements the opposite direction of an external mesh.
+ return motor?-q*d.ratio+centerline+Math.PI+Math.PI/g.motorTeeth:q+centerline;
+}
+function gear(p,teeth,angle,color,g,hidden=false) {
+ const points=gearOutline(teeth,g.gearModule,angle),path=points.map((v,i)=>(i?'L':'M')+n(p.x+v.x)+','+n(p.y+v.y)).join('')+'Z';
+ const r=g.pitchRadius(teeth);
+ return '<path d="'+path+'" fill="'+(hidden?'none':'#243544')+'" stroke="'+color+'" stroke-width=".7" '+(hidden?'stroke-dasharray="2 3"':'')+'/>'+circle(p,2.5,hidden?'none':'#9aadb9',color,.7)+line({x:p.x+4*Math.cos(angle),y:p.y+4*Math.sin(angle)},{x:p.x+(r-2)*Math.cos(angle),y:p.y+(r-2)*Math.sin(angle)},color,1);
 }
 function tracePath(trace,limit=12000) {
  let s='';
@@ -26,12 +43,13 @@ function tracePath(trace,limit=12000) {
 function mechanismSVG(sim,technical=false,mode='assembly') {
  const d=sim.geometry,p=sim.pose,c=sim.config,b=d.base,paper=d.paper;
  const vb=[b.x-25,b.y-25,b.width+50,b.height+90];
- let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vb.join(' ')+'" role="img"><title>Sim V3 · gedeelde geometrie · mm</title>';
+ let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vb.join(' ')+'" role="img"><title>MOTIO V4 · mechanisme met ronde tekencirkel</title>';
  s+='<rect x="'+b.x+'" y="'+b.y+'" width="'+b.width+'" height="'+b.height+'" rx="6" fill="#192633" stroke="#57718a"/>';
  const exposed=mode==='drive'||mode==='bearing';
  if(!exposed) {
   s+=circle(paper,paper.radius,'#334650cc','#899eae',2);
-  s+='<g transform="translate('+paper.x+' '+paper.y+') rotate('+n(sim.q.C*180/Math.PI)+')"><rect x="'+(-paper.width/2)+'" y="'+(-paper.height/2)+'" width="'+paper.width+'" height="'+paper.height+'" fill="#f4f0e7" stroke="#a7bccb"/><rect x="'+(-paper.width/2+paper.margin)+'" y="'+(-paper.height/2+paper.margin)+'" width="'+(paper.width-2*paper.margin)+'" height="'+(paper.height-2*paper.margin)+'" fill="none" stroke="#b88b43" stroke-dasharray="5 5"/>';
+  s+='<g transform="translate('+paper.x+' '+paper.y+') rotate('+n(sim.q.C*180/Math.PI)+')">'+circle({x:0,y:0},paper.radius,'#f4f0e7','#a7bccb',.7)+'<circle r="'+paper.safeRadius+'" fill="none" stroke="#b5a284" stroke-width=".7" stroke-dasharray="3 4"/>';
+  s+=circle({x:paper.radius-paper.margin/2,y:0},1.5,'#b5a284','none',0);
   if(!technical)s+='<path d="'+tracePath(sim.trace)+'" fill="none" stroke="#263846" stroke-width=".8"/>';
   s+='</g>';
  }
@@ -42,26 +60,28 @@ function mechanismSVG(sim,technical=false,mode='assembly') {
  }
  for(const key of ['A','B','C']) {
   const a=d[key],m=a.motor,o=a.pivot,color=colors[key];
-  s+='<g data-bom="M-'+key+'" tabindex="0" role="button" aria-label="Motor '+key+'"><rect x="'+n(m.x-21)+'" y="'+n(m.y-21)+'" width="42" height="42" fill="#263443" stroke="'+color+'"/>'+text('M-'+key,m.x-18,m.y-30,color,12)+'</g>';
-  s+='<g data-bom="P-'+key+'" tabindex="0" role="button">'+belt(m,o,d.pitchRadius(d.motorTeeth),d.pitchRadius(a.outputTeeth))+pulley(m,d.motorTeeth,sim.q[key]*a.ratio,color,d)+pulley(o,a.outputTeeth,sim.q[key],color,d)+'</g>';
-  if(key!=='C')s+=circle(o,d.towerRadius,'#34465888','#829eb3')+circle(o,11,'#9baebf',color)+text('O_'+key,o.x+15,o.y-15,color,12);
-  s+=text(a.ratio.toFixed(2)+':1',m.x+28,m.y+15,color,10);
+  const mw=d.motor.width,hole=d.motor.mountingPitch/2,hidden=key==='C'&&!exposed;
+  s+='<g '+(hidden?'opacity=".45"':'')+'><g data-bom="M-'+key+'" tabindex="0" role="button" aria-label="Motor '+key+'"><rect x="'+n(m.x-mw/2)+'" y="'+n(m.y-mw/2)+'" width="'+mw+'" height="'+mw+'" fill="'+(hidden?'none':'#263443')+'" stroke="'+color+'" '+(hidden?'stroke-dasharray="3 4"':'')+'/>';
+  for(const x of [-hole,hole])for(const y of [-hole,hole])s+=circle({x:m.x+x,y:m.y+y},1.5,hidden?'none':'#0d1621',color,.5);
+  s+=text('M-'+key,m.x-mw/2,m.y-mw/2-9,color,12)+'</g>';
+  s+='<g data-bom="G20" tabindex="0" role="button" aria-label="Motortandwiel '+key+'">'+gear(m,d.motorTeeth,gearAngle(d,key,sim.q[key],true),color,d,hidden)+'</g>';
+  s+='<g data-bom="G-'+key+'" tabindex="0" role="button" aria-label="Uitgangstandwiel '+key+'">'+gear(o,a.outputTeeth,gearAngle(d,key,sim.q[key]),color,d,hidden)+'</g></g>';
+  if(key!=='C')s+=circle(o,4,'#c6d4de',color);
  }
  if(!exposed)for(const key of ['A','B']) {
   const o=d[key].pivot,e=key==='A'?p.a:p.b,color=colors[key];if(!e)continue;
   s+='<g data-bom="K-'+key+'" tabindex="0" role="button">'+line(o,e,'#071019',d.crankWidth+3)+line(o,e,color,d.crankWidth)+'</g>';
   if(p.valid)s+='<g data-bom="L-'+key+'" tabindex="0" role="button">'+line(e,p.pen,'#071019',d.rodWidth+4)+line(e,p.pen,color,d.rodWidth)+line(e,p.pen,'#e4edf4',1)+'</g>';
-  s+=circle(o,4,'#c6d4de')+circle(e,11,'#dce5eb',color,2)+circle(e,4,'#273a49')+text('E_'+key,e.x+15,e.y+18,color,12);
+  s+=circle(o,4,'#c6d4de')+circle(e,11,'#dce5eb',color,2)+circle(e,4,'#273a49');
  }
  if(p.valid&&!exposed){
   s+='<g data-bom="PEN" tabindex="0" role="button">'+circle(p.pen,d.pen.jointRadius,'#273a49','#d9e6ed',2)+circle(p.pen,d.pen.boreRadius,'#09121b')+circle(p.pen,d.pen.radius,'#f4c367');
-  s+=line({x:p.pen.x+d.pen.radius,y:p.pen.y},{x:p.pen.x+29,y:p.pen.y},'#a8cbd2',4)+'<rect x="'+(p.pen.x+26)+'" y="'+(p.pen.y-8)+'" width="6" height="16" fill="#62d7dc"/>'+text('P · manuele klem',p.pen.x+22,p.pen.y-23,'#62d7dc',11)+'</g>';
+  s+=line({x:p.pen.x+d.pen.radius,y:p.pen.y},{x:p.pen.x+29,y:p.pen.y},'#a8cbd2',4)+'<rect x="'+(p.pen.x+26)+'" y="'+(p.pen.y-8)+'" width="6" height="16" fill="#62d7dc"/>'+text('Pen',p.pen.x+22,p.pen.y-23,'#62d7dc',11)+'</g>';
  }
  if(technical){
   s+=text('A '+c.lengthA+' / B '+c.lengthB+' mm h.o.h. · krukken '+c.radiusA+' / '+c.radiusB+' mm',b.x+20,b.y+30,'#62d7dc',12);
-  s+=text('O_A ('+d.A.pivot.x+', '+d.A.pivot.y+') · O_B ('+d.B.pivot.x+', '+d.B.pivot.y+')',b.x+20,b.y+49,'#b5c7d7',11);
   s+=text('BASE '+b.width+' × '+b.height+' × '+b.thickness+' · plateau Ø'+2*paper.radius+' × '+paper.thickness,b.x+20,b.y+b.height+26,'#b5c7d7',12);
-  s+=text('Armvlakken A z'+d.A.rodZ+' / B z'+d.B.rodZ+' · riemvlak z'+d.beltZ,b.x+20,b.y+b.height+45,'#b5c7d7',11);
+  s+=text('Papier Ø'+2*paper.radius+' · veilige tekencirkel Ø'+2*paper.safeRadius+' · tandwielen module '+d.gearModule,b.x+20,b.y+b.height+45,'#b5c7d7',11);
  }
  return s+'</svg>';
 }
@@ -87,14 +107,14 @@ function detailSVG(sim,kind,exploded=false) {
  }else{
   s+=text('Papier / plateau Ø'+2*g.paper.radius+' / flens Ø60',-g.paper.radius+10,-g.paper.z-17,'#f4c367',9);
   s+=text('Boven: 6001 axiaal vast',35,-g.C.bearings[1]-8,'#c2d6e4',8)+text('Onder: buitenring schuivend',35,-g.C.bearings[0]+8,'#c2d6e4',8);
-  s+=text('Pulley '+g.C.outputTeeth+'T + riem · z'+g.beltZ,-g.paper.radius+10,-g.C.bearings[0]+30,'#c2d6e4',8)+text('Motor C',g.C.motor.x-focus.x-18,-g.motor.z+35,'#c2d6e4',8);
+  s+=text('Tandwielen '+g.motorTeeth+' / '+g.C.outputTeeth+'T · module '+g.gearModule,-g.paper.radius+10,-g.C.bearings[0]+30,'#c2d6e4',8)+text('Motor C',g.C.motor.x-focus.x-18,-g.motor.z+35,'#c2d6e4',8);
  }
- if(!pen)s+=line({x:-g.paper.width/2,y:-g.paper.z-g.paper.thickness/2-.2},{x:g.paper.width/2,y:-g.paper.z-g.paper.thickness/2-.2},'#f4f0e7',1);
+ if(!pen)s+=line({x:-g.paper.radius,y:-g.paper.z-g.paper.thickness/2-.2},{x:g.paper.radius,y:-g.paper.z-g.paper.thickness/2-.2},'#f4f0e7',1);
  return s+'</svg>';
 }
 function sectionSVG(sim,exploded=false){return detailSVG(sim,'spindle',exploded);}
 class PaperRenderer {
- constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.cache=document.createElement('canvas');this.cache.width=840;this.cache.height=594;this.cacheContext=this.cache.getContext('2d');this.lastTrace=null;this.count=0;}
+ constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.cache=document.createElement('canvas');this.cacheContext=this.cache.getContext('2d');this.lastTrace=null;this.count=0;}
  render(sim) {
   const paper=sim.geometry.paper;const rect=this.canvas.getBoundingClientRect();if(!rect.width||!rect.height)return;
   const dpr=Math.min(window.devicePixelRatio||1,2),ctx=this.ctx;
@@ -106,10 +126,12 @@ class PaperRenderer {
   cc.stroke();this.count=sim.trace.length;
   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,rect.width,rect.height);
   const scale=Math.min((rect.width-32)/paper.width,(rect.height-32)/paper.height),ox=(rect.width-paper.width*scale)/2,oy=(rect.height-paper.height*scale)/2;
-  ctx.save();ctx.translate(ox,oy);ctx.scale(scale,scale);ctx.fillStyle='#f4f0e7';ctx.fillRect(0,0,paper.width,paper.height);ctx.drawImage(this.cache,0,0,paper.width,paper.height);ctx.strokeStyle='#b58c42';ctx.lineWidth=1/scale;ctx.setLineDash([4,4]);ctx.strokeRect(paper.margin,paper.margin,paper.width-2*paper.margin,paper.height-2*paper.margin);ctx.setLineDash([]);
+  ctx.save();ctx.translate(ox,oy);ctx.scale(scale,scale);ctx.beginPath();ctx.arc(paper.radius,paper.radius,paper.radius,0,TAU);ctx.fillStyle='#f4f0e7';ctx.fill();ctx.clip();
+  if(sim.showPreview&&sim.patternPreview.length){ctx.beginPath();for(const [i,p] of sim.patternPreview.entries()){if(i===0)ctx.moveTo(p.x+paper.radius,p.y+paper.radius);else ctx.lineTo(p.x+paper.radius,p.y+paper.radius);}ctx.strokeStyle='#c8b48e';ctx.lineWidth=1/scale;ctx.stroke();}
+  ctx.drawImage(this.cache,0,0,paper.width,paper.height);ctx.strokeStyle='#b5a284';ctx.lineWidth=1/scale;ctx.setLineDash([3,4]);ctx.beginPath();ctx.arc(paper.radius,paper.radius,paper.safeRadius,0,TAU);ctx.stroke();ctx.setLineDash([]);
   if(sim.penLocal&&sim.insidePaper){ctx.beginPath();ctx.arc(sim.penLocal.x+paper.width/2,sim.penLocal.y+paper.height/2,3/scale,0,TAU);ctx.fillStyle='#44788c';ctx.fill();}
   ctx.restore();
  }
 }
-window.MotioRenderers={mechanismSVG,sectionSVG,detailSVG,PaperRenderer,colors};
+window.MotioRenderers={mechanismSVG,sectionSVG,detailSVG,PaperRenderer,colors,gearOutline,gearAngle};
 })();

@@ -8,7 +8,7 @@ let previous=performance.now(),lastRender=-Infinity,accumulator=0;
 function frame(now) {
  ui.tickTest();
  const elapsed=Math.min(Math.max(0,(now-previous)/1000),.1);previous=now;
- if(simulation.running||simulation.homing){accumulator+=elapsed*ui.speedMultiplier;while(accumulator>=.002){simulation.update(.002);accumulator-=.002;}}else accumulator=0;
+ if(simulation.running||simulation.homing){const step=simulation.pattern&&!simulation.homing ? .01 : .002;accumulator+=elapsed*ui.speedMultiplier;while(accumulator>=step&&(simulation.running||simulation.homing)){simulation.update(step);accumulator-=step;}}else accumulator=0;
  if(now-lastRender>=100){
   if(ui.view==='simulator'){document.getElementById('machine-diagram').innerHTML=window.MotioRenderers.mechanismSVG(simulation);paper.render(simulation);}
   if(ui.view==='mechanical'){
@@ -21,5 +21,5 @@ function frame(now) {
  requestAnimationFrame(frame);
 }
 // Visible API for reproducible local inspection; no hardware commands are emitted.
-window.MotioV3={simulation,ui,spatial};requestAnimationFrame(frame);
+window.MotioV4=window.MotioV3={simulation,ui,spatial};requestAnimationFrame(frame);
 })();

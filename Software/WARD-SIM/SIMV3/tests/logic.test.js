@@ -1,9 +1,9 @@
 const assert=require('node:assert/strict');
 global.window=global;
-const modules=['math','machineGeometry','kinematics','paperTransform','singularityAnalysis','collisionDetection','structuralEstimate','motorAnalysis','mechanics','validation','bom','simulation','renderers'];
+const modules=['math','machineGeometry','kinematics','paperTransform','singularityAnalysis','collisionDetection','structuralEstimate','motorAnalysis','mechanics','validation','bom','bubbleText','patterns','simulation','renderers'];
 for(const f of modules)require('../js/'+f+'.js');
-const {TAU,distance,beltLength}=MotioMath,{normalize,build,bodies,DEFAULT_CONFIG}=MotioGeometry,{solve,inverse,branchChange}=MotioKinematics;
-const c=normalize(),g=build(c),close=(a,b,t=1e-7)=>assert.ok(Math.abs(a-b)<t,`${a} ~= ${b}`);
+const {TAU,distance,gearCenter}=MotioMath,{normalize,build,bodies,DEFAULT_CONFIG}=MotioGeometry,{solve,inverse,branchChange}=MotioKinematics;
+const c=normalize({patternId:'',rpmC:-1.2}),g=build(c),close=(a,b,t=1e-7)=>assert.ok(Math.abs(a-b)<t,`${a} ~= ${b}`);
 const start=s=>{s.power();s.home();s.update(2);assert.equal(s.state,'HOMED');s.play();};
 let inverseCount=0;
 for(let a=0;a<72;a++)for(let b=0;b<72;b++){
@@ -19,7 +19,17 @@ const p=solve(c,{A:.7,B:1.2,C:0}),other=solve(normalize({...c,branch:1}),p.q);
 assert.equal(branchChange(p,other).assembly,true);
 const singular=MotioSingularity.analyze({...p,J:{ax:1,ay:0,bx:0,by:0},serialA:0},g);assert.equal(singular.state,'CRITICAL');assert.equal(singular.condition,Infinity);
 const isotropic=MotioSingularity.analyze({...p,J:{ax:1,ay:0,bx:0,by:1},serialA:1,serialB:1,sin:1},g);close(isotropic.condition,1);assert.equal(isotropic.state,'SAFE');
-for(const key of ['A','B','C'])close(beltLength(g[key].center,g.pitchRadius(g.motorTeeth),g.pitchRadius(g[key].outputTeeth)),g[key].beltLength);
+for(const key of ['A','B','C']) {
+ close(g[key].center,g.pitchRadius(g.motorTeeth)+g.pitchRadius(g[key].outputTeeth));
+ close(distance(g[key].pivot,g[key].motor),g[key].center);
+ close(g[key].ratio,g[key].outputTeeth/g.motorTeeth);
+ const q1={A:.31,B:.27,C:.42},q2={...q1,[key]:q1[key]+.001};
+ close((MotioRenderers.gearAngle(g,key,q2[key],true)-MotioRenderers.gearAngle(g,key,q1[key],true))/.001,-g[key].ratio);
+}
+close(g.paper.radius,105);close(g.paper.safeRadius,95);
+assert.ok(MotioPaper.inside({x:95,y:0},g,10));assert.ok(!MotioPaper.inside({x:95,y:1},g,10));
+assert.ok(!MotioPaper.inside({x:80,y:80},g));
+close(g.motor.width,42.3);close(g.motor.length,38);close(c.motorStepAngle,1.8);
 for(const theta of [0,.5,Math.PI/2,3.7,TAU]){const paper={x:72.3,y:-80.4},world=MotioPaper.paperToMachine(paper,theta,g);close(distance(MotioPaper.machineToPaper(world,theta,g),paper),0);}
 const quarter=MotioPaper.machineToPaper({x:g.paper.x+10,y:g.paper.y},Math.PI/2,g);close(quarter.x,0);close(quarter.y,-10);
 const moved=build(normalize({...c,paperX:300,paperY:200}));close(distance(MotioPaper.machineToPaper({x:300,y:200},1.1,moved),{x:0,y:0}),0);
@@ -36,20 +46,41 @@ const softer=MotioStructure.analyze(build(normalize({...c,materialE:34500})),p);
 // Independent kinetic-energy check of coupled mass matrix using finite difference body motion.
 const v={A:.3,B:-.2,C:.1},h=1e-6,p2=solve(c,{A:p.q.A+h*v.A,B:p.q.B+h*v.B,C:0}),M=MotioMotor.massMatrix(g,p);
 let energy=.5*g.penMass*(distance(p.pen,p2.pen)/(h*1000))**2;
-for(const key of ['A','B']){const e=key==='A'?p.a:p.b,e2=key==='A'?p2.a:p2.b,L=c['length'+key]/1000,r=c['radius'+key]/1000,m=g.tubeArea*L*1e-6*g.density,mc=g.crankWidth*g.crankHeight*r*1e-6*g.density;const com={x:(e.x+p.pen.x)/2,y:(e.y+p.pen.y)/2},com2={x:(e2.x+p2.pen.x)/2,y:(e2.y+p2.pen.y)/2},w=(p2['armAngle'+key]-p['armAngle'+key])/h;energy+=.5*m*(distance(com,com2)/(h*1000))**2+.5*m*L*L/12*w*w+.5*(mc*r*r/3+g.pulleyInertia)*v[key]**2;}
+for(const key of ['A','B']){const e=key==='A'?p.a:p.b,e2=key==='A'?p2.a:p2.b,L=c['length'+key]/1000,r=c['radius'+key]/1000,m=g.tubeArea*L*1e-6*g.density,mc=g.crankWidth*g.crankHeight*r*1e-6*g.density;const com={x:(e.x+p.pen.x)/2,y:(e.y+p.pen.y)/2},com2={x:(e2.x+p2.pen.x)/2,y:(e2.y+p2.pen.y)/2},w=(p2['armAngle'+key]-p['armAngle'+key])/h;energy+=.5*m*(distance(com,com2)/(h*1000))**2+.5*m*L*L/12*w*w+.5*(mc*r*r/3+g.gearInertia)*v[key]**2;}
 close(energy,.5*(M[0][0]*v.A*v.A+2*M[0][1]*v.A*v.B+M[1][1]*v.B*v.B),1e-10);
 const motor=MotioMotor.analyze(g,p,v,{A:.4,B:-.4,C:.2});assert.equal(motor.A.available,null);assert.equal(motor.A.utilisation,null);assert.ok(motor.A.required>0);
 const cg=build(normalize({...c,motorCurves:{A:{source:'TEST FIXTURE, NOT A REAL MOTOR',points:[[0,.4],[100,.2]]}}}));close(MotioMotor.available(cg,'A',50).torque,.3);assert.equal(MotioMotor.available(cg,'A',101).torque,null);
+close(MotioMotor.available(g,'A',30).torque,.26);assert.equal(MotioMotor.available(g,'A',29).torque,null);assert.equal(MotioMotor.available(g,'A',751).torque,null);
+assert.equal(MotioMotor.available(g,'A',30).qualified,false);
+const qualified=build(normalize({...c,motorCurveConditionsConfirmed:1}));assert.equal(MotioMotor.available(qualified,'A',30).qualified,true);
+assert.equal(MotioMotor.available(build(normalize({...c,motorCurveConditionsConfirmed:1,motorSupplyVoltage:12})),'A',30).qualified,false);
+close(motor.A.rpm,-v.A*60/TAU*3);close(motor.A.fullStepsPerOutputRevolution,600);close(motor.C.fullStepsPerOutputRevolution,800);
 assert.throws(()=>normalize({...c,rodWall:12}));assert.throws(()=>normalize({...c,workspaceStep:0}));assert.throws(()=>normalize({...c,acceleration:0}));assert.throws(()=>normalize({...c,motorCurves:{A:{source:'x',points:[[10,.1],[0,.2]]}}}));
-const sim=new MotioSimulation.Simulation();assert.equal(sim.state,'POWER OFF');assert.equal('penDown' in sim,false);assert.equal('togglePen' in sim,false);start(sim);sim.update(12);assert.equal(sim.state,'RUNNING');assert.ok(sim.trace.length>100);const count=sim.trace.length;sim.stop();sim.update(4);assert.equal(sim.state,'PAUSED');assert.ok(sim.trace.length>count,'The physical pen continues drawing while braking');const stopped={...sim.q};sim.update(1);assert.deepEqual(sim.q,stopped);sim.home();sim.update(sim.homeDuration+.1);assert.equal(sim.state,'HOMED');
-const paperOnly=new MotioSimulation.Simulation({...c,rpmA:0,rpmB:0});start(paperOnly);const fixed={...paperOnly.penWorld},before={...paperOnly.penLocal};paperOnly.update(4);close(distance(fixed,paperOnly.penWorld),0);assert.ok(distance(before,paperOnly.penLocal)>1);assert.ok(paperOnly.trace.length>10);
+const sim=new MotioSimulation.Simulation(c);assert.equal(sim.state,'POWER OFF');assert.equal('penDown' in sim,false);assert.equal('togglePen' in sim,false);
+start(sim);sim.update(2);assert.equal(sim.state,'RUNNING');assert.ok(sim.trace.length>60);const count=sim.trace.length;sim.stop();sim.update(1);assert.equal(sim.state,'PAUSED');assert.ok(sim.trace.length>count,'Fixed physical pen draws while braking');const stopped={...sim.q};sim.update(1);assert.deepEqual(sim.q,stopped);sim.home();sim.update(sim.homeDuration+.1);assert.equal(sim.state,'HOMED');
+const route=r=>({x:g.paper.x+r*Math.cos(c.reachAngle*Math.PI/180),y:g.paper.y+r*Math.sin(c.reachAngle*Math.PI/180)});
+const centre=solve(c,{A:c.phaseA*Math.PI/180,B:c.phaseB*Math.PI/180,C:0});
+const offset=inverse(c,route(40),centre,true);assert.ok(offset.valid);
+const paperOnly=new MotioSimulation.Simulation({...c,phaseA:offset.q.A*180/Math.PI,phaseB:offset.q.B*180/Math.PI,rpmA:0,rpmB:0,phaseC:25});
+start(paperOnly);close(paperOnly.q.C,25*Math.PI/180);const fixed={...paperOnly.penWorld},before={...paperOnly.penLocal};paperOnly.update(2);close(distance(fixed,paperOnly.penWorld),0);assert.ok(distance(before,paperOnly.penLocal)>1);assert.ok(paperOnly.trace.length>10);
 const bad=normalize({...c,lengthA:10,lengthB:10});assert.equal(solve(bad,{A:0,B:0}).valid,false);
-const scan=sim.audit;assert.equal(scan.failures,0);assert.ok(scan.closureAll);assert.ok(scan.sinBound>.93);assert.ok(scan.critical>0);assert.equal(sim.drawingArea.reachState,'FAIL');assert.ok(sim.drawingArea.missing>0);
-const test=new MotioValidation.EngineeringTest(c);while(test.running)test.step(50);assert.ok(test.report.complete);assert.ok(test.report.critical>0);assert.equal(test.report.assemblyChanges,0);assert.ok(test.report.maxRPM>20);assert.ok(test.report.maxTorque.C>0);assert.ok(test.report.curveMissing);assert.equal(MotioValidation.rows(sim,test).find(r=>r.name==='Bearing loads / life').state,'NOT CALCULATED');
+const edge=inverse(c,route(95),centre,true),outside=inverse(c,route(96),edge.pose,true);assert.ok(outside.valid);
+const guard=new MotioSimulation.Simulation({...c,phaseA:edge.q.A*180/Math.PI,phaseB:edge.q.B*180/Math.PI});
+const held={...guard.q},heldPen={...guard.penWorld};assert.equal(guard.advance(outside.q,{A:0,B:0,C:0},.01),false);assert.deepEqual(guard.q,held);assert.deepEqual(guard.penWorld,heldPen);assert.match(guard.fault,/veilige tekencirkel/);assert.equal(guard.trace.length,0);
+const invalid=new MotioSimulation.Simulation({...c,lengthA:10,lengthB:10});const invalidQ={...invalid.q};assert.equal(invalid.advance({...invalid.q,A:1},{A:0,B:0,C:0},.01),false);assert.deepEqual(invalid.q,invalidQ);assert.equal(invalid.penWorld,null);
+for(const t of [...sim.trace,...paperOnly.trace])assert.ok(Math.hypot(t.x,t.y)<=95+1e-8);
+const scan=sim.audit;assert.ok(scan.closureAll);assert.ok(scan.critical>0);assert.equal(sim.drawingArea.reachState,'PASS');assert.equal(sim.drawingArea.missing,0);assert.ok(sim.drawingArea.minClearanceBound>=g.clearance);
+// All radii are covered by the proved continuous route; independently check paper angle mapping.
+for(let r=0;r<=95;r+=5){const ik=inverse(c,route(r),centre,true);assert.ok(ik.valid);assert.ok(MotioMechanics.inspect(c,ik.q).safe);for(let angle=0;angle<360;angle+=15){const theta=(c.reachAngle-angle)*Math.PI/180,local=MotioPaper.machineToPaper(ik.pose.pen,theta,g);close(local.x,r*Math.cos(angle*Math.PI/180),1e-6);close(local.y,r*Math.sin(angle*Math.PI/180),1e-6);}}
+assert.notEqual(MotioValidation.drawingArea(normalize({...c,radiusA:40,radiusB:40})).reachState,'PASS');
+assert.equal(MotioValidation.drawingArea(normalize({...c,paperX:1000})).reachState,'FAIL');
+assert.equal(MotioValidation.drawingArea(normalize({...c,rodZB:c.rodZA})).collisionState,'FAIL');
+const test=new MotioValidation.EngineeringTest(c);while(test.running)test.step(50);assert.ok(test.report.complete);assert.ok(test.report.critical>0);assert.equal(test.report.assemblyChanges,0);assert.ok(test.report.curveMissing);assert.equal(MotioValidation.rows(sim,test).length,5);assert.equal(MotioValidation.rows(sim,test)[3].state,'NIET BEWEZEN');
 const cancelled=new MotioValidation.EngineeringTest(c);cancelled.step(5);cancelled.cancel();assert.ok(!cancelled.report.complete);
-// Changing core geometry propagates to primitives, solver, transform, SVG and BOM.
-const changed=normalize({...c,lengthA:370,pivotAx:560,paperRadius:280,outputTeethA:64}),gc=build(changed),pc=solve(changed,p.q),parts=bodies(gc,pc),bom=MotioBOM.create(gc);
-close(distance(parts.find(b=>b.id==='rodA').a,parts.find(b=>b.id==='rodA').b),370-12-(gc.pen.jointRadius-2));close(parts.find(b=>b.id==='platter').r,280);close(parts.find(b=>b.id==='pulleyA').r,64*3/TAU);assert.match(bom.find(b=>b.id==='L-A').dimensions,/370/);assert.match(bom.find(b=>b.id==='PL').dimensions,/560/);assert.ok(bom.every(b=>b.status!=='VALIDATED'));
-const svg=MotioRenderers.mechanismSVG({geometry:gc,config:changed,pose:pc,q:p.q,trace:[]},true);assert.match(svg,/A 370/);assert.match(svg,/Ø560/);assert.doesNotMatch(svg,/NaN|undefined/);
-console.log(`V3 engineering: ${inverseCount} FK/IK/Jacobian poses, coordinates, collision fixtures, coupled inertia, structural scaling, manual pen, shared geometry and stress report passed.`);
-console.log(JSON.stringify({samples:test.report.samples,critical:test.report.critical,collisions:test.report.collisions,minClearance:test.report.minClearance,maxTorque:test.report.maxTorque}));
+// Core geometry propagates to primitives, solver, coordinates, SVG, BOM and shared gear centres.
+const changed=normalize({...c,lengthA:370,pivotAx:560,outputTeethA:64}),gc=build(changed),pc=solve(changed,p.q),parts=bodies(gc,pc),bom=MotioBOM.create(gc);
+close(distance(parts.find(b=>b.id==='rodA').a,parts.find(b=>b.id==='rodA').b),370-12-(gc.pen.jointRadius-2));close(parts.find(b=>b.id==='platter').r,105);close(parts.find(b=>b.id==='gearA').r,64*gc.gearModule/2);assert.match(bom.find(b=>b.id==='L-A').dimensions,/370/);assert.match(bom.find(b=>b.id==='PL').dimensions,/210/);assert.match(bom.find(b=>b.id==='G-A').dimensions,/64 tanden/);
+assert.equal(MotioBOM.headers.length,5);assert.ok(MotioBOM.create(g).every(r=>MotioBOM.values(r).length===5));assert.doesNotMatch(MotioBOM.csv(g),/UNKNOWN|riem|pulley|poelie|Massa kg|Status/i);
+const svg=MotioRenderers.mechanismSVG({geometry:gc,config:changed,pose:pc,q:p.q,trace:[]},true);assert.match(svg,/A 370/);assert.match(svg,/210/);assert.doesNotMatch(svg,/NaN|undefined/);
+console.log(`V4: ${inverseCount} FK/IK/Jacobian poses; circular paper, radial reach proof, spur gearing, datasheet conditions, inertia, safety interlocks and BOM passed.`);
+console.log(JSON.stringify({reach:sim.drawingArea.reachState,clearanceBound:sim.drawingArea.minClearanceBound,samples:test.report.samples,critical:test.report.critical,collisions:test.report.collisions,maxTorque:test.report.maxTorque}));

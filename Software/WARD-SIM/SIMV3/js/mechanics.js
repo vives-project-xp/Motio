@@ -7,6 +7,7 @@ function inspect(config,q) {
  if(!pose.valid)return {...pose,safe:false,issues:[pose.reason],clearance:null};
  const singularity=window.MotioSingularity.analyze(pose,g),collision=window.MotioCollision.analyze(g,pose);
  if(pose.sin<g.parallelStop)issues.push('Parallelle singulariteit: onder geconfigureerde transmissiegrens');
+ if(singularity.state==='CRITICAL')issues.push('Singulariteit: onveilige kruk-/armstand');
  if(collision.violations.length)issues.push(...collision.violations.slice(0,3).map(v=>v.a+' / '+v.b+': '+v.gap.toFixed(2)+' mm'));
  return {...pose,singularity,collision,safe:!issues.length,issues,clearance:collision.minimum,force:g.dragForce/pose.sin};
 }
