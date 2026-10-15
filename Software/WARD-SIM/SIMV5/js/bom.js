@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 const headers=['Onderdeel','Aantal','Afmetingen','Materiaal','Specificatie / opmerking'],cache=new WeakMap();
-const methods={wood:'Uit hout maken',print:'3D-printen',buy:'Kopen',use:'Gebruiksonderdeel'};
+const methods={wood:'Uit MDF maken',print:'3D-printen',buy:'Kopen',use:'Gebruiksonderdeel'};
 const number=v=>Number(v.toFixed(2));
 function referencePose(g){
  const q={A:g.phaseA*Math.PI/180,B:g.phaseB*Math.PI/180,C:g.phaseC*Math.PI/180},p=window.MotioKinematics.solve(g,q);
@@ -15,10 +15,10 @@ function create(g) {
  const compound=bom=>{const instance=parts.find(p=>p.bom===bom).instance,b=window.MotioGeometry.bounds(parts.filter(p=>p.bom===bom&&p.instance===instance));return `${number(b.w)} × ${number(b.l)} × ${number(b.h)} mm`;};
  const add=(id,name,dimensions,material,method,spec)=>rows.push({id,qty:new Set(parts.filter(p=>p.bom===id).map(p=>p.instance)).size,name,dimensions,material,method:methods[method],spec});
  const printed='PETG · 3D-geprint',printNote='Voorlopige printkeuze; passing, printrichting en sterkte fysiek testen.';
- add('BOTTOM','Bodemplaat',dims('box-bottom'),'Multiplex','wood','Vier wanden op de bodem lijmen; lijmverbinding nog fysiek beoordelen.');
- add('WALL-FB','Voor- en achterwand',dims('box-front'),'Multiplex','wood','Twee gelijke panelen; haaks op de bodem plaatsen.');
- add('WALL-LR','Linker- en rechterwand',dims('box-left'),'Multiplex','wood','Tussen de voor- en achterwand plaatsen.');
- add('BASE','Bovenplaat',dims('BASE'),'Multiplex','wood',`Box ${g.base.width} × ${g.base.height} × ${g.box.height} mm buitenmaat; vrije asdoorvoeren Ø28 bij A/B en Ø44 bij C. M4-doorvoeren Ø4,6 volgen dezelfde posities als de voeten en montageoren in het model. Houtverbinding nog uitwerken.`);
+ add('BOTTOM','Bodemplaat',dims('box-bottom'),'MDF','wood','Vier MDF-wanden op de bodem lijmen; lijmverbinding en paneelstijfheid nog fysiek beoordelen.');
+ add('WALL-FB','Voor- en achterwand',dims('box-front'),'MDF','wood','Twee gelijke panelen; haaks op de bodem plaatsen.');
+ add('WALL-LR','Linker- en rechterwand',dims('box-left'),'MDF','wood','Tussen de voor- en achterwand plaatsen.');
+ add('BASE','Bovenplaat',dims('BASE'),'MDF','wood',`Box ${g.base.width} × ${g.base.height} × ${g.box.height} mm buitenmaat; vrije asdoorvoeren Ø28 bij A/B en Ø44 bij C. M4-doorvoeren Ø4,6 volgen dezelfde posities als de voeten en montageoren in het model. Houtverbinding nog uitwerken.`);
  add('BR','Motorbeugel met zijsteunen',compound('BR'),printed,'print',`Vier Ø3,4-doorvoeren op ${g.motor.mountingPitch} × ${g.motor.mountingPitch} mm; centrale opening 24 × 24 mm. Twee 5 mm dikke montageoren met Ø4,6-gaten op ${g.hardware.bracketMountPitch} mm h.o.h., buiten de lagerhoudervoet. De moeren zitten vrij naast de verticale steunen. ${printNote}`);
  add('MOTOR','SY42STH38-1684A-stappenmotor',`${g.motor.width} × ${g.motor.width} × ${g.motor.length} mm; as Ø${2*g.motor.shaftRadius} × ${g.motor.shaftLength} mm`,'Staal / koper','buy',`Referentietekening: buitenmaat 42,3 max.; lengte 38 ±1; aslengte 24 ±1; as Ø5 +0/−0,012; centreerpassing Ø22 +0/−0,05, hoogte 4,5; 4× M3, diepte ${g.motor.holeDepth}; steek 31 ±0,2 mm. Huidige nominale modelmaten staan bij afmetingen. ${g.motorStepAngle}°; ${g.motorCurrent} A; houdkoppel ${g.motorHoldingTorque} Nm.`);
  for(const key of ['A','B','C']){
@@ -40,8 +40,8 @@ function create(g) {
  add('LOCK-12','Askraag Ø12',dims('shoulderC'),'Staal','buy','Twee op as C, buiten de twee lageruiteinden. Onderste vooraf plaatsen, bovenste over de as laten zakken. Schroef aan de vrije buitenzijde van de kraag; exacte koopuitvoering nog kiezen.');
  add('LOCK-SCREW','Stelschroef askraag','Voorlopig M3 × 3 mm','Staal','buy','Eén per askraag, in een vooraf aanwezig radiaal schroefgat. Zet de kraag op de as vast zonder axiale lagervoorspanning.');
  add('FL','Plateauflens',dims('flange'),printed,'print',`Vier bevestigingen op straal ${g.hardware.flangePitch} mm; radiale M4-inzetmoer en stelschroef op een vlak van de as. ${printNote}`);
- add('PL','Houten draaiplateau',dims('platter'),'Hout / multiplex','wood',`Vier verzonken boutkoppen; papier moet vlak liggen. Draaiende massa inclusief flens voorlopig ${g.paper.mass} kg; nameten.`);
- add('PAPER','Rond tekenpapier',`Ø${2*g.paper.radius} mm; tekenzone Ø${2*g.paper.safeRadius} mm`,'Papier','use','Centreren en vlak vastzetten op het houten plateau.');
+ add('PL','MDF-draaiplateau',dims('platter'),'MDF','wood',`Vier verzonken boutkoppen; papier moet vlak liggen. Draaiende massa inclusief flens voorlopig ${g.paper.mass} kg; nameten.`);
+ add('PAPER','Rond tekenpapier',`Ø${2*g.paper.radius} mm; tekenzone Ø${2*g.paper.safeRadius} mm`,'Papier','use','Centreren en vlak vastzetten op het MDF-plateau.');
  add('E','Stalen elleboogpost','Schouder Ø8 mm; einde Ø6 mm; lengte '+number(g.A.rodZ-g.A.crankZ+24)+' mm','Staal','buy','Eén per kruk; M6-borging buiten het lagervlak. Uitvoering en onderste borging nog uitwerken.');
  add('P','Holle penas',dims('penSleeve'),'Staal','buy','Door beide penlagers steken; axiale borging en aansluiting op de houder nog uitwerken.');
  add('SP-P','Afstandbus tussen penlagers',dims('penSpacer'),printed,'print','Houdt de binnenringen op afstand; geen klemkracht op de draaiende armogen. '+printNote);
@@ -54,7 +54,7 @@ function create(g) {
  add('PEN-TOOL','Tekenpen',`Ø${2*g.pen.radius} mm; gemodelleerde lengte ${number(parts.find(p=>p.id==='pen').h)} mm`,'Gewone tekenpen','use','Werkelijke pen opmeten; punt tot op het papier laten zakken.');
  add('M3-BOLT','Motorbout M3',`M3 × ${g.hardware.motorBolt} mm`,'Staal','buy',`Vier per motor. Bij 5 mm beugel en ${g.hardware.washerM3} mm ring circa ${g.hardware.motorBolt-5-g.hardware.washerM3} mm inschroeven; maximaal ${g.motor.holeDepth} mm volgens tekening. Kop schematisch.`);
  add('M3-WASHER','Sluitring M3','Ø6/3,4 × '+g.hardware.washerM3+' mm','Staal','buy','Eén onder elke motorboutkop.');
- add('M4-BOLT','Montagebout M4',`M4 × ${g.hardware.mountBolt} mm`,'Staal','buy','Zes bij motorbeugels en twaalf bij lagerhouders. Voorlopige montage met doorlopende bout en moer; lengte op prototype controleren.');
+ add('M4-BOLT','Montagebout M4',`M4 × ${g.hardware.mountBolt} mm`,'Staal','buy','Zes bij motorbeugels en twaalf bij lagerhouders. Lengte volgt uit MDF-plaat, geprinte montagevoet, twee sluitringen, moer en schroefdraadtoeslag. Doorlopende bouten gebruiken; MDF niet pletten door te hard aandraaien. Definitieve borgmoer en boutlengte samen controleren.');
  add('M4-CSK','Verzonken plateaubout',`Voorlopig M4 × ${g.hardware.plateBolt} mm`,'Staal','buy',`Vier door hout en flens; koppen vlak verzinken. Lengte afgestemd op ${g.paper.thickness} mm hout, ${g.hardware.flangeThickness} mm flens, ring en moer, zonder in de C-houder te steken. Zo nodig een langere koopbout op lengte maken; definitieve lengte bij prototype controleren. Ringen en moeren eerst zijdelings onder de flens plaatsen. Kopvorm schematisch.`);
  add('M4-WASHER','Sluitring M4','Ø8/4,4 × '+g.hardware.washerM4+' mm','Staal','buy','Boven en onder beugel-/houderverbindingen; alleen onder bij verzonken plateaubouten.');
  add('M4-NUT','Borgmoer M4','M4; sleutelwijdte circa 7 mm','Staal','buy','Eén per doorlopende montagebout; definitieve uitvoering nog kiezen.');

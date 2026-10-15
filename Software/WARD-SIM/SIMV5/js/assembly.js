@@ -2,7 +2,7 @@
 'use strict';
 // Ordered mounting groups refer to the same BOM ids carried by model bodies.
 const steps=[
- ['Bovenplaat met voorbereide gaten',['BASE'],'Leg de bovenplaat op werksteunen en houd de onderkant bereikbaar. De ronde asdoorvoeren en alle M4-doorvoeren zijn vooraf gemaakt; de animatie boort geen gaten.'],
+ ['MDF-bovenplaat met voorbereide gaten',['BASE'],'Leg de MDF-bovenplaat van {dek} mm op werksteunen en houd de onderkant bereikbaar. De ronde asdoorvoeren en alle M4-doorvoeren zijn vooraf gemaakt; de animatie boort geen gaten.'],
  ['Geprinte motorbeugels',['BR'],'Breng de drie beugels van onderaf tegen de bovenplaat. Elke beugel heeft twee buitenliggende montageoren met vrije M4-gaten en vier M3-gaten voor de motor.'],
  ['Drie stappenmotoren',['MOTOR'],'Schuif elke motor van onderaf in zijn beugel. De as wijst omhoog; de centreerrand past in de vrije centrale opening.'],
  ['Motorbouten en sluitringen',['MOTOR-FIX'],'Leg de ringen op de vier M3-doorvoeren per beugel en steek de bouten erdoor. Alleen het uiteinde grijpt in het bestaande M3-schroefgat van de motor; maximaal 4,5 mm diep.'],
@@ -25,7 +25,7 @@ const steps=[
  ['Messing inzet in de plateauflens',['FL-INSERT'],'Plaats de M4-inzet in het reeds geprinte radiale opnamegat van de losse flens. Gebruik de inbouwmethode van het gekozen inzettype en laat de inzet afkoelen voordat de flens op de as gaat.'],
  ['Plateauflens op as C',['FL-INSTALL'],'Laat de flens met zijn inzet over as C zakken. Richt het radiale gat op het zichtbare vlak van de as.'],
  ['Plateauflens borgen',['FL-FIX'],'Draai de M4-stelschroef via de messing inzet tegen het vlak op as C. De schroef klemt tegen de buitenkant van de as: er hoort geen dwarsgat in de as. Test de klemming zonder het PETG te overbelasten.'],
- ['Houten draaiplateau',['PL'],'Centreer de voorgeboorde houten schijf op de plateauflens en lijn de vier bevestigingsgaten uit.'],
+ ['MDF-draaiplateau',['PL'],'Centreer de voorgeboorde MDF-schijf van {plateau} mm op de plateauflens en lijn de vier bevestigingsgaten uit.'],
  ['Draaiplateau vastzetten',['PL-FIX'],'Breng eerst de ringen en moeren zijdelings in de vrije ruimte onder de flens en houd ze uitgelijnd. Steek daarna de vier verzonken M4-bouten van boven in de gaten en moeren. De koppen liggen vlak met het hout.'],
  ['Rond papier',['PAPER'],'Leg het ronde papier in het midden van het plateau en zet het vlak vast. Houd de buitenste marge vrij.'],
  ['Krukken voorbereiden',['K-A','K-B'],'Bekijk de twee losse krukken. Elke naaf heeft een centrale asboring en een vooraf geprint radiaal opnamegat met een bredere kamer voor de messing M4-inzet.'],
@@ -47,7 +47,7 @@ const steps=[
  ['Centreerbus en zacht drukpad',['BUSH','PAD'],'Plaats de passende penbus in de houder en het zachte drukpad tussen de pen en de klemschroef.'],
  ['Klemschroef en draaiknop',['CLAMP-SCREW','KNOB'],'Breng de stalen klemschroef vanaf de zijkant aan. Plaats de geprinte knop op het uitstekende uiteinde.'],
  ['Tekenpen plaatsen',['PEN-TOOL'],'Laat de pen door de houder zakken tot de punt het papier raakt. Zet de klemschroef alleen met de hand vast.'],
- ['Houten box sluiten',['BOTTOM','WALL-FB','WALL-LR'],'Sluit de box pas na het afstellen van de onderliggende verbindingen. Plaats bodem en wanden; maak de houtverbinding volgens het nog uit te werken bevestigingsplan.']
+ ['MDF-box sluiten',['BOTTOM','WALL-FB','WALL-LR'],'Gebruik MDF: bodem en bovenplaat {dek} mm, zijwanden {wand} mm. Sluit de box pas na het afstellen van de onderliggende verbindingen. Plaats bodem en wanden; maak de houtverbinding volgens het nog uit te werken bevestigingsplan.']
 ].map(([title,mounts,instruction])=>({title,mounts,instruction}));
 const installations={housing:'H-INSTALL',flange:'FL-INSTALL',cranks:'K-INSTALL'};
 function stageOf(part){
@@ -133,10 +133,11 @@ class AssemblyGuide {
   this.progress=0;this.startedAt=null;this.lastRender=-Infinity;this.previewSize='';this.updateText();
  }
  updateText(){
-  const item=steps[this.step],catalog=window.MotioBOM.create(this.sim.geometry);
+  const item=steps[this.step],g=this.sim.geometry,catalog=window.MotioBOM.create(g);
+  const instruction=item.instruction.replaceAll('{dek}',g.base.thickness).replaceAll('{wand}',g.box.wall).replaceAll('{plateau}',g.paper.thickness);
   $('assembly-counter').textContent='Stap '+(this.step+1)+' van '+steps.length;
   $('assembly-camera-hint').textContent=(this.view?'Detail '+this.view.axis+' · scroll uit voor de overige onderdelen. ':'')+'Sleep: draaien · scroll: zoom · pijltjestoetsen: draaien';
-  $('assembly-title').textContent=item.title;$('assembly-instruction').textContent=item.instruction+(this.schematic?' Deze configuratie sluit de armketen niet. Het armvoorbeeld is schematisch; herstel de bouwgeometrie voor een geldige opbouw.':'');
+  $('assembly-title').textContent=item.title;$('assembly-instruction').textContent=instruction+(this.schematic?' Deze configuratie sluit de armketen niet. Het armvoorbeeld is schematisch; herstel de bouwgeometrie voor een geldige opbouw.':'');
   $('assembly-progress').max=steps.length;$('assembly-progress').value=this.step+1;
   $('assembly-prev').disabled=this.step===0;$('assembly-next').disabled=this.step===steps.length-1;
   const entries=catalog.filter(r=>this.current.some(p=>p.bom===r.id));
@@ -147,7 +148,7 @@ class AssemblyGuide {
   const samples=catalog.filter(r=>this.previewParts.some(p=>p.bom===r.id));
   $('assembly-part-caption').textContent='Los getoond · '+samples.map(r=>r.name).join(' / ');
   $('assembly-reference').hidden=!item.mounts.includes('MOTOR');
-  $('assembly-canvas').setAttribute('aria-label','Montageanimatie · stap '+(this.step+1)+' van '+steps.length+' · '+item.title+'. '+item.instruction);
+  $('assembly-canvas').setAttribute('aria-label','Montageanimatie · stap '+(this.step+1)+' van '+steps.length+' · '+item.title+'. '+instruction);
   $('assembly-part-canvas').setAttribute('aria-label','Uitvergrote losse onderdelen: '+samples.map(r=>r.name+' · '+r.dimensions+' · '+r.material).join('; '));
  }
  render(now){

@@ -52,7 +52,7 @@ function mechanismSVG(sim,technical=false,mode='assembly') {
  }
  if(technical){
   s+=text('A '+c.lengthA+' / B '+c.lengthB+' mm h.o.h. · krukken '+c.radiusA+' / '+c.radiusB+' mm',b.x+20,b.y+30,'#62d7dc',12);
-  s+=text('BOX '+b.width+' × '+b.height+' × '+d.box.height+' mm · plaat '+b.thickness+' mm · plateau Ø'+2*paper.radius,b.x+10,b.y+b.height+26,'#b5c7d7',10);
+  s+=text('BOX '+b.width+' × '+b.height+' × '+d.box.height+' mm · plaat '+b.thickness+' mm MDF · plateau Ø'+2*paper.radius,b.x+10,b.y+b.height+26,'#b5c7d7',10);
   s+=text('Papier Ø'+2*paper.radius+' · tekenzone Ø'+2*paper.safeRadius+' · direct 1:1 · microsteps 1/'+d.motorStepsPerFullStep,b.x+10,b.y+b.height+45,'#b5c7d7',10);
  }
  return s+'</svg>';

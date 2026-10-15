@@ -7,7 +7,7 @@ const DEFAULT_CONFIG=Object.freeze({patternId:'flower5',wordText:'MOTIO',rpmA:.8
  motorStepAngle:1.8,motorCurrent:1.68,motorVoltage:2.8,motorHoldingTorque:.36,motorWidth:42.3,motorLength:38,motorShaftDiameter:5,motorMountPitch:31,
  motorSupplyVoltage:24,motorDriveCurrent:1.68,motorStepsPerFullStep:16,motorCurveConditionsConfirmed:0,motorRadialLimit:28,motorRadialReference:20,motorAxialLimit:10,
  rodWidth:24,rodHeight:24,rodWall:3,materialE:1500,density:1270,crankWidth:18,crankHeight:8,rodZA:86,rodZB:118,crankZA:64,crankZB:96,
- baseX:0,baseY:0,baseWidth:358,baseHeight:404,baseThickness:8,boxHeight:108,wallThickness:8,frameBraceX:8,paperZ:30,clearance:3,branch:-1,
+ baseX:0,baseY:0,baseWidth:358,baseHeight:404,baseThickness:4,boxHeight:108,wallThickness:4,frameBraceX:8,paperZ:30,clearance:3,branch:-1,
  // Direct 1:1 drive: motor and output have the same speed and direction.
  // Keep SIMV5 motion limits. The half-step datasheet curve cannot prove
  // capacity at these low speeds or with the default 1/16 driver setting.
@@ -58,7 +58,9 @@ function build(c=DEFAULT_CONFIG) {
   motor:{model:'SY42STH38-1684A',width:c.motorWidth,length:c.motorLength,shaftRadius:c.motorShaftDiameter/2,shaftLength:24,mountingPitch:c.motorMountPitch,mountingHole:'M3',holeDepth:4.5,bossRadius:11,bossHeight:4.5,z:motorZ},coupling:{z:shaftTop,radius:c.couplingRadius,height:c.couplingHeight,shaftBottom:shaftTop+1},bearingAB:{inner:4,outer:11,height:7},bearingP:{inner:10,outer:16,height:7},bearingC:{inner:6,outer:14,height:8},
   pen:{min:c.penMinDiameter,max:c.penMaxDiameter,radius:c.penDiameter/2,holderRadius:c.holderRadius,jointRadius:c.jointRadius,shaftRadius:c.jointShaftRadius,boreRadius:c.jointBoreRadius,clampZ:c.paperZ+28,knobRadius:8,knobReach:32},
   material:{name:'PETG · voorlopige printkeuze',E:c.materialE,density:c.density,verified:false},
-  hardware:{motorBolt:8,mountBolt:25,washerM3:.5,washerM4:1,bracketMountPitch:78,holderMountPitch:42,spindleMountPitch:36.8,flangeRadius:30,flangeThickness:8,flangePitch:24,crankSetScrew:8,flangeSetScrew:25}};
+  hardware:{motorBolt:8,mountFootThickness:5,washerM3:.5,washerM4:1,mountNutHeight:3.2,bracketMountPitch:78,holderMountPitch:42,spindleMountPitch:36.8,flangeRadius:30,flangeThickness:8,flangePitch:24,crankSetScrew:8,flangeSetScrew:25}};
+ // Clamp stack + two washers + nut + 2 mm thread allowance, rounded to 5 mm stock lengths.
+ g.hardware.mountBolt=5*Math.ceil((g.base.thickness+g.hardware.mountFootThickness+2*g.hardware.washerM4+g.hardware.mountNutHeight+2)/5);
  g.hardware.plateBolt=g.paper.thickness+g.hardware.flangeThickness+6;
  for(const key of ['A','B','C']) {
   const pivot=key==='C'?{x:paper.x,y:paper.y}:{x:c['pivot'+key+'x'],y:c['pivot'+key+'y']};
@@ -89,7 +91,7 @@ function bodies(g,pose,detail=true) {
   add(id+'-washer',washer,'fastener','ring',{x,y,z:top+t/2,r:size,inner:size/2+.2,h:t,mount});
   if(bottom!==null){
    add(id+'-lower-washer',washer,'fastener','ring',{x,y,z:bottom-t/2,r:size,inner:size/2+.2,h:t,mount});
-   add(id+'-nut','M4-NUT','fastener','ring',{x,y,z:bottom-t-1.6,r:4,inner:2,h:3.2,mount,segments:6});
+   add(id+'-nut','M4-NUT','fastener','ring',{x,y,z:bottom-t-g.hardware.mountNutHeight/2,r:4,inner:2,h:g.hardware.mountNutHeight,mount,segments:6});
   }
  };
  const radialFixing=(id,mount,x,y,z,angle,bore,length,bom)=>{
@@ -103,7 +105,7 @@ function bodies(g,pose,detail=true) {
   {axis:'x',angle,x:Math.cos(angle)*(r+inner)/2,y:Math.sin(angle)*(r+inner)/2,z,r:insert?2.1:1.6,h:r-inner+2},
   ...(insert?[{axis:'x',angle,x:Math.cos(angle)*(r-2.5),y:Math.sin(angle)*(r-2.5),z,r:3.1,h:5.4}]:[])
  ];
- const b=g.base;
+ const b=g.base,footHeight=g.hardware.mountFootThickness,footZ=b.thickness+footHeight/2,footTop=b.thickness+footHeight;
  box('BASE','BASE','frame',b.x+b.width/2,b.y+b.height/2,b.thickness/2,b.width,b.height,b.thickness);
  const deck=all.at(-1);deck.holes=[];
  for(const key of ['A','B','C']){
@@ -128,13 +130,13 @@ function bodies(g,pose,detail=true) {
    all.at(-1).holes=[-1,1].map(s=>({x:sign*g.motor.mountingPitch/2-sign*19.5,y:s*g.motor.mountingPitch/2,r:1.7,h:7}));
    box('bracketCross'+key+sign,'BR','support',m.x,m.y+sign*19.5,faceZ+2.5,24,15,5);
    box('riser'+key+sign,'BR','support',m.x+sign*29,m.y,bracketTop/2,5,54,-bracketTop);
-   box('bracketLug'+key+sign,'BR','support',m.x+sign*34.5,m.y,-2.5,16,54,5);
-   all.at(-1).holes=[{x:sign*4.5,y:0,r:2.3,h:7}];
+   box('bracketLug'+key+sign,'BR','support',m.x+sign*34.5,m.y,-footHeight/2,16,54,footHeight);
+   all.at(-1).holes=[{x:sign*4.5,y:0,r:2.3,h:footHeight+2}];
   }
   cyl('motorShaft'+key,'MOTOR','shaft',m.x,m.y,faceZ+g.motor.shaftLength/2,g.motor.shaftRadius,g.motor.shaftLength);
   cyl('motorBoss'+key,'MOTOR','shaft',m.x,m.y,faceZ+g.motor.bossHeight/2,g.motor.bossRadius,g.motor.bossHeight,g.motor.shaftRadius);
   for(const x of [-g.motor.mountingPitch/2,g.motor.mountingPitch/2])for(const y of [-g.motor.mountingPitch/2,g.motor.mountingPitch/2])fixing('motorFix'+key+x+','+y,'MOTOR-FIX',m.x+x,m.y+y,bracketTop,null,3);
-  for(const sign of [-1,1])fixing('bracketFix'+key+sign,'BR-FIX',m.x+sign*g.hardware.bracketMountPitch/2,m.y,b.thickness,-5);
+  for(const sign of [-1,1])fixing('bracketFix'+key+sign,'BR-FIX',m.x+sign*g.hardware.bracketMountPitch/2,m.y,b.thickness,-footHeight);
   const outputRadius=key==='C'?6:4,cp=g.coupling;
   cyl('coupling'+key,'CP-'+key,'drive',o.x,o.y,cp.z,cp.radius,cp.height,outputRadius);
   const motorAngle=pose?.q?.[key]||0;
@@ -161,23 +163,25 @@ function bodies(g,pose,detail=true) {
    add('retainerClip'+key+i,key==='C'?'CLIP-28':'CLIP-22','fastener','ring',{x:o.x,y:o.y,z:edge+sign*.8,r:radius+.65,inner:radius-2,h:1.2,mount:'BEARING-CLIPS',assemblyGroup:'housing',approach:sign*18,arc:Math.PI*1.75});
   }
   if(key==='C'){
-   cyl('footC','H-C','support',o.x,o.y,10.5,34,5,radius+.15);
-   all.at(-1).holes=[-1,1].flatMap(x=>[-1,1].map(y=>({x:x*holderOffset(key),y:y*holderOffset(key),r:2.3,h:7})));
+   cyl('footC','H-C','support',o.x,o.y,footZ,34,footHeight,radius+.15);
+   all.at(-1).holes=[-1,1].flatMap(x=>[-1,1].map(y=>({x:x*holderOffset(key),y:y*holderOffset(key),r:2.3,h:footHeight+2})));
    all.at(-1).assemblyGroup='housing';
   }else{
-   box('foot'+key,'H-'+key,'support',o.x,o.y,10.5,60,60,5);
-   Object.assign(all.at(-1),{assemblyGroup:'housing',holes:[{x:0,y:0,r:14,h:7},...[-1,1].flatMap(x=>[-1,1].map(y=>({x:x*holderOffset(key),y:y*holderOffset(key),r:2.3,h:7})))]});
+   box('foot'+key,'H-'+key,'support',o.x,o.y,footZ,60,60,footHeight);
+   Object.assign(all.at(-1),{assemblyGroup:'housing',holes:[{x:0,y:0,r:14,h:footHeight+2},...[-1,1].flatMap(x=>[-1,1].map(y=>({x:x*holderOffset(key),y:y*holderOffset(key),r:2.3,h:footHeight+2})))]});
    for(const x of [-14,14])for(const y of [-14,14]){
-    cyl('housingPost'+key+x+','+y,'H-'+key,'support',o.x+x,o.y+y,(13+lo-2)/2,3,lo-2-13);
+    cyl('housingPost'+key+x+','+y,'H-'+key,'support',o.x+x,o.y+y,(footTop+lo-2)/2,3,lo-2-footTop);
     all.at(-1).assemblyGroup='housing';
    }
   }
   for(const x of [-1,1])for(const y of [-1,1]){
    // One shared hole pattern for the wood, foot and hardware.
-   fixing('housingFix'+key+x+','+y,'H-FIX',o.x+x*holderOffset(key),o.y+y*holderOffset(key),13,0);
+   fixing('housingFix'+key+x+','+y,'H-FIX',o.x+x*holderOffset(key),o.y+y*holderOffset(key),footTop,0);
   }
   const top=key==='C'?g.paper.z-g.paper.thickness/2:d.crankZ+4,bottom=g.coupling.shaftBottom;
   cyl('shaft'+key,'S-'+key,'shaft',o.x,o.y,(top+bottom)/2,key==='C'?6:4,top-bottom);
+  // The entire shaft starts above the upper bearing, also when the motor sits lower.
+  all.at(-1).approach=d.bearings[1]+bh/2+15-bottom;
   const shaft=all.at(-1),clampAngle=key==='C'?motorAngle+Math.PI/4:Math.atan2((key==='A'?pose?.a:pose?.b)?.y-o.y,(key==='A'?pose?.a:pose?.b)?.x-o.x)+Math.PI/2;
   shaft.flats=[{z:cp.z+cp.height/4-shaft.z,h:6,angle:motorAngle,depth:.4},{z:(key==='C'?g.paper.z-g.paper.thickness/2-g.hardware.flangeThickness/2:d.crankZ)-shaft.z,h:key==='C'?8:g.crankHeight,angle:Number.isFinite(clampAngle)?clampAngle:0,depth:.4}];
   for(const sign of [-1,1]){

@@ -122,7 +122,7 @@ for(const row of catalog){
 }
 assert.ok(detailed.every(p=>catalog.some(r=>r.id===p.bom)));
 for(const [id,qty] of [['MOTOR',3],['BR',3],['608',6],['6001',2],['6804',2],['CP-SCREW',6],['M3-BOLT',12],['M4-BOLT',18],['M4-CSK',4],['M4-NUT',22],['M4-WASHER',40],['M4-INSERT',3]])assert.equal(catalog.find(r=>r.id===id).qty,qty,id);
-assert.match(catalog.find(r=>r.id==='L-A').material,/PETG/);assert.match(catalog.find(r=>r.id==='PL').material,/Hout/);
+assert.match(catalog.find(r=>r.id==='L-A').material,/PETG/);assert.match(catalog.find(r=>r.id==='PL').material,/MDF/);
 close(g.motor.holeDepth,4.5);close(g.motor.bossRadius,11);close(g.motor.bossHeight,4.5);close(g.materialE,1500);close(g.density,1270);
 assert.equal(MotioStructure.analyze(g,p).printValidated,false);assert.equal(MotioValidation.rows(sim,test).at(-1).state,'NIET BEWEZEN');
 // Moving fixtures follow the shaft/arm pose rather than remaining fixed in space.

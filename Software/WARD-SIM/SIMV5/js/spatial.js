@@ -116,7 +116,7 @@ class SpatialRenderer {
    const key=/^(H|K|L)-[ABC]$/.test(b.bom)?b.bom.slice(-1):b.id.slice(-1),col=colors[key]||'#8ba7ba';
    const active=assembly&&!preview&&window.MotioAssembly.isCurrent(b,assembly.step);
    const seeThrough=assembly&&!preview&&['BASE','box-front','box-right'].includes(b.id);
-   let color=entry.material.includes('PETG')?col:entry.material.includes('Messing')?'#d6ad61':entry.material.includes('Multiplex')||entry.material.includes('Hout')?'#c1a477':b.bom==='PAPER'?'#f4f0e7':b.bom==='PAD'?'#edaa79':b.id==='pen'?'#f4c367':b.id.startsWith('motor')&&b.shape==='box'?'#344658':'#c9d6df';
+   let color=entry.material.includes('PETG')?col:entry.material.includes('Messing')?'#d6ad61':entry.material.includes('MDF')||entry.material.includes('Hout')?'#c1a477':b.bom==='PAPER'?'#f4f0e7':b.bom==='PAD'?'#edaa79':b.id==='pen'?'#f4c367':b.id.startsWith('motor')&&b.shape==='box'?'#344658':'#c9d6df';
    if(active)color='#62e9e2';
    else if(seeThrough)color='#c1a47733';
    else if(!assembly&&b.id==='BASE'&&this.enclosure.top==='semi')color='#c1a47766';

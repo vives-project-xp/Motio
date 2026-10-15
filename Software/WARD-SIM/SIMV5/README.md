@@ -24,7 +24,7 @@ De handleiding gebruikt een vaste beginstand uit de huidige configuratie en vera
 
 ## Materialen en mechanische details
 
-- Box, bovenplaat en rond draaiplateau: hout/multiplex.
+- Box, bodem, bovenplaat, zijwanden en rond draaiplateau: **MDF van 4 mm**.
 - Motorbeugels, lagerhouders, krukken, penarmen, plateauflens, penhouder, centreer- en afstandsbus, draaiknop: voorlopig PETG.
 - Assen, holle penas, scharnierposten, borgingen, bouten, ringen en moeren: staal; lagers zijn standaard kogellagers.
 - Askoppelingen: standaard metaal met elastisch element. Inzetten voor de drie naafstelschroeven: messing.
@@ -36,9 +36,17 @@ De voorlopige rekenschatting gebruikt **E = 1500 MPa** en **ρ = 1270 kg/m³** v
 
 De [meegeleverde motortekening](references/motor-dimensions.png) bepaalt de referentiematen: 42,3 mm maximaal, lengte 38 ±1 mm, as Ø5 +0/−0,012 mm en 24 ±1 mm lang, centreerpassing Ø22 +0/−0,05 mm met 4,5 mm hoogte, en vier M3-gaten op 31 ±0,2 mm met 4,5 mm gatdiepte. De geprinte beugel heeft een vrije centrale opening; de nominale motor- en configuratiematen blijven zichtbaar in de BOM.
 
-De bevestigingen zijn een voorlopig uitgewerkte montage: 12 motorbouten M3×8 met ringen, 18 montagebouten M4×25, 4 verzonken plateaubouten voorlopig M4×18, 40 M4-ringen en 22 M4-moeren. Drie messing inzetten met stelschroeven borgen de kruknaven en plateauflens. Ook zes stalen binnenborgringen en zes askraagstelschroeven zijn zichtbaar en opgenomen in de BOM. De lokale asvlakken en de opnamegaten voor de inzetten zijn gemodelleerd. Exacte kooptypes, print-/lagerpassingen, borggroefmaten, houtverbindingen en aansluitingen van penhouder/penas blijven waar nodig benoemd als nog te bepalen. De modellen tonen koppen, schachten, moeren en ringen zonder schroefdraad; het zijn geen productieklare STL- of CAD-bestanden.
+De bevestigingen zijn een voorlopig uitgewerkte montage: 12 motorbouten M3×8 met ringen, 18 montagebouten M4×20, 4 verzonken plateaubouten voorlopig M4×18, 40 M4-ringen en 22 M4-moeren. Drie messing inzetten met stelschroeven borgen de kruknaven en plateauflens. Ook zes stalen binnenborgringen en zes askraagstelschroeven zijn zichtbaar en opgenomen in de BOM. De lokale asvlakken en de opnamegaten voor de inzetten zijn gemodelleerd. Exacte kooptypes, print-/lagerpassingen, borggroefmaten, houtverbindingen en aansluitingen van penhouder/penas blijven waar nodig benoemd als nog te bepalen. De modellen tonen koppen, schachten, moeren en ringen zonder schroefdraad; het zijn geen productieklare STL- of CAD-bestanden.
 
 De botsingscontrole gebruikt de bijgewerkte constructie-enveloppen, inclusief kruknaven, dikkere armogen en bewegende elleboogborgingen. Kleine statische bevestigingen bij hun bedoelde aansluitingen vallen binnen een schematische montage en vormen geen afzonderlijk bewijs voor alle fabricage- en montagepassingen. Draaiende bevestigingen volgen de bijbehorende kruk of papierspindel in het zichtbare model.
+
+## MDF-plaatdikte: 4 mm
+
+Alle zes boxpanelen en het draaiplateau zijn standaard 4 mm MDF. De buitenmaat van de box blijft 358 × 404 × 108 mm. Daardoor worden voor- en achterwand 358 × 100 × 4 mm en de tussenliggende zijwanden 396 × 100 × 4 mm; bodem en bovenplaat zijn 358 × 404 × 4 mm. De hoogtes van de lagerhoudervoeten, hun steunpootjes en bevestigingen volgen uit de werkelijke bovenplaatdikte.
+
+De motoren blijven 4 mm vrij boven de bodem. Met de dunnere bodem en bovenplaat staan ze 8 mm lager dan in het eerdere 8mm-model; koppelingen volgen mee en de drie aandrijfassen worden 8 mm langer. Lager-, kruk-, pen- en plateauhoogtes blijven gelijk. Montagebouten zijn nu M4×20, berekend uit de klemlengte met ringen, moer en draaduitsteek. De MDF-schijf onder het papier was al 4 mm; de plateaubouten blijven voorlopig M4×18. Model, montagehandleiding, BOM en technische SVG gebruiken dezelfde configuratie.
+
+Deze wijziging controleert geometrie en montage, zonder een nieuwe materiaalberekening te introduceren. MDF-doorbuiging en boutdruk zijn niet gevalideerd; de bestaande sterktecontrole vermeldt dit expliciet. Gebruik doorlopende bouten met sluitringen en plet de dunne MDF-plaat niet bij het aandraaien. De draaiende massa blijft de voorlopige invoerwaarde en moet inclusief MDF-schijf en bevestigingen worden gewogen.
 
 ## Gecorrigeerde montageverbindingen
 
@@ -60,6 +68,7 @@ De app opent in **Mechanical Design → 3D**. Simulator, patronen, woordgenerato
 node tests/logic.test.js
 node tests/integration.test.js
 node tests/assembly-connections.test.js
+node tests/mdf-thickness.test.js
 node tests/patterns.test.js
 ```
 
