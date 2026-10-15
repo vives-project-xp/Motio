@@ -22,6 +22,7 @@
     - [Software](#software)
   - [Project Structuur](#project-structuur)
   - [Simulators](#simulators)
+    - [Screenshots](#screenshots)
     - [Beginposter](#beginposter)
   - [Team](#team)
   - [Academische Context](#academische-context)
@@ -36,7 +37,9 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 
 - **Instelbare parameters:** snelheden, richtingen en fase zijn makkelijk regelbaar.
 - **Visualisatie:** de beweging wordt gevisualiseerd door een tekeninstrument dat lijnen op papier maakt.
-- **Preview:** indien mogelijk wordt de ingestelde beweging weergegeven op een scherm.
+- **Preview:** de simulator toont het verwachte resultaat licht op het papier, de echte tekenlijn verschijnt donker.
+- **Patronen en woorden:** dertien kant-en-klare patronen en een woordgenerator (tot 8 letters) voor verbonden bubbelletters.
+- **Veiligheidscontroles:** de simulator blokkeert singulariteiten, botsingen en posities buiten de veilige tekenzone.
 - **Modulaire opbouw:** gescheiden hardware- en softwarecomponenten voor eenvoudige uitbreiding.
 
 ## Technologie
@@ -58,8 +61,7 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 Motio/
 ├── doc/              # Projectdocumentatie en de projectcanvas
 ├── Hardware/         # Hardware van het project
-├── Materiaal/        # Materiaallijst en benodigdheden
-├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing)
+├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, concepten v1/v2)
 ├── Software/         # Softwarecomponenten van het project
 ├── Software/WARD-SIM/ # Interactieve simulators
 │   ├── SIMV1/        # Oorspronkelijke live simulator
@@ -75,6 +77,33 @@ Motio/
 - [SIMV2](Software/WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](Software/WARD-SIM/SIMV2/README.md).
 - [MOTIO SIMV3](Software/WARD-SIM/SIMV3/index.html): behouden werkende basis met rond papier Ø210 mm, veilige tekenzone Ø190 mm, drie SY42STH38-1684A-motoren en 2D/3D-interface. Zie [ontwerp en controles](Software/WARD-SIM/SIMV3/README.md).
 - [MOTIO SIMV4](Software/WARD-SIM/SIMV4/index.html): huidige simulator met compacte opstelling, box 358 × 404 × 108 mm en afzonderlijke zichtbaarheid van wanden, bodem en bovenplaat. De drie motoren en bestaande bediening blijven behouden. Zie [starten en controles](Software/WARD-SIM/SIMV4/README.md).
+
+### Screenshots
+
+Alle beelden komen uit de huidige simulator ([SIMV4](Software/WARD-SIM/SIMV4/index.html)).
+
+**Simulator** – de bloem met vijf blaadjes, getekend op het ronde papier terwijl de machine in bovenaanzicht meebeweegt.
+
+![Simulator met voltooide bloemtekening](./doc/assets/simulator/simulator-tekening.png) 
+
+**Tekeningen** – het eindresultaat van de dertien ingebouwde patronen en een zelf getypt woord, zoals de simulator ze op het ronde papier tekent.
+
+<table>
+  <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-circle.png" width="200" alt="Cirkel"><br><sub>Cirkel</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-flower3.png" width="200" alt="Bloem · 3 blaadjes"><br><sub>Bloem · 3 blaadjes</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-flower5.png" width="200" alt="Bloem · 5 blaadjes"><br><sub>Bloem · 5 blaadjes</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-flower7.png" width="200" alt="Bloem · 7 blaadjes"><br><sub>Bloem · 7 blaadjes</sub></td></tr>
+  <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-ripple12.png" width="200" alt="Golfring"><br><sub>Golfring</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-rosette52.png" width="200" alt="Rozet · 2 rondes"><br><sub>Rozet · 2 rondes</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-rosette73.png" width="200" alt="Rozet · 3 rondes"><br><sub>Rozet · 3 rondes</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-openRosette.png" width="200" alt="Open rozet"><br><sub>Open rozet</sub></td></tr>
+  <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-wovenFlower.png" width="200" alt="Verweven bloem"><br><sub>Verweven bloem</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-wovenRosette.png" width="200" alt="Dichte rozet"><br><sub>Dichte rozet</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-wovenStar.png" width="200" alt="Sterrozet"><br><sub>Sterrozet</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-spiral.png" width="200" alt="Spiraal"><br><sub>Spiraal</sub></td></tr>
+  <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-vives.png" width="200" alt="VIVES"><br><sub>VIVES</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-word.png" width="200" alt="Eigen woord: MOTIO"><br><sub>Eigen woord: MOTIO</sub></td></tr>
+</table>
+
+**Mechanical Design** – interactief 3D-model van de box en een technisch bovenaanzicht met maten.
+
+| Interactief 3D-model | 2D technische tekening |
+| :---: | :---: |
+| ![Mechanical Design 3D](./doc/assets/simulator/mechanical-3d.png) | ![Mechanical Design 2D](./doc/assets/simulator/mechanical-2d.png) |
+
+**Validation** – vijf controles op bereik, botsingen, singulariteiten, motorcapaciteit en spelingen.
+
+![Validation-tabblad](./doc/assets/simulator/validation.png)
 
 ### Beginposter
 
