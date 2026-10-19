@@ -45,6 +45,8 @@ class BoxSheet:
         for u, v, d in panel.holes:
             sx, sy = to_sheet(u, v)
             doc.cut(shapes.circle_path(sx, sy, d / 2))
+        for loop in panel.cutouts:
+            doc.cut(shapes.polyline_path([to_sheet(u, v) for u, v in loop]))
         w, _ = panel.size_uv()
         label_y = y + h / 2 + (14 if panel.name in ("Lid", "Divider") else 2)
         doc.label(x + w / 2, label_y, f"{panel.name} ({panel.section})", 5)

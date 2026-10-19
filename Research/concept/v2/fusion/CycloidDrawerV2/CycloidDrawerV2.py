@@ -29,6 +29,13 @@ def _fresh_import():
     return CycloidDrawerAssembly
 
 
+def _offer_animation(ui, app, assembly):
+    answer = ui.messageBox("Play the animation of the working now?", "Cycloid drawer",
+                           adsk.core.MessageBoxButtonTypes.YesNoButtonType)
+    if answer == adsk.core.DialogResults.DialogYes:
+        ui.messageBox(assembly.animate(app.activeViewport), "Cycloid drawer")
+
+
 def run(context):
     app = adsk.core.Application.get()
     ui = app.userInterface
@@ -37,8 +44,10 @@ def run(context):
         app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)
         design = adsk.fusion.Design.cast(app.activeProduct)
         design.designType = adsk.fusion.DesignTypes.ParametricDesignType
-        report = assembly_cls(app, design).build()
+        assembly = assembly_cls(app, design)
+        report = assembly.build()
         app.activeViewport.fit()
         ui.messageBox(report, "Cycloid drawer")
+        _offer_animation(ui, app, assembly)
     except Exception:
         ui.messageBox("Failed:\n{}".format(traceback.format_exc()), "Cycloid drawer")

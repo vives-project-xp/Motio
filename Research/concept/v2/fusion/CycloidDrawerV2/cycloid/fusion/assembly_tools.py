@@ -40,6 +40,9 @@ class AppearancePalette:
         "paper": ["paper", "paint - enamel glossy (white)", "white"],
         "pen": ["paint - enamel glossy (blue)", "blue"],
         "grip": ["rubber", "plastic - matte (black)", "black"],
+        "glass": ["glass - clear", "glass"],
+        "screen": ["plastic - matte (black)", "black"],
+        "board": ["plastic - matte (green)", "green", "plastic"],
     }
 
     def __init__(self, app: adsk.core.Application, design: adsk.fusion.Design) -> None:

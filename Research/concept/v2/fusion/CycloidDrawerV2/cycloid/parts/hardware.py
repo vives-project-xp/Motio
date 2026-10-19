@@ -15,10 +15,15 @@ def standard_length(needed: float) -> int:
 
 
 class HardwareBuilder:
-    def __init__(self, parent, palette) -> None:
+    def __init__(self, parent, palette, bill: dict = None, z_offset: float = 0.0) -> None:
+        """z_offset: world Z of the parent's origin, so callers can keep using world heights.
+
+        Hardware built inside a moving part (gear, arm) moves along with it.
+        """
         self.parent = parent
         self.palette = palette
-        self.bill = {}  # description -> count, reported at the end
+        self.bill = bill if bill is not None else {}  # description -> count
+        self.z0 = z_offset
 
     # --- fasteners -----------------------------------------------------------
     def bolt(self, xy, head_bottom_z: float, shank_top_z: float, size: str = "M10") -> None:
@@ -26,7 +31,7 @@ class HardwareBuilder:
         d, af, hh = (10.0, cfg.HEAD_M10_AF, cfg.HEAD_M10_H) if size == "M10" else (6.0, 10.0, 4.0)
         length = standard_length(shank_top_z - (head_bottom_z + hh))
         name = f"Bolt {size}x{length}"
-        comp = new_component(self.parent, name, placement(xy[0], xy[1], head_bottom_z))
+        comp = new_component(self.parent, name, placement(xy[0], xy[1], head_bottom_z - self.z0))
         head = st.new_sketch(comp)
         st.hexagon(head, af)
         body = st.extrude_sketch(comp, head, hh)
@@ -39,7 +44,7 @@ class HardwareBuilder:
 
     def nut(self, xy, z: float, size: str = "M10") -> None:
         af, h, hole = (cfg.NUT_M10_AF, cfg.NUT_M10_H, 10.0) if size == "M10" else (10.0, 5.0, 6.0)
-        comp = new_component(self.parent, f"Nut {size}", placement(xy[0], xy[1], z))
+        comp = new_component(self.parent, f"Nut {size}", placement(xy[0], xy[1], z - self.z0))
         sketch = st.new_sketch(comp)
         st.hexagon(sketch, af)
         st.circle(sketch, 0, 0, hole)
@@ -48,7 +53,7 @@ class HardwareBuilder:
 
     # --- round parts -----------------------------------------------------------
     def ring(self, name: str, xy, z: float, outer: float, inner: float, height: float, role: str) -> None:
-        comp = new_component(self.parent, name, placement(xy[0], xy[1], z))
+        comp = new_component(self.parent, name, placement(xy[0], xy[1], z - self.z0))
         sketch = st.new_sketch(comp)
         st.circle(sketch, 0, 0, outer)
         if inner:

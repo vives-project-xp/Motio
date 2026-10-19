@@ -20,19 +20,23 @@ class BoxBuilder:
         self.parent = parent
         self.palette = palette
 
-    def build(self, axle_points: list) -> None:
+    def build(self, axle_points: list):
+        """Returns ([section components to ground], lid component)."""
         box = TwoCompartmentBox(cfg.BOX_SPEC, axle_points)
         groups = {key: new_component(self.parent, name) for key, name in _SECTIONS.items()}
         groups["collar"] = new_component(groups["bottom"], "Collar (glued inside)")
-        for panel in box.panels:
-            self._panel(groups[panel.section], panel)
+        panels = {panel.name: self._panel(groups[panel.section], panel) for panel in box.panels}
+        return [groups["bottom"], groups["top"]], panels["Lid"]
 
-    def _panel(self, group, panel) -> None:
+    def _panel(self, group, panel):
         comp = new_component(group, panel.name, _FRAMES[panel.axis](panel))
         sketch = st.new_sketch(comp)
         for loop in panel.loops:
             st.polyline(sketch, loop)
         for u, v, d in panel.holes:
             st.circle(sketch, u, v, d)
+        for loop in panel.cutouts:
+            st.polyline(sketch, loop)
         body = st.extrude_sketch(comp, sketch, cfg.MATERIAL)
         self.palette.apply(body, _ROLE[panel.section])
+        return comp

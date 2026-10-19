@@ -2,6 +2,7 @@
 from .finger_solver import FingerJointSolver
 from .panel import Panel
 from .spec import BoxSpec
+from .wedge_mount import WedgeMount
 
 HORIZONTAL, FRONT_BACK, SIDE = 3, 2, 1   # corner-cube priority
 
@@ -14,6 +15,7 @@ class TwoCompartmentBox:
         self._bottom_section()
         self._collar()
         self._top_section(axle_points)
+        self._wedge_slots()
         FingerJointSolver(self.panels, spec.finger, spec.thickness).solve()
 
     def by_section(self, section: str) -> list:
@@ -38,6 +40,11 @@ class TwoCompartmentBox:
         divider.holes.append((s.width / 2, s.depth / 2, s.cable_hole))
         lid = self._add("Lid", (0, 0, s.lid_z), (s.width, s.depth, s.top_z), 2, HORIZONTAL, "top")
         lid.holes += [(x, y, 10.5) for x, y in axle_points]
+
+    def _wedge_slots(self) -> None:
+        """Keyhole slots for the control-panel wedge, in the upper front wall (clear of the divider and the lid)."""
+        front = next(p for p in self.panels if p.name == "Upper front")
+        front.cutouts += WedgeMount().slot_loops(self.spec.width)
 
     # --------------------------------------------------------------- helpers
     def _walls(self, prefix: str, z0: float, z1: float, inset: float, section: str) -> None:

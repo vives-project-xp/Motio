@@ -1,4 +1,4 @@
-"""A flat panel: an axis-aligned slab in 3D plus round holes in its own plane."""
+"""A flat panel: an axis-aligned slab in 3D plus round holes and cut-outs in its own plane."""
 from dataclasses import dataclass, field
 
 # thickness axis -> which world axes become the panel's (u, v)
@@ -15,6 +15,7 @@ class Panel:
     section: str              # "bottom", "collar", "top"
     holes: list = field(default_factory=list)   # (u, v, diameter) in world units
     loops: list = field(default_factory=list)   # filled in by the solver
+    cutouts: list = field(default_factory=list)  # closed loops [(u, v), ...] cut out of the panel
 
     @property
     def uv_axes(self) -> tuple:

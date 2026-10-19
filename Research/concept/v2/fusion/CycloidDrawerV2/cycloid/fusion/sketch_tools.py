@@ -66,6 +66,22 @@ def largest_profile(sketch: adsk.fusion.Sketch) -> adsk.fusion.Profile:
     return best
 
 
+def plate_profile(sketch: adsk.fusion.Sketch) -> adsk.fusion.Profile:
+    """The region with the most loops: the outline minus its holes.
+
+    Not simply the largest area: a big hole (screen opening) is larger than the frame around it.
+    """
+    sketch.isComputeDeferred = False
+    best, best_key = None, (-1, -1.0)
+    for i in range(sketch.profiles.count):
+        prof = sketch.profiles.item(i)
+        area = prof.areaProperties(adsk.fusion.CalculationAccuracy.LowCalculationAccuracy).area
+        key = (prof.profileLoops.count, area)
+        if key > best_key:
+            best, best_key = prof, key
+    return best
+
+
 def extrude(comp: adsk.fusion.Component, profile, height: float,
             operation=adsk.fusion.FeatureOperations.NewBodyFeatureOperation):
     dist = adsk.core.ValueInput.createByReal(height * MM)
@@ -73,6 +89,6 @@ def extrude(comp: adsk.fusion.Component, profile, height: float,
 
 
 def extrude_sketch(comp: adsk.fusion.Component, sketch: adsk.fusion.Sketch, height: float):
-    """Extrude the largest region of a sketch (outline minus its holes) as a new body."""
-    feature = extrude(comp, largest_profile(sketch), height)
+    """Extrude the plate region of a sketch (outline minus its holes) as a new body."""
+    feature = extrude(comp, plate_profile(sketch), height)
     return feature.bodies.item(0)

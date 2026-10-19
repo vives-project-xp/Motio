@@ -15,6 +15,9 @@ BOX_SPEC = BoxSpec(width=BOX_WIDTH, depth=BOX_DEPTH, thickness=MATERIAL)
 BOX_HEIGHT = BOX_SPEC.top_z
 LID_TOP_Z = BOX_HEIGHT
 
+# Control-panel wedge (Hardware/Bedieningspaneel) in front of the box
+INCLUDE_WEDGE = True
+
 # ---- Gears (same as laser files) ----------------------------------------
 MODULE = 3.0
 BACKLASH = 0.15
@@ -55,6 +58,9 @@ ARM_A_Z = AXLE_TOP_Z + 2.0            # left arm, clears the axle nuts
 ARM_B_Z = ARM_A_Z + MATERIAL          # right arm sits on top of the left arm
 SPACER_D = 16.0
 
+# Arm joint stays within -5..37 deg of its start; the flipped linkage would be 107..149 deg away
+ARM_JOINT_LIMIT_DEG = 50.0
+
 # ---- Paper & pen ------------------------------------------------------------
 PAPER_DIAMETER = 210.0
 PAPER_T = 0.2
@@ -67,3 +73,10 @@ HANDLE_GRIP_D, HANDLE_GRIP_L = 20.0, 40.0
 def to_fusion_xy(svg_x: float, svg_y: float) -> tuple:
     """Laser/SVG frame (y down from the back) -> Fusion frame (y up from the front)."""
     return svg_x, BOX_DEPTH - svg_y
+
+
+# ---- Animation (script driven: Fusion's API cannot create motion links) -------
+# The full pattern closes after 120 crank turns, so the animation shows only the first few.
+ANIMATION_CRANK_TURNS = 3
+ANIMATION_FRAMES = 360
+ANIMATION_FRAMES_DIR = ""   # folder for PNG frames (turn them into a video); empty = just play on screen

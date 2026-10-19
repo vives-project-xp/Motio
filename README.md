@@ -16,6 +16,7 @@
 - [Motio](#motio)
   - [Inhoudsopgave](#inhoudsopgave)
   - [Projectoverzicht](#projectoverzicht)
+  - [Projectstatus](#projectstatus)
   - [Functies](#functies)
   - [Technologie](#technologie)
     - [Hardware](#hardware)
@@ -33,6 +34,27 @@ Het Motio project is een initiatief ontwikkeld door 2de- en 3dejaars bachelorstu
 
 Het systeem combineert de beweging van meerdere elementen om complexe patronen te genereren. Een tekeninstrument vertaalt deze gecombineerde beweging naar lijnen op papier. Door parameters zoals snelheid, richting, fase en bewegingsverhouding te variëren, ontstaan telkens andere visuele patronen. Op die manier wordt de onderliggende beweging niet alleen geregistreerd, maar ook fysiek vastgelegd.
 
+## Projectstatus
+
+*Stand in oktober 2026.*
+
+| Onderdeel | Status | Toelichting |
+| --------- | ------ | ----------- |
+| Concept & onderzoek | Afgerond | Cycloïde-tekenmachine, keuze motoren (SY42STH38-1684A), scherm en lagers. Zie [Research](Research/README.md). |
+| Box V1 | Afgerond | Manueel aangedreven prototype dat één patroon tekent. Zie [UitlegBoxV1](Research/concept/UitlegBoxV1.md). |
+| Box V2 | In uitwerking | Parametrisch Fusion-model (CycloidDrawerV2) en lasersnijbestanden. |
+| Simulator | Ver gevorderd | SIMV1 t.e.m. SIMV6 met 13 patronen, woordgenerator, veiligheidscontroles en montagehandleiding. |
+| Bedieningspaneel | In uitwerking | Wig van 4 mm MDF met 10.1" scherm; maten en snijbestanden worden gegenereerd. Zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). |
+| Elektronica | Gestart | Schema's voor Raspberry Pi 5 en gShield, testcode voor motoraansturing (PWM). |
+| Pi-interface | Eerste versie | `Software/Pi-Interface/motio.py` laat de simulator de echte motoren aansturen. Nog niet getest op de volledige machine. |
+| Volledige machine | Nog niet gebouwd | Mechanica en elektronica zijn nog niet samen werkend gemonteerd. |
+
+### Volgende stappen
+
+1. **Elektronica koppelen aan de mechanica:** de drie motoren werkend op de box, eerst met testcode, daarna via de Pi-interface.
+2. **Materialen bestellen** zodat de machine gebouwd kan worden.
+3. **Box V2 of SIMV6-ontwerp bouwen** en de eerste echte tekening maken.
+
 ## Functies
 
 - **Instelbare parameters:** snelheden, richtingen en fase zijn makkelijk regelbaar.
@@ -48,11 +70,14 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 
 - Stappenmotoren met dedicated drivers voor precisie-aansturing.
 - Tekeninstrument als uitvoer naar papier.
+- Bedieningspaneel met schuin scherm: zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). Elektronicaschema's staan in [Schemas](Schemas).
 - Raspberry Pi als besturingsplatform (zie [schermkeuzes](Research/Scherm/Scherm_gegevens.md) en [motor-aansturing](Research/Stappenmotoren/Stappenmotor_aansturing.md)).
 
 ### Software
 
-- MOTIO SIMV5 in een zelfstandige map, met directe motoraandrijving en een geanimeerde montagehandleiding. Eerdere versies blijven beschikbaar.
+- MOTIO SIMV6 als huidige simulator, met directe motoraandrijving en een geanimeerde montagehandleiding. Eerdere versies blijven beschikbaar.
+- Pi-interface ([motio.py](Software/Pi-Interface/motio.py)): de simulator berekent de motorstanden, de Raspberry Pi zet ze om in step-pulsen.
+- Testcode voor [Raspberry Pi 5 en Arduino](Software/TestCode).
 - Parameterbesturing voor snelheid, richting, fase en bewegingsverhouding.
 
 ## Project Structuur
@@ -60,16 +85,20 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 ```bash
 Motio/
 ├── doc/              # Projectdocumentatie en de projectcanvas
-├── Hardware/         # Hardware van het project
+├── Hardware/         # Hardware: bedieningspaneel en snijbestanden box V1
 ├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, concepten v1/v2)
+├── Schemas/          # Elektronicaschema's (Raspberry Pi 5, gShield)
 ├── Software/         # Softwarecomponenten van het project
+│   ├── Pi-Interface/ # Server die de simulator met de motoren verbindt
+│   └── TestCode/     # Testcode Raspberry Pi 5 en Arduino
 ├── Software/WARD-SIM/ # Interactieve simulators
 │   ├── SIMV1/        # Oorspronkelijke live simulator
 │   ├── SIMV2/        # Virtueel prototype met machinebediening
 │   ├── SIMV3/        # Behouden werkende basis met drie motoren, 2D/3D en BOM
 │   ├── SIMV4/        # Compacte box 358 × 404 × 108 mm en instelbare zichtbaarheid
 │   ├── SIMV4-5/      # Drie directe motoraandrijvingen
-│   └── SIMV5/        # Montagehandleiding met zes geanimeerde stappen
+│   ├── SIMV5/        # Montagehandleiding met zes geanimeerde stappen
+│   └── SIMV6/        # Motoren tegen de bovenplaat, PETG-krukken, 38 montagestappen
 └── README.md         # Dit bestand
 ```
 
@@ -80,7 +109,8 @@ Motio/
 - [MOTIO SIMV3](Software/WARD-SIM/SIMV3/index.html): behouden werkende basis met rond papier Ø210 mm, veilige tekenzone Ø190 mm, drie SY42STH38-1684A-motoren en 2D/3D-interface. Zie [ontwerp en controles](Software/WARD-SIM/SIMV3/README.md).
 - [MOTIO SIMV4](Software/WARD-SIM/SIMV4/index.html): simulator met compacte opstelling, box 358 × 404 × 108 mm en afzonderlijke zichtbaarheid van wanden, bodem en bovenplaat. De drie motoren en bestaande bediening blijven behouden. Zie [starten en controles](Software/WARD-SIM/SIMV4/README.md).
 - [MOTIO SIMV4-5](Software/WARD-SIM/SIMV4-5/index.html): behouden versie met drie directe motoraandrijvingen.
-- [MOTIO SIMV5](Software/WARD-SIM/SIMV5/index.html): huidige versie, gebaseerd op SIMV4-5, met een tab **Montagehandleiding**: zes stappen, automatische opbouwanimaties, voortgang en herhalen. Zie [starten en bediening](Software/WARD-SIM/SIMV5/README.md).
+- [MOTIO SIMV5](Software/WARD-SIM/SIMV5/index.html): gebaseerd op SIMV4-5, met een tab **Montagehandleiding**: zes stappen, automatische opbouwanimaties, voortgang en herhalen. Zie [starten en bediening](Software/WARD-SIM/SIMV5/README.md).
+- [MOTIO SIMV6](Software/WARD-SIM/SIMV6/index.html): huidige versie, gebaseerd op SIMV5. De motorflenzen zitten rechtstreeks tegen de MDF-bovenplaat, de krukken zijn PETG, en de handleiding telt 38 stappen met onderdelenlijst. De laatste wijziging (PETG-krukken) is nog niet getest. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV6/README.md).
 
 ### Screenshots
 
