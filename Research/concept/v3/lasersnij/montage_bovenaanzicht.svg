@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="343.4mm" height="304.3mm" viewBox="0 0 343.4 304.3">
+<path d="M 0 0 L 343.4 0 L 343.4 304.3 L 0 304.3 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 252.113 224.261 A 11.250 11.250 0 1 0 274.613 224.261 A 11.250 11.250 0 1 0 252.113 224.261 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 246.063 208.761 A 1.800 1.800 0 1 0 249.663 208.761 A 1.800 1.800 0 1 0 246.063 208.761 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 246.063 239.761 A 1.800 1.800 0 1 0 249.663 239.761 A 1.800 1.800 0 1 0 246.063 239.761 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 277.063 208.761 A 1.800 1.800 0 1 0 280.663 208.761 A 1.800 1.800 0 1 0 277.063 208.761 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 277.063 239.761 A 1.800 1.800 0 1 0 280.663 239.761 A 1.800 1.800 0 1 0 277.063 239.761 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 198.363 224.261 A 65.000 65.000 0 1 0 328.363 224.261 A 65.000 65.000 0 1 0 198.363 224.261 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<text x="263.36" y="266.56" font-family="Arial" font-size="6" fill="#777777" stroke="none" text-anchor="middle">motor A</text>
+<path d="M 252.088 80.039 A 11.250 11.250 0 1 0 274.588 80.039 A 11.250 11.250 0 1 0 252.088 80.039 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 246.038 64.539 A 1.800 1.800 0 1 0 249.638 64.539 A 1.800 1.800 0 1 0 246.038 64.539 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 246.038 95.539 A 1.800 1.800 0 1 0 249.638 95.539 A 1.800 1.800 0 1 0 246.038 95.539 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 277.038 64.539 A 1.800 1.800 0 1 0 280.638 64.539 A 1.800 1.800 0 1 0 277.038 64.539 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 277.038 95.539 A 1.800 1.800 0 1 0 280.638 95.539 A 1.800 1.800 0 1 0 277.038 95.539 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 198.338 80.039 A 65.000 65.000 0 1 0 328.338 80.039 A 65.000 65.000 0 1 0 198.338 80.039 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<text x="263.34" y="122.34" font-family="Arial" font-size="6" fill="#777777" stroke="none" text-anchor="middle">motor B</text>
+<path d="M 96.787 171.591 A 11.250 11.250 0 1 0 119.287 171.591 A 11.250 11.250 0 1 0 96.787 171.591 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 90.737 156.091 A 1.800 1.800 0 1 0 94.337 156.091 A 1.800 1.800 0 1 0 90.737 156.091 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 90.737 187.091 A 1.800 1.800 0 1 0 94.337 187.091 A 1.800 1.800 0 1 0 90.737 187.091 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 121.737 156.091 A 1.800 1.800 0 1 0 125.337 156.091 A 1.800 1.800 0 1 0 121.737 156.091 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<path d="M 121.737 187.091 A 1.800 1.800 0 1 0 125.337 187.091 A 1.800 1.800 0 1 0 121.737 187.091 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+<text x="108.04" y="213.89" font-family="Arial" font-size="6" fill="#777777" stroke="none" text-anchor="middle">motor C</text>
+<path d="M 3.037 171.591 A 105.000 105.000 0 1 0 213.037 171.591 A 105.000 105.000 0 1 0 3.037 171.591 Z" fill="none" stroke="#0000FF" stroke-width="0.1" vector-effect="non-scaling-stroke"/>
+</svg>

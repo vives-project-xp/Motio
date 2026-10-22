@@ -1,0 +1,10 @@
+{
+  "autodeskProduct": "Fusion360",
+  "type": "script",
+  "author": "Kyell",
+  "description": {
+    "": "Builds the stepper-driven drawer: box, three motors, cranks, arms, platter, paper and pen"
+  },
+  "supportedOS": "windows|mac",
+  "editEnabled": true
+}
