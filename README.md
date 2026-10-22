@@ -45,7 +45,7 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 | Concept & onderzoek | Afgerond | Cycloïde-tekenmachine, keuze motoren (SY42STH38-1684A), scherm en lagers. Zie [Research](Research/README.md). |
 | Box V1 | Afgerond | Manueel aangedreven prototype dat één patroon tekent. Zie [UitlegBoxV1](Research/concept/UitlegBoxV1.md). |
 | Box V2 | Afgerond (ontwerp) | Parametrisch Fusion-model (CycloidDrawerV2) en lasersnijbestanden met tandwielaandrijving. Vervangen door V3. |
-| Box V3 | In uitwerking | Kast van 4 mm MDF met de motoraandrijving van SIMV7. Generator voor lasersnijbestanden en Fusion-script. Zie [Box V3](Research/concept/v3/README.md). |
+| Box V3 | Gebouwd | Kast van 4 mm MDF met de motoraandrijving van SIMV7, gemaakt met een generator voor lasersnijbestanden en een Fusion-script. Zie [Box V3](Research/concept/v3/README.md). |
 | Simulator | Afgewerkt | SIMV1 t.e.m. SIMV7 met 13 patronen, woordgenerator, veiligheidscontroles en montagehandleiding. SIMV7 is de laatste versie. |
 | Bedieningspaneel | In uitwerking | Wig van 4 mm MDF met 7" Raspberry Pi-scherm; maten en snijbestanden worden gegenereerd. Zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). |
 | Elektronica | Gestart | Schema's voor Raspberry Pi 5 en gShield, testcode voor motoraansturing (PWM). |
@@ -55,25 +55,22 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 ### Volgende stappen
 
 1. **Elektronica koppelen aan de mechanica:** de drie motoren werkend op de box, eerst met testcode, daarna via de Pi-interface.
-2. **Materialen bestellen** zodat de machine gebouwd kan worden.
-3. **Box V3 (SIMV7-ontwerp) bouwen** en de eerste echte tekening maken.
-4. **Pi-interface bijwerken** naar SIMV7 (1/8 microstepping, juiste Home-referentie).
+2. **Eerste echte tekening maken** met de gebouwde Box V3.
+3. **Pi-interface bijwerken** naar SIMV7 (1/8 microstepping, juiste Home-referentie).
 
 ```mermaid
 flowchart LR
     A[Concept en onderzoek] --> B[Simulator SIMV1 - SIMV7]
     B --> C[Box V1 - V3]
     C --> D[Elektronica koppelen]
-    D --> E[Materialen bestellen]
-    E --> F[Machine bouwen]
-    F --> G[Eerste echte tekening]
+    D --> G[Eerste echte tekening]
 
     classDef klaar fill:#d4edda,stroke:#2e7d32,color:#111
     classDef bezig fill:#fff3cd,stroke:#b08900,color:#111
     classDef open fill:#f0f0f0,stroke:#888,color:#111
-    class A,B klaar
-    class C,D bezig
-    class E,F,G open
+    class A,B,C klaar
+    class D bezig
+    class G open
 ```
 
 ## Functies
@@ -135,6 +132,10 @@ timeline
 
 ### Hardware
 
+![Box V3 in Fusion: kast van 4 mm MDF met de twee armen, het ronde plateau en het schuine bedieningspaneel](./doc/assets/box-v3.png)
+
+*Box V3: kast van 4 mm MDF met de twee armen, het plateau met papier en het schuine bedieningspaneel met scherm.*
+
 - Stappenmotoren met dedicated drivers voor precisie-aansturing.
 - Tekeninstrument als uitvoer naar papier.
 - Bedieningspaneel met schuin scherm: zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). Elektronicaschema's staan in [Schemas](Schemas).
@@ -151,7 +152,7 @@ timeline
 
 De onderdelenlijst van Box V3: de aandrijving en de PLA-onderdelen van [SIMV7](Software/WARD-SIM/SIMV7/README.md) in een kast van **4 mm MDF** (343,4 × 304,3 × 128 mm, twee compartimenten, zie [Box V3](Research/concept/v3/README.md)). De MDF-onderdelen komen uit de [lasersnijgenerator](Research/concept/v3/lasersnij/generator/config.py). De rest komt uit de SIMV7-[BOM](Software/WARD-SIM/SIMV7/exports/MOTIO-V7-BOM.csv) (kooplinks in [SOURCING.md](Software/WARD-SIM/SIMV7/SOURCING.md)), met twee aanpassingen voor het dunnere hout: motorbouten en verzonken plateaubouten zijn M3×8 in plaats van M3×10. De ribben onder het deksel vervallen. De simulator zelf toont nog de SIMV7-lijst met 6 mm MDF.
 
-Aantallen en maten zijn ontwerpwaarden: er is nog niets fysiek gebouwd of getest. Een bron voor 4 mm MDF is nog niet gekozen.
+Aantallen en maten zijn de ontwerpwaarden van Box V3, die in 4 mm MDF gebouwd is.
 
 <details>
 <summary><strong>Koopdelen</strong> · 20 regels, 70 stuks</summary>
@@ -245,7 +246,7 @@ Motio/
 │   ├── SIMV4-5/      # Drie directe motoraandrijvingen
 │   ├── SIMV5/        # Montagehandleiding met zes geanimeerde stappen
 │   ├── SIMV6/        # Motoren tegen de bovenplaat, PETG-krukken, 38 montagestappen
-│   └── SIMV7/        # Laatste versie: PLA, 6 mm MDF, koopdelen, 40 montagestappen
+│   └── SIMV7/        # Laatste versie: PLA, MDF (ontwerp 6 mm, Box V3 bouwt 4 mm), koopdelen, 40 montagestappen
 └── README.md         # Dit bestand
 ```
 
@@ -258,11 +259,11 @@ Motio/
 - [MOTIO SIMV4-5](Software/WARD-SIM/SIMV4-5/index.html): behouden versie met drie directe motoraandrijvingen.
 - [MOTIO SIMV5](Software/WARD-SIM/SIMV5/index.html): gebaseerd op SIMV4-5, met een tab **Montagehandleiding**: zes stappen, automatische opbouwanimaties, voortgang en herhalen. Zie [starten en bediening](Software/WARD-SIM/SIMV5/README.md).
 - [MOTIO SIMV6](Software/WARD-SIM/SIMV6/index.html): gebaseerd op SIMV5. De motorflenzen zitten rechtstreeks tegen de MDF-bovenplaat, de krukken zijn PETG, en de handleiding telt 38 stappen met onderdelenlijst. De laatste wijziging (PETG-krukken) is nog niet getest. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV6/README.md).
-- [MOTIO SIMV7](Software/WARD-SIM/SIMV7/index.html): huidige en laatste versie, opvolger van SIMV6. PLA voor de maatdelen, 6 mm lasergesneden MDF voor de kast, standaard koopdelen en een handleiding van 40 stappen met kooplinks. Het is een gecontroleerd ontwerp, nog geen fysiek beproefde machine. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV7/README.md).
+- [MOTIO SIMV7](Software/WARD-SIM/SIMV7/index.html): huidige en laatste versie, opvolger van SIMV6. PLA voor de maatdelen, lasergesneden MDF voor de kast (6 mm in het ontwerp, in Box V3 gebouwd in 4 mm), standaard koopdelen en een handleiding van 40 stappen met kooplinks. Het is een gecontroleerd ontwerp, nog geen fysiek beproefde machine. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV7/README.md).
 
 ### Screenshots
 
-Deze referentiebeelden komen uit [SIMV7](Software/WARD-SIM/SIMV7/index.html), de laatste versie van de simulator. De simulator toont de SIMV7-kast van 358 × 404 × 112 mm in 6 mm MDF; de gebouwde Box V3 is een kleinere kast van 4 mm MDF met dezelfde mechanica.
+Deze referentiebeelden komen uit [SIMV7](Software/WARD-SIM/SIMV7/index.html), de laatste versie van de simulator. De simulator toont de SIMV7-kast van 358 × 404 × 112 mm in 6 mm MDF; de gebouwde Box V3 is een kleinere kast van 4 mm MDF met dezelfde mechanica (zie hierboven).
 
 **Simulator** – de bloem met vijf blaadjes, getekend op het ronde papier terwijl de machine in bovenaanzicht meebeweegt.
 
