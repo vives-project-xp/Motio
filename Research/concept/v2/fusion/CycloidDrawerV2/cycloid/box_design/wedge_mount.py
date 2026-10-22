@@ -14,11 +14,11 @@ ARC_STEPS = 12
 
 @dataclass(frozen=True)
 class WedgeMount:
-    wedge_width: float = 267.5     # width of the wedge plates, the wedge is centred on the box
-    side_x: tuple = (4.0, 259.5)   # outer face of each side panel, measured from the plate edge on the cable side
+    wedge_width: float = 221.46     # width of the wedge plates, the wedge is centred on the box
+    side_x: tuple = (4.0, 213.46)   # outer face of each side panel, measured from the plate edge on the cable side
     side_thickness: float = 4.0
-    hook_height: float = 94.0      # centre of the hook above the box floor (inside the upper front wall)
-    head_width: float = 40.0
+    hook_height: float = 84.0      # centre of the hook above the box floor (inside the upper front wall)
+    head_width: float = 30.0
     head_play: float = 1.0         # extra slot length per side so the head passes flat
     slot_height: float = 4.3
     keyhole_diameter: float = 6.4  # the 4 x 4 mm neck turns inside this (diagonal 5.7 mm)

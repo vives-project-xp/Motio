@@ -44,7 +44,7 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 | Box V1 | Afgerond | Manueel aangedreven prototype dat één patroon tekent. Zie [UitlegBoxV1](Research/concept/UitlegBoxV1.md). |
 | Box V2 | In uitwerking | Parametrisch Fusion-model (CycloidDrawerV2) en lasersnijbestanden. |
 | Simulator | Ver gevorderd | SIMV1 t.e.m. SIMV6 met 13 patronen, woordgenerator, veiligheidscontroles en montagehandleiding. |
-| Bedieningspaneel | In uitwerking | Wig van 4 mm MDF met 10.1" scherm; maten en snijbestanden worden gegenereerd. Zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). |
+| Bedieningspaneel | In uitwerking | Wig van 4 mm MDF met 7" Raspberry Pi-scherm; maten en snijbestanden worden gegenereerd. Zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). |
 | Elektronica | Gestart | Schema's voor Raspberry Pi 5 en gShield, testcode voor motoraansturing (PWM). |
 | Pi-interface | Eerste versie | `Software/Pi-Interface/motio.py` laat de simulator de echte motoren aansturen. Nog niet getest op de volledige machine. |
 | Volledige machine | Nog niet gebouwd | Mechanica en elektronica zijn nog niet samen werkend gemonteerd. |
