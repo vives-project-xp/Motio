@@ -149,9 +149,9 @@ timeline
 
 ## Onderdelenlijst (BOM)
 
-De onderdelenlijst van [SIMV7](Software/WARD-SIM/SIMV7/README.md), afgeleid uit dezelfde configuratie als het model. Voor de kooplinks en winkels: zie [SOURCING.md](Software/WARD-SIM/SIMV7/SOURCING.md) en de volledige [BOM als CSV](Software/WARD-SIM/SIMV7/exports/MOTIO-V7-BOM.csv). Dezelfde lijst staat in de simulator onder **Components / BOM**.
+De onderdelenlijst van Box V3: de aandrijving en de PLA-onderdelen van [SIMV7](Software/WARD-SIM/SIMV7/README.md) in een kast van **4 mm MDF** (343,4 × 304,3 × 128 mm, twee compartimenten, zie [Box V3](Research/concept/v3/README.md)). De MDF-onderdelen komen uit de [lasersnijgenerator](Research/concept/v3/lasersnij/generator/config.py). De rest komt uit de SIMV7-[BOM](Software/WARD-SIM/SIMV7/exports/MOTIO-V7-BOM.csv) (kooplinks in [SOURCING.md](Software/WARD-SIM/SIMV7/SOURCING.md)), met twee aanpassingen voor het dunnere hout: motorbouten en verzonken plateaubouten zijn M3×8 in plaats van M3×10. De ribben onder het deksel vervallen. De simulator zelf toont nog de SIMV7-lijst met 6 mm MDF.
 
-Aantallen en maten zijn ontwerpwaarden: er is nog niets fysiek gebouwd of getest.
+Aantallen en maten zijn ontwerpwaarden: er is nog niets fysiek gebouwd of getest. Een bron voor 4 mm MDF is nog niet gekozen.
 
 <details>
 <summary><strong>Koopdelen</strong> · 20 regels, 70 stuks</summary>
@@ -159,7 +159,7 @@ Aantallen en maten zijn ontwerpwaarden: er is nog niets fysiek gebouwd of getest
 | Aantal | Onderdeel | Afmetingen |
 | ---: | --- | --- |
 | 3 | SY42STH38-1684A-stappenmotor | 42,3 × 42,3 × 38; as Ø5 × 24 ±1 |
-| 12 | Motorbout M3×10 | M3 × 10 · DIN 912 |
+| 12 | Motorbout M3×8 | M3 × 8 · DIN 912 |
 | 12 | Brede sluitring M3 | Ø9/3,2 × 0,8 · DIN 9021 |
 | 3 | Metalen motornaaf Ø5 | Ø19 × 5; 4× M3 op steekcirkel Ø12,7 |
 | 3 | Meegeleverde M3-naafstelschroef | M3 · inbus 1,5 mm |
@@ -176,22 +176,22 @@ Aantallen en maten zijn ontwerpwaarden: er is nog niets fysiek gebouwd of getest
 | 1 | Ingevangen moer M3 | M3 · DIN 934 · sleutel 5,5 |
 | 1 | Ingevangen moer M4 | M4 · DIN 934 · sleutel 7 |
 | 1 | Handklemschroef M4×25 | M4 × 25 · zeskantkop DIN 933 |
-| 4 | Verzonken plateaubout M3×10 | M3 × 10, 90° |
+| 4 | Verzonken plateaubout M3×8 | M3 × 8, 90° |
 | 1 | Tekenpen | Ø10 nominaal; circa 110 bruikbare lengte |
 
 </details>
 
 <details>
-<summary><strong>Lasersnijden (6 mm MDF)</strong> · 6 regels, 9 stuks</summary>
+<summary><strong>Lasersnijden (4 mm MDF)</strong> · 6 regels, 8 stuks</summary>
 
 | Aantal | Onderdeel | Afmetingen |
 | ---: | --- | --- |
-| 1 | Bovenplaat | 358 × 404 × 6 mm |
-| 2 | Rib onder bovenplaat | 346 × 36 × 6 mm inclusief tanden |
-| 1 | MDF-draaiplateau | Ø210 × 6 |
-| 1 | Bodem | 358 × 404 × 6 |
-| 2 | Voor- en achterwand | 358 × 100 × 6 |
-| 2 | Zijwand | 6 × 392 × 100 |
+| 1 | Deksel (bovenplaat) | 343,4 × 304,3 × 4 mm |
+| 1 | Tussenschot | 343,4 × 304,3 × 4 mm |
+| 1 | Bodem | 343,4 × 304,3 × 4 mm |
+| 2 | Voor- en achterwand | 343,4 × 128 × 4 mm |
+| 2 | Zijwand | 304,3 × 128 × 4 mm |
+| 1 | Draaiplateau | Ø210 × 4 mm |
 
 </details>
 
@@ -218,7 +218,7 @@ Aantallen en maten zijn ontwerpwaarden: er is nog niets fysiek gebouwd of getest
 </details>
 
 <details>
-<summary><strong>Papier en pen</strong> · 1 regels, 1 stuks</summary>
+<summary><strong>Papier</strong> · 1 regel, 1 stuk</summary>
 
 | Aantal | Onderdeel | Afmetingen |
 | ---: | --- | --- |
@@ -262,7 +262,7 @@ Motio/
 
 ### Screenshots
 
-Deze referentiebeelden komen uit [SIMV7](Software/WARD-SIM/SIMV7/index.html), de laatste versie van de simulator.
+Deze referentiebeelden komen uit [SIMV7](Software/WARD-SIM/SIMV7/index.html), de laatste versie van de simulator. De simulator toont de SIMV7-kast van 358 × 404 × 112 mm in 6 mm MDF; de gebouwde Box V3 is een kleinere kast van 4 mm MDF met dezelfde mechanica.
 
 **Simulator** – de bloem met vijf blaadjes, getekend op het ronde papier terwijl de machine in bovenaanzicht meebeweegt.
 
