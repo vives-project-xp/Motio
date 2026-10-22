@@ -1,0 +1,241 @@
+{
+  "generator": "manifold3d + independent STL reimport with trimesh",
+  "parts": [
+    {
+      "file": "MOTIO-V7-K-A.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 2904,
+      "dimensions_mm": [
+        94.0,
+        33.999,
+        6.0
+      ],
+      "volume_mm3": 13215.56,
+      "id": "K-A",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-K-B.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 4242,
+      "dimensions_mm": [
+        93.996,
+        33.996,
+        10.0
+      ],
+      "volume_mm3": 15433.2,
+      "id": "K-B",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-E-A.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 1344,
+      "dimensions_mm": [
+        14.0,
+        14.0,
+        16.5
+      ],
+      "volume_mm3": 1542.8,
+      "id": "E-A",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-L-A.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 1,
+      "triangles": 2604,
+      "dimensions_mm": [
+        214.992,
+        39.99,
+        16.0
+      ],
+      "volume_mm3": 45572.17,
+      "id": "L-A",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-E-B.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 1344,
+      "dimensions_mm": [
+        14.0,
+        14.0,
+        28.5
+      ],
+      "volume_mm3": 2724.2,
+      "id": "E-B",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-L-B.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 1,
+      "triangles": 2604,
+      "dimensions_mm": [
+        194.996,
+        39.995,
+        16.0
+      ],
+      "volume_mm3": 41492.19,
+      "id": "L-B",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-E-SPACER.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 768,
+      "dimensions_mm": [
+        12.0,
+        12.0,
+        4.5
+      ],
+      "volume_mm3": 259.37,
+      "id": "E-SPACER",
+      "quantity": 2
+    },
+    {
+      "file": "MOTIO-V7-P.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 1466,
+      "dimensions_mm": [
+        24.0,
+        24.0,
+        50.0
+      ],
+      "volume_mm3": 9614.61,
+      "id": "P",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-SP-P.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 768,
+      "dimensions_mm": [
+        24.0,
+        24.0,
+        14.0
+      ],
+      "volume_mm3": 1845.5,
+      "id": "SP-P",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-SP-P-TOP.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 768,
+      "dimensions_mm": [
+        24.0,
+        24.0,
+        9.5
+      ],
+      "volume_mm3": 1252.3,
+      "id": "SP-P-TOP",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-PEN.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 2760,
+      "dimensions_mm": [
+        35.0,
+        28.0,
+        22.0
+      ],
+      "volume_mm3": 9373.9,
+      "id": "PEN",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-BUSH.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 1694,
+      "dimensions_mm": [
+        16.0,
+        16.0,
+        15.0
+      ],
+      "volume_mm3": 718.71,
+      "id": "BUSH",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-PAD.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 12,
+      "dimensions_mm": [
+        2.0,
+        6.0,
+        6.0
+      ],
+      "volume_mm3": 72.0,
+      "id": "PAD",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-KNOB.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 424,
+      "dimensions_mm": [
+        16.0,
+        16.0,
+        6.0
+      ],
+      "volume_mm3": 1354.7,
+      "id": "KNOB",
+      "quantity": 1
+    },
+    {
+      "file": "MOTIO-V7-fit-coupon.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 2340,
+      "dimensions_mm": [
+        150.0,
+        82.0,
+        8.0
+      ],
+      "volume_mm3": 69791.1
+    },
+    {
+      "file": "MOTIO-V7-shaft-coupon.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 1344,
+      "dimensions_mm": [
+        24.0,
+        24.0,
+        17.0
+      ],
+      "volume_mm3": 3452.61
+    }
+  ]
+}

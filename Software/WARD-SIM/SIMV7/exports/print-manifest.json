@@ -1,0 +1,933 @@
+{
+  "material": "PLA",
+  "parts": [
+    {
+      "id": "K-A",
+      "name": "PLA-kruk A",
+      "qty": 1,
+      "filename": "MOTIO-V7-K-A.stl",
+      "origin": {
+        "x": 280,
+        "y": 180
+      },
+      "angle": -1.6418831571790862,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "crankA",
+          "bom": "K-A",
+          "group": "moving",
+          "shape": "beam",
+          "instance": "K-A",
+          "mount": "K-A",
+          "a": {
+            "x": 279.1476763053676,
+            "y": 191.96969274123475
+          },
+          "b": {
+            "x": 275.73838152683805,
+            "y": 239.84846370617382
+          },
+          "z": 21,
+          "w": 24,
+          "h": 6,
+          "assemblyGroup": "unitA"
+        },
+        {
+          "id": "crankHubA",
+          "bom": "K-A",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "K-A",
+          "mount": "K-A",
+          "x": 280,
+          "y": 180,
+          "z": 21,
+          "r": 17,
+          "h": 6,
+          "inner": 2.8,
+          "assemblyGroup": "unitA",
+          "holes": [
+            {
+              "x": -0.4510212884096353,
+              "y": 6.333962408903396,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": -6.333962408903396,
+              "y": -0.45102128840963496,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": 0.4510212884096318,
+              "y": -6.333962408903396,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": 6.333962408903396,
+              "y": 0.45102128840963135,
+              "r": 1.7,
+              "h": 12
+            }
+          ]
+        },
+        {
+          "id": "crankEndA",
+          "bom": "K-A",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "K-A",
+          "mount": "K-A",
+          "x": 275.3832466540746,
+          "y": 244.8358356816883,
+          "z": 21,
+          "r": 12,
+          "h": 6,
+          "inner": 4.2,
+          "assemblyGroup": "unitA"
+        }
+      ]
+    },
+    {
+      "id": "K-B",
+      "name": "PLA-kruk B",
+      "qty": 1,
+      "filename": "MOTIO-V7-K-B.stl",
+      "origin": {
+        "x": 160,
+        "y": 100
+      },
+      "angle": -3.8453413994318044,
+      "rotate": [
+        180,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "crankB",
+          "bom": "K-B",
+          "group": "moving",
+          "shape": "beam",
+          "instance": "K-B",
+          "mount": "K-B",
+          "a": {
+            "x": 150.85093827555187,
+            "y": 92.2350357655532
+          },
+          "b": {
+            "x": 114.25469137775927,
+            "y": 61.175178827766025
+          },
+          "z": 30,
+          "w": 24,
+          "h": 6,
+          "assemblyGroup": "unitB"
+        },
+        {
+          "id": "crankHubB",
+          "bom": "K-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "K-B",
+          "mount": "K-B",
+          "x": 160,
+          "y": 100,
+          "z": 30,
+          "r": 17,
+          "h": 6,
+          "inner": 2.8,
+          "assemblyGroup": "unitB",
+          "holes": [
+            {
+              "x": -4.841378495853811,
+              "y": -4.108960240728095,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": 4.108960240728095,
+              "y": -4.841378495853811,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": 4.841378495853811,
+              "y": 4.108960240728094,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": -4.108960240728094,
+              "y": 4.841378495853811,
+              "r": 1.7,
+              "h": 12
+            }
+          ]
+        },
+        {
+          "id": "crankBossB",
+          "bom": "K-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "K-B",
+          "mount": "K-B",
+          "x": 160,
+          "y": 100,
+          "z": 25,
+          "r": 14,
+          "h": 4,
+          "inner": 2.8,
+          "assemblyGroup": "unitB",
+          "holes": [
+            {
+              "x": -4.841378495853811,
+              "y": -4.108960240728095,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": 4.108960240728095,
+              "y": -4.841378495853811,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": 4.841378495853811,
+              "y": 4.108960240728094,
+              "r": 1.7,
+              "h": 12
+            },
+            {
+              "x": -4.108960240728094,
+              "y": 4.841378495853811,
+              "r": 1.7,
+              "h": 12
+            }
+          ]
+        },
+        {
+          "id": "crankEndB",
+          "bom": "K-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "K-B",
+          "mount": "K-B",
+          "x": 110.44258232590587,
+          "y": 57.939777063413196,
+          "z": 30,
+          "r": 12,
+          "h": 6,
+          "inner": 4.2,
+          "assemblyGroup": "unitB"
+        }
+      ]
+    },
+    {
+      "id": "E-A",
+      "name": "PLA-scharnierafstandbus A",
+      "qty": 1,
+      "filename": "MOTIO-V7-E-A.stl",
+      "origin": {
+        "x": 275.3832466540746,
+        "y": 244.8358356816883
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "elbowA",
+          "bom": "E-A",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "E-A",
+          "mount": "E-A",
+          "x": 275.3832466540746,
+          "y": 244.8358356816883,
+          "z": 31.25,
+          "r": 7,
+          "h": 14.5,
+          "inner": 4.2
+        },
+        {
+          "id": "elbowNeckA",
+          "bom": "E-A",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "E-A",
+          "mount": "E-A",
+          "x": 275.3832466540746,
+          "y": 244.8358356816883,
+          "z": 39.5,
+          "r": 6,
+          "h": 2,
+          "inner": 4.2
+        }
+      ]
+    },
+    {
+      "id": "L-A",
+      "name": "PLA-penarm A",
+      "qty": 1,
+      "filename": "MOTIO-V7-L-A.stl",
+      "origin": {
+        "x": 275.3832466540746,
+        "y": 244.8358356816883
+      },
+      "angle": 2.988654552476309,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "rodA",
+          "bom": "L-A",
+          "group": "moving",
+          "shape": "beam",
+          "instance": "L-A",
+          "mount": "L-A",
+          "a": {
+            "x": 263.52331369637693,
+            "y": 243.00772456938773
+          },
+          "b": {
+            "x": 115.27415172515623,
+            "y": 220.15633566563042
+          },
+          "z": 44,
+          "w": 24,
+          "h": 16,
+          "wall": 3
+        },
+        {
+          "id": "endEA",
+          "bom": "L-A",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "L-A",
+          "mount": "L-A",
+          "x": 275.3832466540746,
+          "y": 244.8358356816883,
+          "z": 44,
+          "r": 15,
+          "h": 16,
+          "inner": 11.05
+        },
+        {
+          "id": "armShoulderEA",
+          "bom": "L-A",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "L-A",
+          "mount": "L-A",
+          "x": 275.3832466540746,
+          "y": 244.8358356816883,
+          "z": 38.25,
+          "r": 11.05,
+          "h": 4.5,
+          "inner": 7.3
+        },
+        {
+          "id": "endPA",
+          "bom": "L-A",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "L-A",
+          "mount": "L-A",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 44,
+          "r": 20,
+          "h": 16,
+          "inner": 16
+        },
+        {
+          "id": "armShoulderPA",
+          "bom": "L-A",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "L-A",
+          "mount": "L-A",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 38.25,
+          "r": 16,
+          "h": 4.5,
+          "inner": 12.3
+        }
+      ]
+    },
+    {
+      "id": "E-B",
+      "name": "PLA-scharnierafstandbus B",
+      "qty": 1,
+      "filename": "MOTIO-V7-E-B.stl",
+      "origin": {
+        "x": 110.44258232590587,
+        "y": 57.939777063413196
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "elbowB",
+          "bom": "E-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "E-B",
+          "mount": "E-B",
+          "x": 110.44258232590587,
+          "y": 57.939777063413196,
+          "z": 46.25,
+          "r": 7,
+          "h": 26.5,
+          "inner": 4.2
+        },
+        {
+          "id": "elbowNeckB",
+          "bom": "E-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "E-B",
+          "mount": "E-B",
+          "x": 110.44258232590587,
+          "y": 57.939777063413196,
+          "z": 60.5,
+          "r": 6,
+          "h": 2,
+          "inner": 4.2
+        }
+      ]
+    },
+    {
+      "id": "L-B",
+      "name": "PLA-penarm B",
+      "qty": 1,
+      "filename": "MOTIO-V7-L-B.stl",
+      "origin": {
+        "x": 110.44258232590587,
+        "y": 57.939777063413196
+      },
+      "angle": -1.6518746911582864,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "rodB",
+          "bom": "L-B",
+          "group": "moving",
+          "shape": "beam",
+          "instance": "L-B",
+          "mount": "L-B",
+          "a": {
+            "x": 109.47070757310867,
+            "y": 69.90035645844567
+          },
+          "b": {
+            "x": 98.94206441780555,
+            "y": 199.47329990463084
+          },
+          "z": 65,
+          "w": 24,
+          "h": 16,
+          "wall": 3
+        },
+        {
+          "id": "endEB",
+          "bom": "L-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "L-B",
+          "mount": "L-B",
+          "x": 110.44258232590587,
+          "y": 57.939777063413196,
+          "z": 65,
+          "r": 15,
+          "h": 16,
+          "inner": 11.05
+        },
+        {
+          "id": "armShoulderEB",
+          "bom": "L-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "L-B",
+          "mount": "L-B",
+          "x": 110.44258232590587,
+          "y": 57.939777063413196,
+          "z": 59.25,
+          "r": 11.05,
+          "h": 4.5,
+          "inner": 7.3
+        },
+        {
+          "id": "endPB",
+          "bom": "L-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "L-B",
+          "mount": "L-B",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 65,
+          "r": 20,
+          "h": 16,
+          "inner": 16
+        },
+        {
+          "id": "armShoulderPB",
+          "bom": "L-B",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "L-B",
+          "mount": "L-B",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 59.25,
+          "r": 16,
+          "h": 4.5,
+          "inner": 12.3
+        }
+      ]
+    },
+    {
+      "id": "E-SPACER",
+      "name": "PLA-bus boven ellebooglager",
+      "qty": 2,
+      "filename": "MOTIO-V7-E-SPACER.stl",
+      "origin": {
+        "x": 275.3832466540746,
+        "y": 244.8358356816883
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "elbowSpacerA",
+          "bom": "E-SPACER",
+          "group": "moving",
+          "shape": "ring",
+          "instance": "elbowSpacerA",
+          "mount": "ELBOW-FIX",
+          "x": 275.3832466540746,
+          "y": 244.8358356816883,
+          "z": 49.75,
+          "r": 6,
+          "h": 4.5,
+          "inner": 4.2
+        }
+      ]
+    },
+    {
+      "id": "P",
+      "name": "Holle PLA-penas met onderflens",
+      "qty": 1,
+      "filename": "MOTIO-V7-P.stl",
+      "origin": {
+        "x": 97.48425228860974,
+        "y": 217.41416899717956
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "penSleeve",
+          "bom": "P",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "penCarrier",
+          "mount": "P",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 60.5,
+          "r": 9.95,
+          "h": 50,
+          "inner": 6.5
+        },
+        {
+          "id": "penShoulder",
+          "bom": "P",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "penCarrier",
+          "mount": "P",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 38,
+          "r": 12,
+          "h": 5,
+          "inner": 6.5
+        }
+      ]
+    },
+    {
+      "id": "SP-P",
+      "name": "PLA-bus tussen penlagers",
+      "qty": 1,
+      "filename": "MOTIO-V7-SP-P.stl",
+      "origin": {
+        "x": 97.48425228860974,
+        "y": 217.41416899717956
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "penSpacer",
+          "bom": "SP-P",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "penSpacer",
+          "mount": "SP-P",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 54.5,
+          "r": 12,
+          "h": 14,
+          "inner": 10.1
+        }
+      ]
+    },
+    {
+      "id": "SP-P-TOP",
+      "name": "PLA-bus boven penlager",
+      "qty": 1,
+      "filename": "MOTIO-V7-SP-P-TOP.stl",
+      "origin": {
+        "x": 97.48425228860974,
+        "y": 217.41416899717956
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "penTopSpacer",
+          "bom": "SP-P-TOP",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "penTopSpacer",
+          "mount": "SP-P-TOP",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 73.25,
+          "r": 12,
+          "h": 9.5,
+          "inner": 10.1
+        }
+      ]
+    },
+    {
+      "id": "PEN",
+      "name": "PLA-penhouder met klemoren",
+      "qty": 1,
+      "filename": "MOTIO-V7-PEN.stl",
+      "origin": {
+        "x": 97.48425228860974,
+        "y": 217.41416899717956
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "holder",
+          "bom": "PEN",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "holder",
+          "mount": "PEN",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 89,
+          "r": 14,
+          "h": 22,
+          "inner": 6.5,
+          "holes": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": -7,
+              "r": 10.1,
+              "h": 8.02
+            },
+            {
+              "axis": "x",
+              "x": 10,
+              "y": 0,
+              "r": 2.2,
+              "h": 12
+            },
+            {
+              "axis": "x",
+              "x": 7,
+              "y": 0,
+              "r": 4.4,
+              "h": 5
+            },
+            {
+              "axis": "x",
+              "x": 12.7,
+              "y": 0,
+              "r": 4.15,
+              "h": 3.6,
+              "segments": 6
+            }
+          ],
+          "slots": [
+            {
+              "x": 12,
+              "y": 0,
+              "z": -7,
+              "w": 24,
+              "l": 1,
+              "h": 8.02
+            }
+          ]
+        },
+        {
+          "id": "holderEar-1",
+          "bom": "PEN",
+          "group": "pen",
+          "shape": "box",
+          "instance": "holder",
+          "mount": "PEN",
+          "x": 112.98425228860974,
+          "y": 213.66416899717956,
+          "z": 82,
+          "w": 11,
+          "l": 6.5,
+          "h": 8,
+          "holes": [
+            {
+              "axis": "x",
+              "angle": 1.5707963267948966,
+              "x": 1.5,
+              "y": 0,
+              "z": 0,
+              "r": 1.7,
+              "h": 20
+            }
+          ]
+        },
+        {
+          "id": "holderEar1",
+          "bom": "PEN",
+          "group": "pen",
+          "shape": "box",
+          "instance": "holder",
+          "mount": "PEN",
+          "x": 112.98425228860974,
+          "y": 221.16416899717956,
+          "z": 82,
+          "w": 11,
+          "l": 6.5,
+          "h": 8,
+          "holes": [
+            {
+              "axis": "x",
+              "angle": 1.5707963267948966,
+              "x": 1.5,
+              "y": 0,
+              "z": 0,
+              "r": 1.7,
+              "h": 20
+            },
+            {
+              "axis": "x",
+              "angle": 1.5707963267948966,
+              "x": 1.5,
+              "y": 1.8,
+              "r": 3.3,
+              "h": 3,
+              "segments": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "BUSH",
+      "name": "PLA-penbus met bovenflens",
+      "qty": 1,
+      "filename": "MOTIO-V7-BUSH.stl",
+      "origin": {
+        "x": 97.48425228860974,
+        "y": 217.41416899717956
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "centeringBush",
+          "bom": "BUSH",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "penBush",
+          "mount": "BUSH",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 93,
+          "r": 6.5,
+          "h": 14,
+          "inner": 5.15,
+          "slots": [
+            {
+              "x": 6,
+              "y": 0,
+              "w": 5,
+              "l": 1
+            }
+          ],
+          "holes": [
+            {
+              "axis": "x",
+              "x": 5.5,
+              "y": 0,
+              "z": -4,
+              "r": 4.4,
+              "h": 8
+            }
+          ]
+        },
+        {
+          "id": "bushFlange",
+          "bom": "BUSH",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "penBush",
+          "mount": "BUSH",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 100.5,
+          "r": 8,
+          "h": 1,
+          "inner": 5.15
+        }
+      ]
+    },
+    {
+      "id": "PAD",
+      "name": "PLA-drukblok voor pen",
+      "qty": 1,
+      "filename": "MOTIO-V7-PAD.stl",
+      "origin": {
+        "x": 103.48425228860974,
+        "y": 217.41416899717956
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "clampPad",
+          "bom": "PAD",
+          "group": "pen",
+          "shape": "box",
+          "instance": "clampPad",
+          "mount": "PAD",
+          "x": 103.48425228860974,
+          "y": 217.41416899717956,
+          "z": 89,
+          "w": 2,
+          "l": 6,
+          "h": 6
+        }
+      ]
+    },
+    {
+      "id": "KNOB",
+      "name": "PLA-handknop",
+      "qty": 1,
+      "filename": "MOTIO-V7-KNOB.stl",
+      "origin": {
+        "x": 130.48425228860975,
+        "y": 217.41416899717956
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        90,
+        0
+      ],
+      "parts": [
+        {
+          "id": "clampKnob",
+          "bom": "KNOB",
+          "group": "pen",
+          "shape": "box",
+          "instance": "clampKnob",
+          "mount": "KNOB",
+          "x": 130.48425228860975,
+          "y": 217.41416899717956,
+          "z": 89,
+          "w": 6,
+          "l": 16,
+          "h": 16,
+          "holes": [
+            {
+              "axis": "x",
+              "x": 0,
+              "y": 0,
+              "r": 2.2,
+              "h": 10
+            },
+            {
+              "axis": "x",
+              "x": 1.5,
+              "y": 0,
+              "r": 4.15,
+              "h": 3.1,
+              "segments": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
