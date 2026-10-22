@@ -22,6 +22,7 @@
   - [Technologie](#technologie)
     - [Hardware](#hardware)
     - [Software](#software)
+  - [Onderdelenlijst (BOM)](#onderdelenlijst-bom)
   - [Project Structuur](#project-structuur)
   - [Simulators](#simulators)
     - [Screenshots](#screenshots)
@@ -146,6 +147,85 @@ timeline
 - Testcode voor [Raspberry Pi 5 en Arduino](Software/TestCode).
 - Parameterbesturing voor snelheid, richting, fase en bewegingsverhouding.
 
+## Onderdelenlijst (BOM)
+
+De onderdelenlijst van [SIMV7](Software/WARD-SIM/SIMV7/README.md), afgeleid uit dezelfde configuratie als het model. Voor de kooplinks en winkels: zie [SOURCING.md](Software/WARD-SIM/SIMV7/SOURCING.md) en de volledige [BOM als CSV](Software/WARD-SIM/SIMV7/exports/MOTIO-V7-BOM.csv). Dezelfde lijst staat in de simulator onder **Components / BOM**.
+
+Aantallen en maten zijn ontwerpwaarden: er is nog niets fysiek gebouwd of getest.
+
+<details>
+<summary><strong>Koopdelen</strong> · 20 regels, 70 stuks</summary>
+
+| Aantal | Onderdeel | Afmetingen |
+| ---: | --- | --- |
+| 3 | SY42STH38-1684A-stappenmotor | 42,3 × 42,3 × 38; as Ø5 × 24 ±1 |
+| 12 | Motorbout M3×10 | M3 × 10 · DIN 912 |
+| 12 | Brede sluitring M3 | Ø9/3,2 × 0,8 · DIN 9021 |
+| 3 | Metalen motornaaf Ø5 | Ø19 × 5; 4× M3 op steekcirkel Ø12,7 |
+| 3 | Meegeleverde M3-naafstelschroef | M3 · inbus 1,5 mm |
+| 4 | Krukbout A M3×10 | M3 × 10 · DIN 912 |
+| 4 | Krukbout B M3×14 | M3 × 14 · DIN 912 |
+| 8 | Kruksluitring M3 | Ø7/3,2 × 0,5 · DIN 125 |
+| 1 | Scharnierbout A M8×50 | M8 × 50 · DIN 933 |
+| 1 | Scharnierbout B M8×60 | M8 × 60 · DIN 933 |
+| 4 | Sluitring M8 | Ø16/8,4 × 1,6 · DIN 125 |
+| 2 | Borgmoer M8 | M8 · DIN 985 · hoogte 8 |
+| 2 | Ellebooglager 608-2RS | 8 × 22 × 7 |
+| 2 | Penlager 61804-2RS / 6804 | 20 × 32 × 7 |
+| 1 | Klembout penhouder M3×20 | M3 × 20 · DIN 912 |
+| 1 | Ingevangen moer M3 | M3 · DIN 934 · sleutel 5,5 |
+| 1 | Ingevangen moer M4 | M4 · DIN 934 · sleutel 7 |
+| 1 | Handklemschroef M4×25 | M4 × 25 · zeskantkop DIN 933 |
+| 4 | Verzonken plateaubout M3×10 | M3 × 10, 90° |
+| 1 | Tekenpen | Ø10 nominaal; circa 110 bruikbare lengte |
+
+</details>
+
+<details>
+<summary><strong>Lasersnijden (6 mm MDF)</strong> · 6 regels, 9 stuks</summary>
+
+| Aantal | Onderdeel | Afmetingen |
+| ---: | --- | --- |
+| 1 | Bovenplaat | 358 × 404 × 6 mm |
+| 2 | Rib onder bovenplaat | 346 × 36 × 6 mm inclusief tanden |
+| 1 | MDF-draaiplateau | Ø210 × 6 |
+| 1 | Bodem | 358 × 404 × 6 |
+| 2 | Voor- en achterwand | 358 × 100 × 6 |
+| 2 | Zijwand | 6 × 392 × 100 |
+
+</details>
+
+<details>
+<summary><strong>3D-printen (PLA)</strong> · 14 regels, 15 stuks</summary>
+
+| Aantal | Onderdeel | Afmetingen |
+| ---: | --- | --- |
+| 1 | PLA-kruk A | 65 h.o.h.; 24 × 6; wortel Ø34; z=21 |
+| 1 | PLA-kruk B | 65 h.o.h.; 24 × 6 + wortelboss Ø28×4; z=30 |
+| 1 | PLA-scharnierafstandbus A | Ø14/8,4 × 16.5; laatste 2 mm Ø12 |
+| 1 | PLA-penarm A | 180 h.o.h.; koker 24 × 16, wand 3 |
+| 1 | PLA-scharnierafstandbus B | Ø14/8,4 × 28.5; laatste 2 mm Ø12 |
+| 1 | PLA-penarm B | 160 h.o.h.; koker 24 × 16, wand 3 |
+| 2 | PLA-bus boven ellebooglager | Ø12/8,4 × 4,5 |
+| 1 | Holle PLA-penas met onderflens | Ø19,9/13 × 50; flens Ø24×5 |
+| 1 | PLA-bus tussen penlagers | Ø24/20,2 × 14 |
+| 1 | PLA-bus boven penlager | Ø24/20,2 × 9,5 |
+| 1 | PLA-penhouder met klemoren | Ø28/13 × 22; onderboring Ø20,2 × 8 |
+| 1 | PLA-penbus met bovenflens | Ø13/10,3 × 14; flens Ø16×1 |
+| 1 | PLA-drukblok voor pen | 2 × 6 × 6 |
+| 1 | PLA-handknop | 6 × 16 × 16; zeskantvak 7,2 |
+
+</details>
+
+<details>
+<summary><strong>Papier en pen</strong> · 1 regels, 1 stuks</summary>
+
+| Aantal | Onderdeel | Afmetingen |
+| ---: | --- | --- |
+| 1 | Rond tekenpapier | Ø210; tekenzone Ø190 |
+
+</details>
+
 ## Project Structuur
 
 ```bash
@@ -182,7 +262,7 @@ Motio/
 
 ### Screenshots
 
-Deze referentiebeelden komen uit [SIMV4](Software/WARD-SIM/SIMV4/index.html).
+Deze referentiebeelden komen uit [SIMV7](Software/WARD-SIM/SIMV7/index.html), de laatste versie van de simulator.
 
 **Simulator** – de bloem met vijf blaadjes, getekend op het ronde papier terwijl de machine in bovenaanzicht meebeweegt.
 
@@ -197,13 +277,13 @@ Deze referentiebeelden komen uit [SIMV4](Software/WARD-SIM/SIMV4/index.html).
   <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-vives.png" width="200" alt="VIVES"><br><sub>VIVES</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-word.png" width="200" alt="Eigen woord: MOTIO"><br><sub>Eigen woord: MOTIO</sub></td></tr>
 </table>
 
-**Mechanical Design** – interactief 3D-model van de box en een technisch bovenaanzicht met maten.
+**Mechanical Design** – interactief 3D-model van de box en een technisch bovenaanzicht van de armen en het plateau.
 
 |                       Interactief 3D-model                        |                      2D technische tekening                       |
 | :---------------------------------------------------------------: | :---------------------------------------------------------------: |
 | ![Mechanical Design 3D](./doc/assets/simulator/mechanical-3d.png) | ![Mechanical Design 2D](./doc/assets/simulator/mechanical-2d.png) |
 
-**Validation** – vijf controles op bereik, botsingen, singulariteiten, motorcapaciteit en spelingen.
+**Validation** – controles op bereik, botsingen, singulariteiten, motorcapaciteit, spelingen en constructiesterkte. Wat nog fysiek getest moet worden staat als *niet bewezen* aangeduid.
 
 ![Validation-tabblad](./doc/assets/simulator/validation.png)
 
