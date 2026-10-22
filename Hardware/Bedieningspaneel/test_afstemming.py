@@ -63,10 +63,10 @@ class TestWigOpCase(unittest.TestCase):
         self.assertGreater(onderkant, self.case.divider_z + self.case.thickness)
         self.assertLess(bovenkant, self.case.lid_z)
 
-    def test_sleuven_liggen_in_de_bovenste_voorwand(self):
+    def test_sleuven_liggen_in_de_voorwand_boven_het_tussenschot(self):
         for lus in self.montage.slot_loops(CASE_BREEDTE):
             xs, zs = [x for x, _ in lus], [z for _, z in lus]
-            self.assertGreater(min(zs), self.case.lower_height)
+            self.assertGreater(min(zs), self.case.divider_z + self.case.thickness)
             self.assertLess(max(zs), self.case.top_z)
             self.assertGreater(min(xs), self.case.thickness)
             self.assertLess(max(xs), CASE_BREEDTE - self.case.thickness)
