@@ -1,21 +1,405 @@
 {
   "dt": 0.01,
-  "cases": 1,
+  "cases": 20,
   "shaftPeaks": {
     "A": {
       "axial": 5.23575053014508,
-      "radial": 21.681145224457698
+      "radial": 21.68114522709305
     },
     "B": {
       "axial": 5.27250025683456,
-      "radial": 24.128960789909833
+      "radial": 24.128960793803934
     },
     "C": {
       "axial": 7.05429175,
-      "radial": 12.26393103134378
+      "radial": 12.332429175000001
     }
   },
   "results": [
+    {
+      "pattern": "circle",
+      "duration": 13.7,
+      "peaks": {
+        "A": {
+          "rpm": 0,
+          "acceleration": 0
+        },
+        "B": {
+          "rpm": 0,
+          "acceleration": 0
+        },
+        "C": {
+          "rpm": 5.6,
+          "acceleration": 0.2932153143350491
+        }
+      },
+      "maxSpeed": 0,
+      "maxAcceleration": 0,
+      "maxTorque": 0.16834673475548434,
+      "minSafetyFactor": null,
+      "maxRadius": 64.6,
+      "maxError": 4.453530656627311e-14
+    },
+    {
+      "pattern": "flower3",
+      "duration": 28,
+      "peaks": {
+        "A": {
+          "rpm": 2.6126112920495403,
+          "acceleration": 0.23195226430974963
+        },
+        "B": {
+          "rpm": 3.550928270256738,
+          "acceleration": 0.28173503211744794
+        },
+        "C": {
+          "rpm": 2.4000000000000004,
+          "acceleration": 0.12566370614359446
+        }
+      },
+      "maxSpeed": 26.5024756256835,
+      "maxAcceleration": 19.982332744829574,
+      "maxTorque": 0.20379831518745367,
+      "minSafetyFactor": null,
+      "maxRadius": 81.7,
+      "maxError": 1.4054564051130911e-13
+    },
+    {
+      "pattern": "flower5",
+      "duration": 36.3,
+      "peaks": {
+        "A": {
+          "rpm": 3.2657665968500758,
+          "acceleration": 0.39690412025325805
+        },
+        "B": {
+          "rpm": 4.438659586337168,
+          "acceleration": 0.48691877877474754
+        },
+        "C": {
+          "rpm": 1.8,
+          "acceleration": 0.09424777960769515
+        }
+      },
+      "maxSpeed": 33.12809453210436,
+      "maxAcceleration": 35.187498890083816,
+      "maxTorque": 0.20382568685219615,
+      "minSafetyFactor": null,
+      "maxRadius": 81.7,
+      "maxError": 1.3796244387938543e-13
+    },
+    {
+      "pattern": "flower7",
+      "duration": 45.9,
+      "peaks": {
+        "A": {
+          "rpm": 3.044310559241506,
+          "acceleration": 0.3600353458732107
+        },
+        "B": {
+          "rpm": 4.049102372254808,
+          "acceleration": 0.4344325393767817
+        },
+        "C": {
+          "rpm": 1.4,
+          "acceleration": 0.07330382858376228
+        }
+      },
+      "maxSpeed": 30.223165873612025,
+      "maxAcceleration": 31.016499226725944,
+      "maxTorque": 0.20370691193057083,
+      "minSafetyFactor": null,
+      "maxRadius": 81.7,
+      "maxError": 1.43928757971101e-13
+    },
+    {
+      "pattern": "ripple12",
+      "duration": 53,
+      "peaks": {
+        "A": {
+          "rpm": 2.0239987432625415,
+          "acceleration": 0.33586108004995857
+        },
+        "B": {
+          "rpm": 2.6860885068956963,
+          "acceleration": 0.42402435325890303
+        },
+        "C": {
+          "rpm": 1.2000000000000002,
+          "acceleration": 0.06283185307179723
+        }
+      },
+      "maxSpeed": 20.05586415844819,
+      "maxAcceleration": 30.243244089575605,
+      "maxTorque": 0.17374337758945316,
+      "minSafetyFactor": null,
+      "maxRadius": 67.45,
+      "maxError": 1.5189668777134068e-13
+    },
+    {
+      "pattern": "rosette52",
+      "duration": 36.3,
+      "peaks": {
+        "A": {
+          "rpm": 2.69332294749236,
+          "acceleration": 0.3216978626878614
+        },
+        "B": {
+          "rpm": 3.5989510255335793,
+          "acceleration": 0.39448810470156803
+        },
+        "C": {
+          "rpm": 3.6,
+          "acceleration": 0.1884955592153903
+        }
+      },
+      "maxSpeed": 26.860617188192734,
+      "maxAcceleration": 28.530404505473143,
+      "maxTorque": 0.20007248498584201,
+      "minSafetyFactor": null,
+      "maxRadius": 79.8,
+      "maxError": 1.8487770363517607e-13
+    },
+    {
+      "pattern": "rosette73",
+      "duration": 53,
+      "peaks": {
+        "A": {
+          "rpm": 2.513769226036327,
+          "acceleration": 0.25457384542617684
+        },
+        "B": {
+          "rpm": 3.359022100131345,
+          "acceleration": 0.32722961576084897
+        },
+        "C": {
+          "rpm": 3.6,
+          "acceleration": 0.1884955592153903
+        }
+      },
+      "maxSpeed": 25.069909375646546,
+      "maxAcceleration": 23.018612279448615,
+      "maxTorque": 0.19992918421902653,
+      "minSafetyFactor": null,
+      "maxRadius": 79.8,
+      "maxError": 2.1691928285568095e-13
+    },
+    {
+      "pattern": "wovenFlower",
+      "duration": 453,
+      "peaks": {
+        "A": {
+          "rpm": 3.53186611999097,
+          "acceleration": 0.4238929098908167
+        },
+        "B": {
+          "rpm": 4.800328957939665,
+          "acceleration": 0.5148710691796503
+        },
+        "C": {
+          "rpm": 2.4000000000000004,
+          "acceleration": 0.12566370614359446
+        }
+      },
+      "maxSpeed": 35.827420753238805,
+      "maxAcceleration": 36.51773878309225,
+      "maxTorque": 0.203798315193296,
+      "minSafetyFactor": null,
+      "maxRadius": 81.7,
+      "maxError": 6.228911201999129e-13
+    },
+    {
+      "pattern": "openRosette",
+      "duration": 103,
+      "peaks": {
+        "A": {
+          "rpm": 2.5951065583779447,
+          "acceleration": 0.31788622879633893
+        },
+        "B": {
+          "rpm": 3.5351345637049,
+          "acceleration": 0.39471371113683945
+        },
+        "C": {
+          "rpm": 3.6,
+          "acceleration": 0.1884955592153903
+        }
+      },
+      "maxSpeed": 26.383095104847087,
+      "maxAcceleration": 28.180743480107473,
+      "maxTorque": 0.18390799909749397,
+      "minSafetyFactor": null,
+      "maxRadius": 72.2,
+      "maxError": 2.0495186137532014e-13
+    },
+    {
+      "pattern": "wovenRosette",
+      "duration": 403,
+      "peaks": {
+        "A": {
+          "rpm": 3.4740217935225095,
+          "acceleration": 0.3948555871345556
+        },
+        "B": {
+          "rpm": 4.755712711118045,
+          "acceleration": 0.4817722196760757
+        },
+        "C": {
+          "rpm": 2.4000000000000004,
+          "acceleration": 0.12566370614359446
+        }
+      },
+      "maxSpeed": 35.500782383728065,
+      "maxAcceleration": 34.01621389149779,
+      "maxTorque": 0.203798315193296,
+      "minSafetyFactor": null,
+      "maxRadius": 81.7,
+      "maxError": 6.253179779119989e-13
+    },
+    {
+      "pattern": "wovenStar",
+      "duration": 453,
+      "peaks": {
+        "A": {
+          "rpm": 3.5506748802201,
+          "acceleration": 0.4561854638362352
+        },
+        "B": {
+          "rpm": 4.774126083232886,
+          "acceleration": 0.5516537322099117
+        },
+        "C": {
+          "rpm": 2.4000000000000004,
+          "acceleration": 0.12566370614359446
+        }
+      },
+      "maxSpeed": 35.62845321851145,
+      "maxAcceleration": 39.29969784268992,
+      "maxTorque": 0.20379831519329614,
+      "minSafetyFactor": null,
+      "maxRadius": 81.7,
+      "maxError": 6.169868057126112e-13
+    },
+    {
+      "pattern": "spiral",
+      "duration": 40.5,
+      "peaks": {
+        "A": {
+          "rpm": 0.21714755971373087,
+          "acceleration": 0.010536302519467688
+        },
+        "B": {
+          "rpm": 0.26627670424110383,
+          "acceleration": 0.013863236097148544
+        },
+        "C": {
+          "rpm": 4.800000000000001,
+          "acceleration": 0.2513274122871889
+        }
+      },
+      "maxSpeed": 1.976000000000001,
+      "maxAcceleration": 0.9880000000000753,
+      "maxTorque": 0.20401761368483823,
+      "minSafetyFactor": null,
+      "maxRadius": 81.7,
+      "maxError": 1.9328852131274408e-13
+    },
+    {
+      "pattern": "vives",
+      "duration": 96.7,
+      "peaks": {
+        "A": {
+          "rpm": 2.0039821416958628,
+          "acceleration": 0.4584675109856008
+        },
+        "B": {
+          "rpm": 2.9879539436663487,
+          "acceleration": 0.7094244253958767
+        },
+        "C": {
+          "rpm": 12.81568998993326,
+          "acceleration": 2.20297593555685
+        }
+      },
+      "maxSpeed": 22.34614132215927,
+      "maxAcceleration": 50.678242608309056,
+      "maxTorque": 0.20074591716038248,
+      "minSafetyFactor": null,
+      "maxRadius": 80.33,
+      "maxError": 1.6648548515064452e-13
+    },
+    {
+      "pattern": "MOTIO",
+      "duration": 98.2,
+      "peaks": {
+        "A": {
+          "rpm": 2.242675021329291,
+          "acceleration": 0.4501823892284623
+        },
+        "B": {
+          "rpm": 3.0081472976156176,
+          "acceleration": 0.5954149098265971
+        },
+        "C": {
+          "rpm": 10.87266754082006,
+          "acceleration": 1.8023846000879806
+        }
+      },
+      "maxSpeed": 22.45229068607946,
+      "maxAcceleration": 42.4906937570101,
+      "maxTorque": 0.20138440842196895,
+      "minSafetyFactor": null,
+      "maxRadius": 80.44,
+      "maxError": 1.56964020692204e-13
+    },
+    {
+      "pattern": "VIVES",
+      "duration": 99.4,
+      "peaks": {
+        "A": {
+          "rpm": 1.9915002857637079,
+          "acceleration": 0.46410230843540734
+        },
+        "B": {
+          "rpm": 2.952786072732068,
+          "acceleration": 0.7001078131348427
+        },
+        "C": {
+          "rpm": 10.996740883437603,
+          "acceleration": 1.861636458572391
+        }
+      },
+      "maxSpeed": 22.081117074180007,
+      "maxAcceleration": 50.009342419687215,
+      "maxTorque": 0.20193638096555916,
+      "minSafetyFactor": null,
+      "maxRadius": 80.86,
+      "maxError": 1.5370892431858303e-13
+    },
+    {
+      "pattern": "ABCDEFGH",
+      "duration": 154.2,
+      "peaks": {
+        "A": {
+          "rpm": 1.5705592727359918,
+          "acceleration": 0.44667897588072936
+        },
+        "B": {
+          "rpm": 2.1297872010893935,
+          "acceleration": 0.6661327451526388
+        },
+        "C": {
+          "rpm": 7.275954075474615,
+          "acceleration": 2.0396561098410633
+        }
+      },
+      "maxSpeed": 15.907016203428888,
+      "maxAcceleration": 47.570615699722,
+      "maxTorque": 0.1951393845171702,
+      "minSafetyFactor": null,
+      "maxRadius": 77.4,
+      "maxError": 1.6481873113269247e-13
+    },
     {
       "pattern": "IIIIIIII",
       "duration": 75.8,
@@ -39,6 +423,78 @@
       "minSafetyFactor": null,
       "maxRadius": 81.08,
       "maxError": 1.4930910615748054e-13
+    },
+    {
+      "pattern": "WWWWWWWW",
+      "duration": 136.5,
+      "peaks": {
+        "A": {
+          "rpm": 1.3767943320483658,
+          "acceleration": 0.4061962060148737
+        },
+        "B": {
+          "rpm": 1.9732693250276023,
+          "acceleration": 0.6396087963726816
+        },
+        "C": {
+          "rpm": 7.569304713353758,
+          "acceleration": 1.7506635486577409
+        }
+      },
+      "maxSpeed": 14.758458419739902,
+      "maxAcceleration": 45.685826918472905,
+      "maxTorque": 0.19341110004410617,
+      "minSafetyFactor": null,
+      "maxRadius": 76.74,
+      "maxError": 1.6355028454342128e-13
+    },
+    {
+      "pattern": "MWMWMWMW",
+      "duration": 135,
+      "peaks": {
+        "A": {
+          "rpm": 1.4242434207205232,
+          "acceleration": 0.40654271619999127
+        },
+        "B": {
+          "rpm": 2.246625461923083,
+          "acceleration": 0.6390291783591713
+        },
+        "C": {
+          "rpm": 7.171063716881643,
+          "acceleration": 1.8311850903219296
+        }
+      },
+      "maxSpeed": 16.803937871244937,
+      "maxAcceleration": 45.64529852040075,
+      "maxTorque": 0.19425561359712437,
+      "minSafetyFactor": null,
+      "maxRadius": 76.82,
+      "maxError": 1.557126481146378e-13
+    },
+    {
+      "pattern": "SSSSSSSS",
+      "duration": 191.6,
+      "peaks": {
+        "A": {
+          "rpm": 1.3500664244902336,
+          "acceleration": 0.4308498529742832
+        },
+        "B": {
+          "rpm": 1.727044525558686,
+          "acceleration": 0.5414478533502145
+        },
+        "C": {
+          "rpm": 7.301715205725034,
+          "acceleration": 2.0712263576650085
+        }
+      },
+      "maxSpeed": 12.947571069493556,
+      "maxAcceleration": 38.72765258304676,
+      "maxTorque": 0.19338830206904342,
+      "minSafetyFactor": null,
+      "maxRadius": 76.86,
+      "maxError": 1.7495085916501024e-13
     }
   ]
 }
