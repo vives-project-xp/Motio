@@ -1,13 +1,13 @@
 from bovenplaat import maakRechthoek, maakZijkantSleuven
 from onderdeel import Onderdeel
 from paneel_maten import (
-    GLAS_HOOGTE,
     GLAS_SPELING,
     GLASVAK_BREEDTE,
     GLASVAK_HOOGTE,
     MODULE_BREEDTE,
     MODULE_HOOGTE,
-    MODULE_RAND_KABELKANT,
+    MODULE_RAND_BOVEN,
+    MODULE_RAND_ZIJKANT,
     MODULE_SPELING,
     PLAAT_BREEDTE,
     PLAAT_DIEPTE,
@@ -21,11 +21,11 @@ def maakSteunplaat():
 
 
 def maakModuleOpening():
-    """De module ligt niet gecentreerd achter het glas: de smalle rand (kabelkant) ligt bij de lage x."""
+    """De module ligt gecentreerd in de breedte, maar dichter bij de kabelkant (onderkant van het beeld) dan bij de bovenkant."""
     glasX = (PLAAT_BREEDTE - GLASVAK_BREEDTE) / 2 + GLAS_SPELING
     glasY = (PLAAT_DIEPTE - GLASVAK_HOOGTE) / 2 + GLAS_SPELING
-    moduleX = glasX + MODULE_RAND_KABELKANT
-    moduleY = glasY + (GLAS_HOOGTE - MODULE_HOOGTE) / 2
+    moduleX = glasX + MODULE_RAND_ZIJKANT
+    moduleY = glasY + MODULE_RAND_BOVEN
     return maakRechthoek(
         MODULE_BREEDTE + 2 * MODULE_SPELING,
         MODULE_HOOGTE + 2 * MODULE_SPELING,

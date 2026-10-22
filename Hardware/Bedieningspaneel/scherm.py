@@ -11,16 +11,18 @@ from paneel_maten import (
     MODULE_BREEDTE,
     MODULE_DIKTE,
     MODULE_HOOGTE,
-    MODULE_RAND_KABELKANT,
-    PCB_AFSTAND_KABELKANT,
+    MODULE_RAND_BOVEN,
+    MODULE_RAND_ZIJKANT,
     PCB_BREEDTE,
     PCB_DIKTE,
     PCB_HOOGTE,
     PI_AFSTANDHOUDER,
     PI_BREEDTE,
     PI_DIKTE,
-    PI_GAT_AFSTAND_KABELKANT,
-    PI_GAT_AFSTAND_ONDERKANT,
+    PI_GAT_AFSTAND_LINKS,
+    PI_GAT_AFSTAND_ONDER,
+    PI_GAT_STEEKMAAT_Y,
+    MODULE_RAND_ONDER,
     PI_GAT_RAND,
     PI_HOOGTE,
     PLAAT_BREEDTE,
@@ -47,19 +49,24 @@ def maakSchermOnderdelen():
 
 
 def maakModule(glasX, glasY):
-    return maakBlok("module", MODULE_BREEDTE, MODULE_HOOGTE, glasX + MODULE_RAND_KABELKANT,
-                    glasY + (GLAS_HOOGTE - MODULE_HOOGTE) / 2, MODULE_DIKTE, "screen")
+    return maakBlok("module", MODULE_BREEDTE, MODULE_HOOGTE, glasX + MODULE_RAND_ZIJKANT,
+                    glasY + MODULE_RAND_BOVEN, MODULE_DIKTE, "screen")
 
 
 def maakPrintplaat(glasX, glasY):
-    return maakBlok("printplaat", PCB_BREEDTE, PCB_HOOGTE, glasX + PCB_AFSTAND_KABELKANT,
-                    glasY + (GLAS_HOOGTE - PCB_HOOGTE) / 2, PCB_DIKTE, "board")
+    return maakBlok("printplaat", PCB_BREEDTE, PCB_HOOGTE, *geefPiHoek(glasX, glasY), PCB_DIKTE, "board")
 
 
 def maakPi(glasX, glasY):
-    """De Pi hangt aan de schroefgaten van het scherm; hij steekt vanaf het eerste gat naar de andere kant van het glas."""
-    return maakBlok("pi", PI_BREEDTE, PI_HOOGTE, glasX + PI_GAT_AFSTAND_KABELKANT - PI_GAT_RAND,
-                    glasY + PI_GAT_AFSTAND_ONDERKANT - PI_GAT_RAND, PI_DIKTE, "board")
+    """De Pi hangt aan de vier M2.5-gaten van de module."""
+    return maakBlok("pi", PI_BREEDTE, PI_HOOGTE, *geefPiHoek(glasX, glasY), PI_DIKTE, "board")
+
+
+def geefPiHoek(glasX, glasY):
+    """Linkerbovenhoek (x, y) van de Pi in het vlak van de plaat. y loopt van de bovenkant van het beeld naar beneden."""
+    eersteGatX = glasX + MODULE_RAND_ZIJKANT + PI_GAT_AFSTAND_LINKS
+    ondersteGatY = glasY + GLAS_HOOGTE - MODULE_RAND_ONDER - PI_GAT_AFSTAND_ONDER
+    return eersteGatX - PI_GAT_RAND, ondersteGatY - PI_GAT_STEEKMAAT_Y - PI_GAT_RAND
 
 
 def maakBlok(naam, breedte, hoogte, x, y, dikte, materiaal):

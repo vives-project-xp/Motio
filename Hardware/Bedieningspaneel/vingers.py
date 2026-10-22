@@ -29,7 +29,7 @@ def maakSleuf(x, y, breedte, hoogte):
 
 
 # Tandverdelingen die zowel de tanden als de bijbehorende sleuven bepalen
-TANDEN_SCHUINE_ZIJDE = berekenTanden(PLAAT_DIEPTE, 5, TAND_LENGTE)
+TANDEN_SCHUINE_ZIJDE = berekenTanden(PLAAT_DIEPTE, 4, TAND_LENGTE)
 TANDEN_ZIJKANT_ONDER = berekenTanden(ZIJKANT_HOOGTE, 4, TAND_LENGTE)
 TANDEN_ACHTERWAND_ZIJ = berekenTanden(ACHTERWAND_HOOGTE, 3, TAND_LENGTE)
 TANDEN_ACHTERWAND_ONDER = berekenTanden(BINNENBREEDTE, 4, TAND_LENGTE)

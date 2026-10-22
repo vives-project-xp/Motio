@@ -27,7 +27,7 @@ Dit is een gecontroleerd ontwerp en een werkende simulator, **geen reeds gebouwd
 
 ## Bestaande elektronica en scherm
 
-De drie SY42STH38-1684A-motoren, Raspberry Pi 5, gShield V5 en het Waveshare 10.1inch DSI LCD (C) kunnen worden hergebruikt; toegestane bestelbronnen staan in [SOURCING.md](SOURCING.md). Standaard SIMV7 rekent met **1/8 microstepping = 1600 pulsen/omwenteling**, passend bij de gShield V5.
+De drie SY42STH38-1684A-motoren, Raspberry Pi 5, gShield V5 en het Raspberry Pi Touch Display 7" (v1.1, 2015) kunnen worden hergebruikt; toegestane bestelbronnen staan in [SOURCING.md](SOURCING.md). Standaard SIMV7 rekent met **1/8 microstepping = 1600 pulsen/omwenteling**, passend bij de gShield V5.
 
 De bestaande [Pi-interface](../../Pi-Interface/motio.py) bevat nog de SIMV5-bediening en 1/16-instelling en is **geen SIMV7-driver**. Deze versie verandert die eerdere interface niet. De fysieke referentie en juiste pulsinstelling moeten bij de hardware-integratie worden afgestemd; software-Home detecteert geen werkelijke aspositie.
 

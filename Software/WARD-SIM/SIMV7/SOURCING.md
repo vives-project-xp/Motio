@@ -46,7 +46,8 @@ Het mechanische herontwerp vraagt geen andere motoren, computer of scherm. Koop 
 |---:|---|---|
 | 1 | Raspberry Pi 5, 4 GB is voldoende voor de browser | [Kiwi Electronics](https://www.kiwi-electronics.com/nl/merk-raspberry-pi/raspberry-pi-5-4gb-11579) |
 | 1 | Synthetos gShield V5, drie assen | [Opencircuit](https://opencircuit.nl/product/synthetos-gshield-grblshield-v5) |
-| 1 | Waveshare 10.1inch DSI LCD (C), WS23450 | [Kiwi Electronics](https://www.kiwi-electronics.com/nl/lcd-led-en-oled-displays-129/10-1-inch-dsi-touch-display-voor-raspberry-pi-11192) |
+| 1 | Raspberry Pi Touch Display 7", v1.1 (2015), 800 × 480; bestaand scherm | Reeds aanwezig, geen bestelbron gekozen |
+| 1 | DSI-adapterkabel 15-pins naar 22-pins (de Pi 5 heeft een kleinere DSI-poort) | Nog te kiezen uit de toegestane winkels |
 | 1 | Officiële 27 W USB-C voeding voor Pi 5 | [Kiwi, Raspberry Pi-assortiment](https://www.kiwi-electronics.com/nl/raspberry-pi-boards-behuizingen-uitbreidingen-en-accessoires-59) |
 
 gShield V5 ondersteunt maximaal 1/8 microstepping; SIMV7 staat standaard op 8. Behoud de bestaande geschikte motorvoeding en bedrading: gShield vraagt 12–30 V, de ontwerpinstelling is 24 V met stroomregeling per fase. De motorwaarde 2,8 V is geen geschikte spanning om de gShield rechtstreeks mee te voeden. De elektronica en softwarekoppeling zijn nog geen fysiek geteste SIMV7-installatie; zie [README](README.md).
