@@ -14,7 +14,7 @@ MATERIAL = 4.0
 # machine turned over MACHINE_ROTATION_DEGREES (see the laser generator config); a test checks both configs agree
 BOX_WIDTH = 343.4
 BOX_DEPTH = 304.3
-# Two stacked compartments; heights, collar and finger size live in BoxSpec
+# Two stacked compartments; heights and finger size live in BoxSpec
 BOX_SPEC = BoxSpec(width=BOX_WIDTH, depth=BOX_DEPTH, thickness=MATERIAL)
 BOX_HEIGHT = BOX_SPEC.top_z
 FLANGE_Z = BOX_SPEC.lid_z       # underside of the lid: the motor flanges sit here

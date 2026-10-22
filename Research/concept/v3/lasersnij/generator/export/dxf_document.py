@@ -1,4 +1,7 @@
-"""Writes the paths of an SvgDocument as a DXF (mm): cut lines on layer CUT, engraving on layer ENGRAVE.
+"""Writes the cut paths of an SvgDocument as a DXF (mm), all on layer CUT.
+
+Engraving is left out on purpose: a DXF has no colour that says "score, do not cut", and some laser software
+cuts every layer. The engraved lines stay in the SVG, where the colour tells the laser what to do.
 
 Only the two path shapes of geometry/shapes.py occur: closed polylines (M L ... Z) and full circles (M A A Z).
 """
@@ -6,8 +9,7 @@ import re
 
 from export.svg_document import CUT, SvgDocument
 
-LAYERS = {CUT: "CUT"}
-DEFAULT_LAYER = "ENGRAVE"
+LAYER = "CUT"
 NUMBER = re.compile(r"-?\d+(?:\.\d+)?")
 
 
@@ -33,8 +35,9 @@ def _polyline(layer: str, d: str) -> list[str]:
 def render(doc: SvgDocument) -> str:
     out = ["0", "SECTION", "2", "HEADER", "9", "$INSUNITS", "70", "4", "0", "ENDSEC", "0", "SECTION", "2", "ENTITIES"]
     for colour, d in doc.paths:
-        layer = LAYERS.get(colour, DEFAULT_LAYER)
-        out += _circle(layer, d) if " A " in d else _polyline(layer, d)
+        if colour != CUT:
+            continue
+        out += _circle(LAYER, d) if " A " in d else _polyline(LAYER, d)
     return "\r\n".join(out + ["0", "ENDSEC", "0", "EOF"]) + "\r\n"
 
 

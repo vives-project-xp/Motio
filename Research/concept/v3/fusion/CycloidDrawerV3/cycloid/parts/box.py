@@ -1,4 +1,4 @@
-"""Two-compartment box: finger-jointed panels from the shared box design."""
+"""Box: finger-jointed panels from the shared box design."""
 from .. import config as cfg
 from ..box_design.box_design import TwoCompartmentBox
 from ..fusion import sketch_tools as st
@@ -11,8 +11,6 @@ _FRAMES = {
     1: lambda p: frame((0, p.hi[1], 0), (1, 0, 0), (0, 0, 1), (0, -1, 0)),
     0: lambda p: frame((p.lo[0], 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0)),
 }
-_SECTIONS = {"bottom": "Box - electronics section", "top": "Box - motor section"}
-_ROLE = {"bottom": "wood", "top": "wood", "collar": "gear"}
 
 
 class BoxBuilder:
@@ -20,15 +18,13 @@ class BoxBuilder:
         self.parent = parent
         self.palette = palette
 
-    def build(self, lid_holes: list):
-        """Returns ([section components to ground], lid component)."""
+    def build(self, lid_holes: list) -> None:
         box = TwoCompartmentBox(cfg.BOX_SPEC, lid_holes)
-        groups = {key: new_component(self.parent, name) for key, name in _SECTIONS.items()}
-        groups["collar"] = new_component(groups["bottom"], "Collar (glued inside)")
-        panels = {panel.name: self._panel(groups[panel.section], panel) for panel in box.panels}
-        return [groups["bottom"], groups["top"]], panels["Lid"]
+        group = new_component(self.parent, "Box")
+        for panel in box.panels:
+            self._panel(group, panel)
 
-    def _panel(self, group, panel):
+    def _panel(self, group, panel) -> None:
         comp = new_component(group, panel.name, _FRAMES[panel.axis](panel))
         sketch = st.new_sketch(comp)
         for loop in panel.loops:
@@ -37,6 +33,4 @@ class BoxBuilder:
             st.circle(sketch, u, v, d)
         for loop in panel.cutouts:
             st.polyline(sketch, loop)
-        body = st.extrude_sketch(comp, sketch, cfg.MATERIAL)
-        self.palette.apply(body, _ROLE[panel.section])
-        return comp
+        self.palette.apply(st.extrude_sketch(comp, sketch, cfg.MATERIAL), "wood")

@@ -12,7 +12,6 @@ class Panel:
     hi: tuple                 # (x1, y1, z1)
     axis: int                 # thickness axis: 0 = X, 1 = Y, 2 = Z
     priority: int             # wins corner cubes shared by 3 panels
-    section: str              # "bottom", "collar", "top"
     holes: list = field(default_factory=list)   # (u, v, diameter) in world units
     loops: list = field(default_factory=list)   # filled in by the solver
     cutouts: list = field(default_factory=list)  # closed loops [(u, v), ...] cut out of the panel
