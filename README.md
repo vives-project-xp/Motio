@@ -18,6 +18,7 @@
   - [Projectoverzicht](#projectoverzicht)
   - [Projectstatus](#projectstatus)
   - [Functies](#functies)
+  - [Hoe het werkt](#hoe-het-werkt)
   - [Technologie](#technologie)
     - [Hardware](#hardware)
     - [Software](#software)
@@ -42,18 +43,37 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 | --------- | ------ | ----------- |
 | Concept & onderzoek | Afgerond | Cycloïde-tekenmachine, keuze motoren (SY42STH38-1684A), scherm en lagers. Zie [Research](Research/README.md). |
 | Box V1 | Afgerond | Manueel aangedreven prototype dat één patroon tekent. Zie [UitlegBoxV1](Research/concept/UitlegBoxV1.md). |
-| Box V2 | In uitwerking | Parametrisch Fusion-model (CycloidDrawerV2) en lasersnijbestanden. |
-| Simulator | Ver gevorderd | SIMV1 t.e.m. SIMV6 met 13 patronen, woordgenerator, veiligheidscontroles en montagehandleiding. |
+| Box V2 | Afgerond (ontwerp) | Parametrisch Fusion-model (CycloidDrawerV2) en lasersnijbestanden met tandwielaandrijving. Vervangen door V3. |
+| Box V3 | In uitwerking | Kast van 4 mm MDF met de motoraandrijving van SIMV7. Generator voor lasersnijbestanden en Fusion-script. Zie [Box V3](Research/concept/v3/README.md). |
+| Simulator | Afgewerkt | SIMV1 t.e.m. SIMV7 met 13 patronen, woordgenerator, veiligheidscontroles en montagehandleiding. SIMV7 is de laatste versie. |
 | Bedieningspaneel | In uitwerking | Wig van 4 mm MDF met 7" Raspberry Pi-scherm; maten en snijbestanden worden gegenereerd. Zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). |
 | Elektronica | Gestart | Schema's voor Raspberry Pi 5 en gShield, testcode voor motoraansturing (PWM). |
-| Pi-interface | Eerste versie | `Software/Pi-Interface/motio.py` laat de simulator de echte motoren aansturen. Nog niet getest op de volledige machine. |
+| Pi-interface | Eerste versie | `Software/Pi-Interface/motio.py` laat de simulator de echte motoren aansturen. Gebaseerd op SIMV5, dus nog geen SIMV7-driver, en nog niet getest op de volledige machine. |
 | Volledige machine | Nog niet gebouwd | Mechanica en elektronica zijn nog niet samen werkend gemonteerd. |
 
 ### Volgende stappen
 
 1. **Elektronica koppelen aan de mechanica:** de drie motoren werkend op de box, eerst met testcode, daarna via de Pi-interface.
 2. **Materialen bestellen** zodat de machine gebouwd kan worden.
-3. **Box V2 of SIMV6-ontwerp bouwen** en de eerste echte tekening maken.
+3. **Box V3 (SIMV7-ontwerp) bouwen** en de eerste echte tekening maken.
+4. **Pi-interface bijwerken** naar SIMV7 (1/8 microstepping, juiste Home-referentie).
+
+```mermaid
+flowchart LR
+    A[Concept en onderzoek] --> B[Simulator SIMV1 - SIMV7]
+    B --> C[Box V1 - V3]
+    C --> D[Elektronica koppelen]
+    D --> E[Materialen bestellen]
+    E --> F[Machine bouwen]
+    F --> G[Eerste echte tekening]
+
+    classDef klaar fill:#d4edda,stroke:#2e7d32,color:#111
+    classDef bezig fill:#fff3cd,stroke:#b08900,color:#111
+    classDef open fill:#f0f0f0,stroke:#888,color:#111
+    class A,B klaar
+    class C,D bezig
+    class E,F,G open
+```
 
 ## Functies
 
@@ -63,6 +83,52 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 - **Patronen en woorden:** dertien kant-en-klare patronen en een woordgenerator (tot 8 letters) voor verbonden bubbelletters.
 - **Veiligheidscontroles:** de simulator blokkeert singulariteiten, botsingen en posities buiten de veilige tekenzone.
 - **Modulaire opbouw:** gescheiden hardware- en softwarecomponenten voor eenvoudige uitbreiding.
+
+## Hoe het werkt
+
+De simulator in de browser berekent de motorstanden en bewaakt de veiligheid. De Raspberry Pi 5 ontvangt die standen en zet ze om in step-pulsen voor de drie drivers op de gShield. Motor A en B bewegen de twee armen, motor C draait het plateau met het papier. De pen blijft op de samengestelde beweging van de armen en het plateau.
+
+```mermaid
+flowchart LR
+    subgraph Pi["Raspberry Pi 5"]
+        SIM["Simulator in browser<br/>patronen, Home, veiligheid"]
+        SRV["Pi-interface (motio.py)<br/>hoek en snelheid naar step-pulsen"]
+    end
+    SCR["Touchscreen 7 inch<br/>bedieningspaneel"]
+    GS["gShield V5<br/>3 stappenmotordrivers"]
+    A["Motor A<br/>kruk en arm 1"]
+    B["Motor B<br/>kruk en arm 2"]
+    C["Motor C<br/>plateau met papier"]
+    PEN["Pen op papier"]
+
+    SCR --- SIM
+    SIM -- "motorstanden" --> SRV
+    SRV -- "STEP / DIR / ENABLE" --> GS
+    GS --> A
+    GS --> B
+    GS --> C
+    A --> PEN
+    B --> PEN
+    C --> PEN
+```
+
+De pinindeling staat in het [hardwareschema](Schemas/Hardware%20schema.md) en in de [architectuurtekening](doc/Architectuur/ArchitectuurFoto.png).
+
+### Evolutie van het ontwerp
+
+```mermaid
+timeline
+    title Van concept tot Box V3
+    Concept : Cycloide-tekenmachine
+            : Keuze motoren, scherm en lagers
+    Box V1 : Manueel aangedreven prototype
+    Simulator : SIMV1 en SIMV2
+              : SIMV3 tot SIMV6 met montagehandleiding
+              : SIMV7 met PLA, MDF en koopdelen
+    Box V2 : Fusion-model met tandwielen
+    Box V3 : Aandrijving van SIMV7
+           : Kast van 4 mm MDF
+```
 
 ## Technologie
 
@@ -75,8 +141,8 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 
 ### Software
 
-- MOTIO SIMV6 als huidige simulator, met directe motoraandrijving en een geanimeerde montagehandleiding. Eerdere versies blijven beschikbaar.
-- Pi-interface ([motio.py](Software/Pi-Interface/motio.py)): de simulator berekent de motorstanden, de Raspberry Pi zet ze om in step-pulsen.
+- MOTIO SIMV7 als huidige simulator, met directe motoraandrijving en een geanimeerde montagehandleiding van 40 stappen. Eerdere versies blijven beschikbaar.
+- Pi-interface ([motio.py](Software/Pi-Interface/motio.py)): de simulator berekent de motorstanden, de Raspberry Pi zet ze om in step-pulsen. Deze versie hoort nog bij SIMV5.
 - Testcode voor [Raspberry Pi 5 en Arduino](Software/TestCode).
 - Parameterbesturing voor snelheid, richting, fase en bewegingsverhouding.
 
@@ -84,9 +150,9 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 
 ```bash
 Motio/
-├── doc/              # Projectdocumentatie en de projectcanvas
+├── doc/              # Projectdocumentatie, projectcanvas en architectuurschema
 ├── Hardware/         # Hardware: bedieningspaneel en snijbestanden box V1
-├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, concepten v1/v2)
+├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, concepten v1/v2/v3)
 ├── Schemas/          # Elektronicaschema's (Raspberry Pi 5, gShield)
 ├── Software/         # Softwarecomponenten van het project
 │   ├── Pi-Interface/ # Server die de simulator met de motoren verbindt
@@ -98,7 +164,8 @@ Motio/
 │   ├── SIMV4/        # Compacte box 358 × 404 × 108 mm en instelbare zichtbaarheid
 │   ├── SIMV4-5/      # Drie directe motoraandrijvingen
 │   ├── SIMV5/        # Montagehandleiding met zes geanimeerde stappen
-│   └── SIMV6/        # Motoren tegen de bovenplaat, PETG-krukken, 38 montagestappen
+│   ├── SIMV6/        # Motoren tegen de bovenplaat, PETG-krukken, 38 montagestappen
+│   └── SIMV7/        # Laatste versie: PLA, 6 mm MDF, koopdelen, 40 montagestappen
 └── README.md         # Dit bestand
 ```
 
@@ -110,7 +177,8 @@ Motio/
 - [MOTIO SIMV4](Software/WARD-SIM/SIMV4/index.html): simulator met compacte opstelling, box 358 × 404 × 108 mm en afzonderlijke zichtbaarheid van wanden, bodem en bovenplaat. De drie motoren en bestaande bediening blijven behouden. Zie [starten en controles](Software/WARD-SIM/SIMV4/README.md).
 - [MOTIO SIMV4-5](Software/WARD-SIM/SIMV4-5/index.html): behouden versie met drie directe motoraandrijvingen.
 - [MOTIO SIMV5](Software/WARD-SIM/SIMV5/index.html): gebaseerd op SIMV4-5, met een tab **Montagehandleiding**: zes stappen, automatische opbouwanimaties, voortgang en herhalen. Zie [starten en bediening](Software/WARD-SIM/SIMV5/README.md).
-- [MOTIO SIMV6](Software/WARD-SIM/SIMV6/index.html): huidige versie, gebaseerd op SIMV5. De motorflenzen zitten rechtstreeks tegen de MDF-bovenplaat, de krukken zijn PETG, en de handleiding telt 38 stappen met onderdelenlijst. De laatste wijziging (PETG-krukken) is nog niet getest. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV6/README.md).
+- [MOTIO SIMV6](Software/WARD-SIM/SIMV6/index.html): gebaseerd op SIMV5. De motorflenzen zitten rechtstreeks tegen de MDF-bovenplaat, de krukken zijn PETG, en de handleiding telt 38 stappen met onderdelenlijst. De laatste wijziging (PETG-krukken) is nog niet getest. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV6/README.md).
+- [MOTIO SIMV7](Software/WARD-SIM/SIMV7/index.html): huidige en laatste versie, opvolger van SIMV6. PLA voor de maatdelen, 6 mm lasergesneden MDF voor de kast, standaard koopdelen en een handleiding van 40 stappen met kooplinks. Het is een gecontroleerd ontwerp, nog geen fysiek beproefde machine. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV7/README.md).
 
 ### Screenshots
 
