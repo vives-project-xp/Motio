@@ -5,6 +5,8 @@ De gShield v5b (grblShield v5) is een stappenmotordriver-shield voor Arduino. He
 
 De gShield kan ook gebruikt worden om TinyG2 te runnen op the Arduino Due. Dit kan omdat TinyG2 een ARM port van de TinyG motion control system is.
 
+<img src="../assets/gShieldWerking1.jpg" height="auto" width="380">
+
 ## Wat doet de gShield v5b?
 - Stuurt tot 3 stappenmotoren aan (X, Y, Z).
 
@@ -60,10 +62,28 @@ Voor limit switches, reset, spindle-enable en andere GRBL-functies.<br>
 
 ## Wat is de DRV8818 IC
 Het is de stappenmotor-driver IC die de signalen van de Arduino omzet in de hoge stromen die nodig zijn om een stappenmotor aan te sturen.
+De volledige werking van de IC is terug te vinden in de documentatie van Texas Instruments.
+
+<img src="../assets/gShieldWerking2.avif" height="auto" width="380">
+
+Het bevat twee H-brug-drivers en logica voor microstappen om een stappenmotor te besturen. Hierdoor kan de motor in twee richtingen draaien.
+
+Het regelt ook de motorstroom (stroomregeling met PWM), zodat de motor niet te veel stroom trekt.
+
+### Belangrijkste gegevens
+
+35 V en 2,5 A met stroomregeling en 1/8 microstappen.
+
+28 pinnen (9,70 × 4,40 mm).
+
+Onderspanningsbeveiliging, overstroombeveiliging en thermische uitschakeling. 
+
+Er is een uitgang HOMEn die aangeeft dat de indexer op de beginpositie staat.
+Texas Instruments noemt hem een driver voor printers, scanners en andere geautomatiseerde apparaten.
 
 ## Wat is onze toepassing voor de gShield v5b driver
 Wij gebruiken de gShield v5b driver als driver voor drie motoren te sturen met een Raspberry PI 5. We hebben vergeleken met de pinnen die gebruikt werden bij de Arduino en zo enkel de noodzakelijke pinnen voor de Raspberry PI 5 overgehouden. We hebben Python gebruikt inplaats van Arduino om de motoren aan te sturen.
 
 Bronnen:
-https://github.com/synthetos/grblShield
-https://www.ti.com/product/DRV8818
+<br> https://github.com/synthetos/grblShield
+<br> https://www.ti.com/product/DRV8818
