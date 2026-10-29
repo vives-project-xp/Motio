@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="dSauAv4WvunfRb5oBre2" name="Page-1">
-        <mxGraphModel dx="1602" dy="1316" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="351" dy="212" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -491,10 +491,34 @@
                     <mxGeometry height="30" width="140" x="534" y="1280" as="geometry"/>
                 </mxCell>
                 <mxCell id="3ErPBV-WWrVhGPZMdkdD-157" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="gShield v5b" vertex="1">
-                    <mxGeometry height="30" width="90" x="425" y="1065" as="geometry"/>
+                    <mxGeometry height="30" width="90" x="505" y="930" as="geometry"/>
                 </mxCell>
                 <mxCell id="3ErPBV-WWrVhGPZMdkdD-158" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="&lt;b&gt;Functies:&lt;/b&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;- Bevat simulator&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;color: rgb(63, 63, 63);&quot;&gt;- Toont en ontvangt informatie van display&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;div&gt;- Bevat sturing van motoren&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
                     <mxGeometry height="200" width="140" x="60" y="1190" as="geometry"/>
+                </mxCell>
+                <mxCell id="eT1ZzS6BxZtnCtLuJF9Z-1" edge="1" parent="1" source="3ErPBV-WWrVhGPZMdkdD-2" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeWidth=3;" value="">
+                    <mxGeometry height="50" relative="1" width="50" x="0.6857" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="490" y="1460"/>
+                        </Array>
+                        <mxPoint x="490" y="1390" as="sourcePoint"/>
+                        <mxPoint x="720" y="1460" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="eT1ZzS6BxZtnCtLuJF9Z-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Voeding 5 V DC door USB-C" vertex="1">
+                    <mxGeometry height="40" width="90" x="720" y="1440" as="geometry"/>
+                </mxCell>
+                <mxCell id="eT1ZzS6BxZtnCtLuJF9Z-6" edge="1" parent="1" source="3ErPBV-WWrVhGPZMdkdD-3" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;strokeWidth=3;" value="">
+                    <mxGeometry height="50" relative="1" width="50" x="0.7875" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="470" y="1130"/>
+                        </Array>
+                        <mxPoint x="470" y="1090" as="sourcePoint"/>
+                        <mxPoint x="580" y="1130" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="eT1ZzS6BxZtnCtLuJF9Z-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Voeding 12 V DC" vertex="1">
+                    <mxGeometry height="40" width="120" x="580" y="1107.5" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

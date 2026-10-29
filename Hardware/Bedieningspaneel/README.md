@@ -45,7 +45,7 @@ De wig hangt met één T-haak per zijkant in de voorwand van de case (de bovenst
 - De sleuf aan de kabelkant (rechts gezien van voren) loopt door richting het midden. De kabels gaan naast de hals door de sleuf, via het kabelgat in de achterwand van de wig op dezelfde hoogte.
 - Eerst de zijkanten in de case draaien, daarna de wig dichtzetten met bodem en achterwand.
 
-De sleuven staan in de Fusion-case en de laser-generator ([wedge_mount.py](../../Research/concept/v2/fusion/CycloidDrawerV2/cycloid/box_design/wedge_mount.py)). Bij een gecentreerde wig op een case van 358 mm:
+De sleuven staan in de Fusion-case en de laser-generator ([wedge_mount.py](https://github.com/vives-project-xp/Motio/tree/archive/Research/concept/v2/fusion/CycloidDrawerV2/cycloid/box_design/wedge_mount.py)). Bij een gecentreerde wig op een case van 358 mm:
 
 | Zijkant | Sleuf (x vanaf de linkerrand, van voren gezien) | Hals op x | z |
 |---|---|---|---|
