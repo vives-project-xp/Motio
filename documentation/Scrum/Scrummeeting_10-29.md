@@ -34,7 +34,7 @@
 | Het touchdisplay bruikbaar maken en de applicatie erop testen; geblokkeerd totdat de juiste kabel beschikbaar is. | Cobe en Tibo | Afhankelijk van de juiste kabel |
 | De werking van de Pythoncode controleren. | Tibo en Cobe | Nog af te spreken |
 | Het manueel instellen van de motoren toevoegen aan de applicatie. | Tibo en Cobe | Nog af te spreken |
-| Een socialmediapost maken. | Jarno en Kyell | Nog af te spreken |
+| Een socialmediapost maken. | Jarno en Kyell | 2026-10-29 |
 | De infrastructuur voor scrummeetings opzetten. | Ward | 2026-10-29 |
 | Een archiefbranch voor oude bestanden maken. | Ward | 2026-10-29 |
 | De bestellingen opvolgen. | Jarno en Kyell | 2026-10-29 |
