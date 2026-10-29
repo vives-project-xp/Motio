@@ -24,6 +24,7 @@
     - [Software](#software)
   - [Onderdelenlijst (BOM)](#onderdelenlijst-bom)
   - [Project Structuur](#project-structuur)
+  - [Scrummeetings](#scrummeetings)
   - [Simulators](#simulators)
     - [Screenshots](#screenshots)
     - [Beginposter](#beginposter)
@@ -231,6 +232,7 @@ Aantallen en maten zijn de ontwerpwaarden van Box V3, die in 4 mm MDF gebouwd is
 
 ```bash
 Motio/
+├── documentation/    # Scrumtemplate en verslagen van scrummeetings
 ├── doc/              # Projectdocumentatie, projectcanvas en architectuurschema
 ├── Hardware/         # Hardware: bedieningspaneel en snijbestanden box V1
 ├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, concepten v1/v2/v3)
@@ -249,6 +251,10 @@ Motio/
 │   └── SIMV7/        # Laatste versie: PLA, MDF (ontwerp 6 mm, Box V3 bouwt 4 mm), koopdelen, 40 montagestappen
 └── README.md         # Dit bestand
 ```
+
+## Scrummeetings
+
+De verslagen van onze scrummeetings staan in [documentation/scrum](documentation/scrum). Kopieer voor elke scrummeeting het [scrumtemplate](documentation/scrum/template.md) en bewaar het ingevulde verslag in die map als `JJJJ-MM-DD-scrum.md`.
 
 ## Simulators
 
