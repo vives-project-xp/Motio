@@ -30,6 +30,18 @@ def _fresh_import():
     return DrawerAssembly
 
 
+def _offer_animation(app, ui, assembly):
+    answer = ui.messageBox("Play the animation now?\n\nStart your screen recording first.", TITLE,
+                           adsk.core.MessageBoxButtonTypes.YesNoButtonType)
+    if answer != adsk.core.DialogResults.DialogYes:
+        return
+    camera = app.activeViewport.camera
+    camera.viewOrientation = adsk.core.ViewOrientations.IsoTopRightViewOrientation
+    app.activeViewport.camera = camera
+    app.activeViewport.fit()
+    ui.messageBox(assembly.animate(app), TITLE)
+
+
 def run(context):
     app = adsk.core.Application.get()
     ui = app.userInterface
@@ -38,8 +50,10 @@ def run(context):
         app.documents.add(adsk.core.DocumentTypes.FusionDesignDocumentType)
         design = adsk.fusion.Design.cast(app.activeProduct)
         design.designType = adsk.fusion.DesignTypes.ParametricDesignType
-        report = assembly_cls(app, design).build()
+        assembly = assembly_cls(app, design)
+        report = assembly.build()
         app.activeViewport.fit()
         ui.messageBox(report, TITLE)
+        _offer_animation(app, ui, assembly)
     except Exception:
         ui.messageBox("Failed:\n{}".format(traceback.format_exc()), TITLE)

@@ -17,5 +17,14 @@ def pen_position(tip_a, tip_b, length_a: float, length_b: float, branch: int) ->
     return (tip_a[0] + along * ux - height * uy, tip_a[1] + along * uy + height * ux)
 
 
+def crank_tip_for_pen(pivot, pen, crank_radius: float, arm_length: float, previous_tip) -> tuple:
+    """Where the crank tip must be so its arm reaches `pen`: the solution closest to `previous_tip`.
+
+    Staying on the nearest solution keeps the crank from flipping to the other branch between two frames.
+    """
+    candidates = [pen_position(pivot, pen, crank_radius, arm_length, branch) for branch in (1, -1)]
+    return min(candidates, key=lambda tip: math.dist(tip, previous_tip))
+
+
 def direction(start, end) -> float:
     return math.atan2(end[1] - start[1], end[0] - start[0])

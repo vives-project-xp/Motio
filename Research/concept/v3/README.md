@@ -29,7 +29,13 @@ Alle maten staan in [config.py](lasersnij/generator/config.py). De generator sto
 1. Fusion 360 → Utilities → Add-Ins → Scripts and Add-Ins → **+** → *Script from my computer*.
 2. Kies de map `fusion/CycloidDrawerV3` en klik *Run*.
 
-Het script bouwt een statisch model in de thuisstand van SIMV7. De maten staan in [cycloid/config.py](fusion/CycloidDrawerV3/cycloid/config.py). Houd die gelijk met `lasersnij/generator/config.py` en `wedge_mount.py` in beide mappen; `python -m unittest` in `lasersnij/generator` controleert de kastmaten en motorposities.
+Het script bouwt het model in de thuisstand van SIMV7 en biedt daarna een animatie aan (zie hieronder). De maten staan in [cycloid/config.py](fusion/CycloidDrawerV3/cycloid/config.py). Houd die gelijk met `lasersnij/generator/config.py` en `wedge_mount.py` in beide mappen; `python -m unittest` in `lasersnij/generator` controleert de kastmaten en motorposities.
+
+## Animatie voor video
+
+Na het bouwen vraagt het script of het de animatie moet afspelen. Het script draait de twee krukken en het plateau; de armen en de pen volgen via echte Fusion-joints (as-built revolute joints in de kruk- en armgaten, plus rigid groups voor pennen, pen en papier). De pen tekent een roos op het papier. Start eerst je schermopname; het script zet de camera in een isometrisch beeld.
+
+Aantal beelden, platterrondes en de vorm van de roos staan onder *Animation* in [cycloid/config.py](fusion/CycloidDrawerV3/cycloid/config.py). De hoeken worden berekend uit het pad van de pen (inverse kinematica, zonder Fusion); `python -m unittest discover -s tests -t .` in `fusion/CycloidDrawerV3` controleert dat de armen hun lengte houden, de krukken niet van stand wisselen en de pen op het papier blijft.
 
 ## Verschil met SIMV7
 
@@ -42,8 +48,8 @@ Alleen het hout is dunner (4 in plaats van 6 mm). De hoogtes van het mechanisme 
 
 ## Controles en beperkingen
 
-- Het Fusion-script is nog niet in Fusion zelf uitgevoerd. De berekende thuisstand (pen op het plateaumidden) komt wel overeen met SIMV7.
-- Geen scharnieren of animatie in Fusion; gebruik de simulator voor de beweging. Bouten, moeren, lagers, penhouder en penklem zijn niet gemodelleerd: zie de onderdelenlijst van SIMV7.
+- Het Fusion-script, ook de animatie, is nog niet in Fusion zelf uitgevoerd. De berekende thuisstand (pen op het plateaumidden) komt wel overeen met SIMV7.
+- Het model heeft draaipennen en scharnieren (joints) voor de animatie; de pennen zijn eenvoudige cilinders, geen M8-bout. Bouten, moeren, lagers, penhouder en penklem zijn niet gemodelleerd: zie de onderdelenlijst van SIMV7.
 - Het deksel van 4 mm draagt de motoren zonder ribben (SIMV7 heeft er twee onder zijn bovenplaat van 6 mm). Controleer de doorbuiging na het bouwen.
 - De pen en de papierhoogte zijn niet opnieuw tegen de vrijloopcontroles van SIMV7 gecontroleerd.
 - Er is geen kerfcompensatie van de lasersnijder verwerkt.

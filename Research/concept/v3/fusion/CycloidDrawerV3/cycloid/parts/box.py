@@ -18,11 +18,13 @@ class BoxBuilder:
         self.parent = parent
         self.palette = palette
 
-    def build(self, lid_holes: list) -> None:
+    def build(self, lid_holes: list):
+        """Returns the group component holding all panels."""
         box = TwoCompartmentBox(cfg.BOX_SPEC, lid_holes)
         group = new_component(self.parent, "Box")
         for panel in box.panels:
             self._panel(group, panel)
+        return group
 
     def _panel(self, group, panel) -> None:
         comp = new_component(group, panel.name, _FRAMES[panel.axis](panel))
