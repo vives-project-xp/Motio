@@ -9,7 +9,7 @@
 > Een innovatief project voor het zichtbaar en tastbaar maken van beweging,
 > door meerdere bewegende elementen om te zetten in fysieke tekeningen op papier.
 
-![cycloide drawing machine](./doc/assets/cycloide%20drawing%20machine.png)
+![cycloide drawing machine](./documentation/assets/cycloide%20drawing%20machine.png)
 
 ## Inhoudsopgave
 
@@ -111,7 +111,7 @@ flowchart LR
     C --> PEN
 ```
 
-De pinindeling staat in het [hardwareschema](Schemas/Hardware%20schema.md) en in de [architectuurtekening](doc/Architectuur/ArchitectuurFoto.png).
+De pinindeling staat in het [hardwareschema](Schemas/Hardware%20schema.md) en in de [architectuurtekening](documentation/architecture/ArchitectuurFoto.png).
 
 ### Evolutie van het ontwerp
 
@@ -133,7 +133,7 @@ timeline
 
 ### Hardware
 
-![Box V3 in Fusion: kast van 4 mm MDF met de twee armen, het ronde plateau en het schuine bedieningspaneel](./doc/assets/box-v3.png)
+![Box V3 in Fusion: kast van 4 mm MDF met de twee armen, het ronde plateau en het schuine bedieningspaneel](./documentation/assets/box-v3.png)
 
 *Box V3: kast van 4 mm MDF met de twee armen, het plateau met papier en het schuine bedieningspaneel met scherm.*
 
@@ -232,8 +232,7 @@ Aantallen en maten zijn de ontwerpwaarden van Box V3, die in 4 mm MDF gebouwd is
 
 ```bash
 Motio/
-├── documentation/    # Scrumtemplate en verslagen van scrummeetings
-├── doc/              # Projectdocumentatie, projectcanvas en architectuurschema
+├── documentation/    # Projectdocumentatie, afbeeldingen, architectuur en scrumverslagen
 ├── Hardware/         # Hardware: bedieningspaneel en snijbestanden box V1
 ├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, concepten v1/v2/v3)
 ├── Schemas/          # Elektronicaschema's (Raspberry Pi 5, gShield)
@@ -254,7 +253,7 @@ Motio/
 
 ## Scrummeetings
 
-De verslagen van onze scrummeetings staan in [documentation/scrum](documentation/scrum). Kopieer voor elke scrummeeting het [scrumtemplate](documentation/scrum/template.md) en bewaar het ingevulde verslag in die map als `JJJJ-MM-DD-scrum.md`.
+De verslagen van onze scrummeetings staan in [documentation/Scrum](documentation/Scrum). Kopieer voor elke scrummeeting het [scrumtemplate](documentation/Scrum/template.md) en bewaar het ingevulde verslag in die map als `JJJJ-MM-DD-scrum.md`.
 
 ## Simulators
 
@@ -273,30 +272,30 @@ Deze referentiebeelden komen uit [SIMV7](Software/WARD-SIM/SIMV7/index.html), de
 
 **Simulator** – de bloem met vijf blaadjes, getekend op het ronde papier terwijl de machine in bovenaanzicht meebeweegt.
 
-![Simulator met voltooide bloemtekening](./doc/assets/simulator/simulator-tekening.png) 
+![Simulator met voltooide bloemtekening](./documentation/assets/simulator/simulator-tekening.png)
 
 **Tekeningen** – het eindresultaat van de dertien ingebouwde patronen en een zelf getypt woord, zoals de simulator ze op het ronde papier tekent.
 
 <table>
-  <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-circle.png" width="200" alt="Cirkel"><br><sub>Cirkel</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-flower3.png" width="200" alt="Bloem · 3 blaadjes"><br><sub>Bloem · 3 blaadjes</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-flower5.png" width="200" alt="Bloem · 5 blaadjes"><br><sub>Bloem · 5 blaadjes</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-flower7.png" width="200" alt="Bloem · 7 blaadjes"><br><sub>Bloem · 7 blaadjes</sub></td></tr>
-  <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-ripple12.png" width="200" alt="Golfring"><br><sub>Golfring</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-rosette52.png" width="200" alt="Rozet · 2 rondes"><br><sub>Rozet · 2 rondes</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-rosette73.png" width="200" alt="Rozet · 3 rondes"><br><sub>Rozet · 3 rondes</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-openRosette.png" width="200" alt="Open rozet"><br><sub>Open rozet</sub></td></tr>
-  <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-wovenFlower.png" width="200" alt="Verweven bloem"><br><sub>Verweven bloem</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-wovenRosette.png" width="200" alt="Dichte rozet"><br><sub>Dichte rozet</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-wovenStar.png" width="200" alt="Sterrozet"><br><sub>Sterrozet</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-spiral.png" width="200" alt="Spiraal"><br><sub>Spiraal</sub></td></tr>
-  <tr><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-vives.png" width="200" alt="VIVES"><br><sub>VIVES</sub></td><td align="center"><img src="./doc/assets/simulator/tekeningen/tekening-word.png" width="200" alt="Eigen woord: MOTIO"><br><sub>Eigen woord: MOTIO</sub></td></tr>
+  <tr><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-circle.png" width="200" alt="Cirkel"><br><sub>Cirkel</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-flower3.png" width="200" alt="Bloem · 3 blaadjes"><br><sub>Bloem · 3 blaadjes</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-flower5.png" width="200" alt="Bloem · 5 blaadjes"><br><sub>Bloem · 5 blaadjes</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-flower7.png" width="200" alt="Bloem · 7 blaadjes"><br><sub>Bloem · 7 blaadjes</sub></td></tr>
+  <tr><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-ripple12.png" width="200" alt="Golfring"><br><sub>Golfring</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-rosette52.png" width="200" alt="Rozet · 2 rondes"><br><sub>Rozet · 2 rondes</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-rosette73.png" width="200" alt="Rozet · 3 rondes"><br><sub>Rozet · 3 rondes</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-openRosette.png" width="200" alt="Open rozet"><br><sub>Open rozet</sub></td></tr>
+  <tr><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-wovenFlower.png" width="200" alt="Verweven bloem"><br><sub>Verweven bloem</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-wovenRosette.png" width="200" alt="Dichte rozet"><br><sub>Dichte rozet</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-wovenStar.png" width="200" alt="Sterrozet"><br><sub>Sterrozet</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-spiral.png" width="200" alt="Spiraal"><br><sub>Spiraal</sub></td></tr>
+  <tr><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-vives.png" width="200" alt="VIVES"><br><sub>VIVES</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-word.png" width="200" alt="Eigen woord: MOTIO"><br><sub>Eigen woord: MOTIO</sub></td></tr>
 </table>
 
 **Mechanical Design** – interactief 3D-model van de box en een technisch bovenaanzicht van de armen en het plateau.
 
 |                       Interactief 3D-model                        |                      2D technische tekening                       |
 | :---------------------------------------------------------------: | :---------------------------------------------------------------: |
-| ![Mechanical Design 3D](./doc/assets/simulator/mechanical-3d.png) | ![Mechanical Design 2D](./doc/assets/simulator/mechanical-2d.png) |
+| ![Mechanical Design 3D](./documentation/assets/simulator/mechanical-3d.png) | ![Mechanical Design 2D](./documentation/assets/simulator/mechanical-2d.png) |
 
 **Validation** – controles op bereik, botsingen, singulariteiten, motorcapaciteit, spelingen en constructiesterkte. Wat nog fysiek getest moet worden staat als *niet bewezen* aangeduid.
 
-![Validation-tabblad](./doc/assets/simulator/validation.png)
+![Validation-tabblad](./documentation/assets/simulator/validation.png)
 
 ### Beginposter
 
-<img src="./doc/assets/begin_poster_motio.png" height="auto" width="420">
+<img src="./documentation/assets/begin_poster_motio.png" height="auto" width="420">
 
 ## Team
 
