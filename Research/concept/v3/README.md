@@ -1,6 +1,6 @@
 # Box V3 – stappenmotoren
 
-Box V3 vervangt de tandwielaandrijving van [V2](../v2) door de aandrijving van Ward's simulator [SIMV7](../../../Software/WARD-SIM/SIMV7/README.md): drie stappenmotoren (SY42STH38-1684A) met de flens tegen de onderkant van het deksel. Motor A en B draaien elk een kruk van 65 mm met een arm (180 en 160 mm), motor C draait het plateau met het papier. De kast blijft de V2-kast van 4 mm MDF (twee compartimenten), maar kleiner: 343 × 304 mm in plaats van 358 × 408 mm en het [bedieningspaneel](../../../Hardware/Bedieningspaneel/README.md) hangt er nog steeds aan.
+Box V3 vervangt de tandwielaandrijving van [V2](https://github.com/vives-project-xp/Motio/tree/archive/Research/concept/v2) door de aandrijving van Ward's simulator [SIMV7](../../../Software/WARD-SIM/SIMV7/README.md): drie stappenmotoren (SY42STH38-1684A) met de flens tegen de onderkant van het deksel. Motor A en B draaien elk een kruk van 65 mm met een arm (180 en 160 mm), motor C draait het plateau met het papier. De kast blijft de V2-kast van 4 mm MDF (twee compartimenten), maar kleiner: 343 × 304 mm in plaats van 358 × 408 mm en het [bedieningspaneel](../../../Hardware/Bedieningspaneel/README.md) hangt er nog steeds aan.
 
 ## Indeling
 

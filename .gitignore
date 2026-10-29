@@ -1,3 +1,8 @@
 # Python
 __pycache__/
 *.pyc
+
+# Lokale omgevingen en tijdelijke bestanden
+.venv/
+/tmp/
+/output/

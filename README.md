@@ -15,6 +15,7 @@
 
 - [Motio](#motio)
   - [Inhoudsopgave](#inhoudsopgave)
+  - [Archief](#archief)
   - [Projectoverzicht](#projectoverzicht)
   - [Projectstatus](#projectstatus)
   - [Functies](#functies)
@@ -30,6 +31,12 @@
     - [Beginposter](#beginposter)
   - [Team](#team)
   - [Academische Context](#academische-context)
+
+## Archief
+
+De [branch `archive`](https://github.com/vives-project-xp/Motio/tree/archive) bewaart de oude simulatoren (SIMV1 t.e.m. SIMV6, inclusief SIMV4-5), Box V1/V2, oude uitvoer en tijdelijke bestanden. Op `main` staan de bestanden waarmee we verder werken.
+
+Deze archiefbranch blijft beschikbaar en kan later worden aangevuld: bewaar verouderde bestanden daar voordat je ze uit `main` verwijdert.
 
 ## Projectoverzicht
 
@@ -47,7 +54,7 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 | Box V1 | Afgerond | Manueel aangedreven prototype dat één patroon tekent. Zie [UitlegBoxV1](Research/concept/UitlegBoxV1.md). |
 | Box V2 | Afgerond (ontwerp) | Parametrisch Fusion-model (CycloidDrawerV2) en lasersnijbestanden met tandwielaandrijving. Vervangen door V3. |
 | Box V3 | Gebouwd | Kast van 4 mm MDF met de motoraandrijving van SIMV7, gemaakt met een generator voor lasersnijbestanden en een Fusion-script. Zie [Box V3](Research/concept/v3/README.md). |
-| Simulator | Afgewerkt | SIMV1 t.e.m. SIMV7 met 13 patronen, woordgenerator, veiligheidscontroles en montagehandleiding. SIMV7 is de laatste versie. |
+| Simulator | Afgewerkt | SIMV7 met 13 patronen, woordgenerator, veiligheidscontroles en montagehandleiding. Oudere versies staan op de archiefbranch. |
 | Bedieningspaneel | In uitwerking | Wig van 4 mm MDF met 7" Raspberry Pi-scherm; maten en snijbestanden worden gegenereerd. Zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). |
 | Elektronica | Gestart | Schema's voor Raspberry Pi 5 en gShield, testcode voor motoraansturing (PWM). |
 | Pi-interface | Eerste versie | `Software/Pi-Interface/motio.py` laat de simulator de echte motoren aansturen. Gebaseerd op SIMV5, dus nog geen SIMV7-driver, en nog niet getest op de volledige machine. |
@@ -144,7 +151,7 @@ timeline
 
 ### Software
 
-- MOTIO SIMV7 als huidige simulator, met directe motoraandrijving en een geanimeerde montagehandleiding van 40 stappen. Eerdere versies blijven beschikbaar.
+- MOTIO SIMV7 als huidige simulator, met directe motoraandrijving en een geanimeerde montagehandleiding van 40 stappen. Eerdere versies staan op de [archiefbranch](https://github.com/vives-project-xp/Motio/tree/archive).
 - Pi-interface ([motio.py](Software/Pi-Interface/motio.py)): de simulator berekent de motorstanden, de Raspberry Pi zet ze om in step-pulsen. Deze versie hoort nog bij SIMV5.
 - Testcode voor [Raspberry Pi 5 en Arduino](Software/TestCode).
 - Parameterbesturing voor snelheid, richting, fase en bewegingsverhouding.
@@ -233,20 +240,13 @@ Aantallen en maten zijn de ontwerpwaarden van Box V3, die in 4 mm MDF gebouwd is
 ```bash
 Motio/
 ├── documentation/    # Projectdocumentatie, afbeeldingen, architectuur en scrumverslagen
-├── Hardware/         # Hardware: bedieningspaneel en snijbestanden box V1
-├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, concepten v1/v2/v3)
+├── Hardware/         # Hardware: bedieningspaneel
+├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, huidige Box V3)
 ├── Schemas/          # Elektronicaschema's (Raspberry Pi 5, gShield)
 ├── Software/         # Softwarecomponenten van het project
 │   ├── Pi-Interface/ # Server die de simulator met de motoren verbindt
 │   └── TestCode/     # Testcode Raspberry Pi 5 en Arduino
 ├── Software/WARD-SIM/ # Interactieve simulators
-│   ├── SIMV1/        # Oorspronkelijke live simulator
-│   ├── SIMV2/        # Virtueel prototype met machinebediening
-│   ├── SIMV3/        # Behouden werkende basis met drie motoren, 2D/3D en BOM
-│   ├── SIMV4/        # Compacte box 358 × 404 × 108 mm en instelbare zichtbaarheid
-│   ├── SIMV4-5/      # Drie directe motoraandrijvingen
-│   ├── SIMV5/        # Montagehandleiding met zes geanimeerde stappen
-│   ├── SIMV6/        # Motoren tegen de bovenplaat, PETG-krukken, 38 montagestappen
 │   └── SIMV7/        # Laatste versie: PLA, MDF (ontwerp 6 mm, Box V3 bouwt 4 mm), koopdelen, 40 montagestappen
 └── README.md         # Dit bestand
 ```
@@ -257,14 +257,9 @@ De verslagen van onze scrummeetings staan in [documentation/Scrum](documentation
 
 ## Simulators
 
-- [SIMV1](Software/WARD-SIM/SIMV1/index.html): oorspronkelijke live simulator.
-- [SIMV2](Software/WARD-SIM/SIMV2/index.html): virtueel prototype met machinebediening, mechanische transmissies en engineeringweergave. Zie de [SIMV2-handleiding](Software/WARD-SIM/SIMV2/README.md).
-- [MOTIO SIMV3](Software/WARD-SIM/SIMV3/index.html): behouden werkende basis met rond papier Ø210 mm, veilige tekenzone Ø190 mm, drie SY42STH38-1684A-motoren en 2D/3D-interface. Zie [ontwerp en controles](Software/WARD-SIM/SIMV3/README.md).
-- [MOTIO SIMV4](Software/WARD-SIM/SIMV4/index.html): simulator met compacte opstelling, box 358 × 404 × 108 mm en afzonderlijke zichtbaarheid van wanden, bodem en bovenplaat. De drie motoren en bestaande bediening blijven behouden. Zie [starten en controles](Software/WARD-SIM/SIMV4/README.md).
-- [MOTIO SIMV4-5](Software/WARD-SIM/SIMV4-5/index.html): behouden versie met drie directe motoraandrijvingen.
-- [MOTIO SIMV5](Software/WARD-SIM/SIMV5/index.html): gebaseerd op SIMV4-5, met een tab **Montagehandleiding**: zes stappen, automatische opbouwanimaties, voortgang en herhalen. Zie [starten en bediening](Software/WARD-SIM/SIMV5/README.md).
-- [MOTIO SIMV6](Software/WARD-SIM/SIMV6/index.html): gebaseerd op SIMV5. De motorflenzen zitten rechtstreeks tegen de MDF-bovenplaat, de krukken zijn PETG, en de handleiding telt 38 stappen met onderdelenlijst. De laatste wijziging (PETG-krukken) is nog niet getest. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV6/README.md).
 - [MOTIO SIMV7](Software/WARD-SIM/SIMV7/index.html): huidige en laatste versie, opvolger van SIMV6. PLA voor de maatdelen, lasergesneden MDF voor de kast (6 mm in het ontwerp, in Box V3 gebouwd in 4 mm), standaard koopdelen en een handleiding van 40 stappen met kooplinks. Het is een gecontroleerd ontwerp, nog geen fysiek beproefde machine. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV7/README.md).
+
+De eerdere simulatoren staan op de [archiefbranch](https://github.com/vives-project-xp/Motio/tree/archive/Software/WARD-SIM).
 
 ### Screenshots
 

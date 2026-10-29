@@ -1,6 +1,6 @@
 # MOTIO SIMV7
 
-Officiële opvolger van SIMV6: PLA voor de mechanische maatdelen, 6 mm lasergesneden MDF voor de kast en standaard koopdelen uit de toegestane winkels. SIMV6 is behouden.
+Officiële opvolger van SIMV6: PLA voor de mechanische maatdelen, 6 mm lasergesneden MDF voor de kast en standaard koopdelen uit de toegestane winkels. Eerdere versies staan op de [archiefbranch](https://github.com/vives-project-xp/Motio/tree/archive/Software/WARD-SIM).
 
 Open [index.html](index.html) in een recente browser. Er is geen installatie of internet nodig. De simulator bevat de bestaande 13 patronen, eigen woorden, 2D/3D-weergave, onderdelenlijst met kooplinks en een aangepaste montagehandleiding van 40 stappen. Bedien met **Power → Home → Play**. Home is een virtuele referentie; de webpagina stuurt zelf geen fysieke motoren aan.
 
