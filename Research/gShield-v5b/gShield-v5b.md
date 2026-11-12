@@ -5,7 +5,7 @@ De gShield v5b (grblShield v5) is een stappenmotordriver-shield voor Arduino. He
 
 De gShield kan ook gebruikt worden om TinyG2 te runnen op the Arduino Due. Dit kan omdat TinyG2 een ARM port van de TinyG motion control system is.
 
-<img src="afbeeldingen/gShieldWerking1.jpg" height="auto" width="380">
+<img src="assets/gShieldWerking1.jpg" height="auto" width="380">
 
 ## Wat doet de gShield v5b?
 - Stuurt tot 3 stappenmotoren aan (X, Y, Z).
@@ -64,7 +64,7 @@ Voor limit switches, reset, spindle-enable en andere GRBL-functies.<br>
 Het is de stappenmotor-driver IC die de signalen van de Arduino omzet in de hoge stromen die nodig zijn om een stappenmotor aan te sturen.
 De volledige werking van de IC is terug te vinden in de documentatie van Texas Instruments.
 
-<img src="afbeeldingen/gShieldWerking2.avif" height="auto" width="380">
+<img src="assets/gShieldWerking2.avif" height="auto" width="380">
 
 Het bevat twee H-brug-drivers en logica voor microstappen om een stappenmotor te besturen. Hierdoor kan de motor in twee richtingen draaien.
 
@@ -87,3 +87,25 @@ Wij gebruiken de gShield v5b driver als driver voor drie motoren te sturen met e
 Bronnen:
 <br> https://github.com/synthetos/grblShield
 <br> https://www.ti.com/product/DRV8818
+
+## Technische gegevens
+
+| Eigenschap          | Waarde                                  |
+| ------------------- | --------------------------------------- |
+| Product             | gShield v5b (grblShield)                |
+| Aantal assen        | 3 (X, Y, Z)                             |
+| Driver IC           | 3× Texas Instruments DRV8818            |
+| Maximale stroom     | 2,5 A per fase                          |
+| Voedingsspanning    | 12 V - 30 V DC                          |
+| Microstepping       | 1×, 2×, 4×, 8×                          |
+| Maximale resolutie  | 1600 microstappen per omwenteling       |
+| Compatibiliteit     | Arduino Uno (GRBL), Arduino Due (TinyG) |
+| Motoraansluitingen  | Schroefterminals                        |
+| Afmetingen          | 58 mm × 78 mm                           |
+| Gewicht             | 31 g                                    |
+
+Bevat een IC
+
+DRV8818<br>
+57TC<br>
+CHR3

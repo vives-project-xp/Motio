@@ -12,7 +12,7 @@
 | [js/](js/README.md) | De code: berekeningen, patronen, tekenen |
 | [exports/](exports/README.md) | Gegenereerde printbestanden (STL), snijbestanden (SVG/DXF), onderdelenlijst en controlerapporten |
 | [tests/](tests/README.md) | Automatische controles en scripts om de exports te maken |
-| [references/](references/) | Referentiebeeld met de motormaten |
+| [assets/](assets/motor-dimensions.png) | Referentiebeeld met de motormaten |
 | [DESIGN.md](DESIGN.md) | Montagematen van het ontwerp |
 | [SOURCING.md](SOURCING.md) | Wat je waar koopt |
 

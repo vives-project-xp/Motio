@@ -7,9 +7,9 @@
 | Bestand | Wat is het? |
 |---|---|
 | `Concept-drawer.pdf` | Het oorspronkelijke concept |
-| `afbeeldingen/` | Foto's van het prototype |
+| `assets/` | Foto's van het prototype |
 
-<img src="afbeeldingen/boxV11.jpg" height="auto" width="280">
+<img src="assets/boxV11.jpg" height="auto" width="280">
 
 ## Functionaliteit
 De functionaliteit van de eerst versie bestaat enkel uit manuele aandrijving. Deze versie bevat nog geen integratie van elektronische componenten en is enkel in staat om 1 patroon te tekenen.
@@ -19,7 +19,7 @@ De aandrijving van V1 gebeurt manueel door een persoon die draait aan een stang.
 
 Aan een arm is een balpen bevestigd die tekent op het blad.
 
-<img src="afbeeldingen/boxV12.jpg" height="auto" width="280">
+<img src="assets/boxV12.jpg" height="auto" width="280">
 
 ## Bevindingen
 We hebben van deze eerste versie veel bijgeleerd.

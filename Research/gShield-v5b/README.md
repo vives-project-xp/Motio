@@ -6,8 +6,7 @@ Onderzoek naar de driverkaart (grblShield v5b) die onze drie motoren aanstuurt. 
 ## Inhoud
 | Bestand | Wat staat erin? |
 |---|---|
-| [BasisWerking.md](BasisWerking.md) | Hoe de kaart werkt en hoe wij hem gebruiken met de Pi |
-| [Gegevens_gShield_v5b.md](Gegevens_gShield_v5b.md) | Technische gegevens (3 assen, 3× DRV8818, ...) |
-| `afbeeldingen/` | Figuren bij de uitleg |
+| [gShield-v5b.md](gShield-v5b.md) | Hoe de kaart werkt, hoe wij hem met de Pi gebruiken en de technische gegevens (3 assen, 3× DRV8818, ...) |
+| `assets/` | Figuren bij de uitleg |
 
 De aansluiting op de Pi staat in [Hardware/Schemas](../../Hardware/Schemas/README.md). De originele schema's en datasheets: [Datasheets](../Datasheets/README.md).

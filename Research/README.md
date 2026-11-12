@@ -12,8 +12,7 @@ Dit is achtergrond, geen bouwinstructie. Je leest het om te begrijpen **waarom**
 | [Stappenmotoren](Stappenmotoren/README.md) | Werking, gegevens en aansturing van de motoren | waarom we de SY42STH38-1684A kozen |
 | [gShield-v5b](gShield-v5b/README.md) | De driverkaart | hoe de driver werkt en wat hij kan |
 | [Datasheets](Datasheets/README.md) | De originele PDF's | exacte technische waarden |
-| [Scherm](Scherm/Scherm_gegevens.md) | Opties voor het touchscreen (lijst met links) | welke schermen we overwogen |
-| [Lagers](Lagers/Opties_Lagers.md) | Opties voor lagers (lijst met links) | welke lagers we overwogen |
+| [Onderdeelkeuzes](Onderdeelkeuzes.md) | Opties voor scherm en lagers (links) | welke schermen en lagers we overwogen en wat we kozen |
 | [BoxV1](BoxV1/README.md) | Het eerste prototype | hoe het idee begon |
 | [Fusion-tandwiel](Fusion-tandwiel/README.md) | Stappenplan voor tandwielen in Fusion 360 | hoe tandwielen getekend werden voor V1 en V2 |
 

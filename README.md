@@ -118,7 +118,7 @@ flowchart LR
     C --> PEN
 ```
 
-De pinindeling staat in het [hardwareschema](Hardware/Schemas/Hardware-schema.md) en in de [architectuurtekening](Hardware/Schemas/Architectuur/ArchitectuurFoto1.png).
+De pinindeling staat in het [hardwareschema](Hardware/Schemas/README.md) en in de [architectuurtekening](Hardware/Schemas/Architectuur/assets/ArchitectuurFoto1.png).
 
 ### Evolutie van het ontwerp
 
@@ -147,7 +147,7 @@ timeline
 - Stappenmotoren met dedicated drivers voor precisie-aansturing.
 - Tekeninstrument als uitvoer naar papier.
 - Bedieningspaneel met schuin scherm: zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). Elektronicaschema's staan in [Schemas](Hardware/Schemas).
-- Raspberry Pi als besturingsplatform (zie [schermkeuzes](Research/Scherm/Scherm_gegevens.md) en [motor-aansturing](Research/Stappenmotoren/Stappenmotor_aansturing.md)).
+- Raspberry Pi als besturingsplatform (zie [schermkeuzes](Research/Onderdeelkeuzes.md) en [motor-aansturing](Research/Stappenmotoren/Gekozen-motor.md)).
 
 ### Software
 

@@ -14,4 +14,4 @@ Afbeeldingen die in de hoofd-[README](../../README.md) getoond worden.
 | `architectuur/` | `box1.png` (3D-weergave uit de oude simulator SIMV5) en `stappenmotor.jpg`. Nu door geen enkel document gebruikt; bewaard als referentie. |
 
 ## Regel
-Afbeeldingen die bij één document horen, staan **naast dat document** (bv. `Research/Stappenmotoren/afbeeldingen/`). Hier staan enkel afbeeldingen voor de hoofd-README en algemene projectdocumentatie.
+Afbeeldingen die bij één document horen, staan **naast dat document** (bv. `Research/Stappenmotoren/assets/`). Hier staan enkel afbeeldingen voor de hoofd-README en algemene projectdocumentatie.

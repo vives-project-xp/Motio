@@ -10,8 +10,8 @@
 |---|---|
 | [lasersnij/](lasersnij/README.md) | De SVG- en DXF-bestanden voor de lasersnijder en de generator die ze maakt |
 | [fusion/](fusion/README.md) | Fusion 360-script dat het 3D-model en de animatie bouwt |
-| `views.png` | Voorbeeldbeeld van het model |
-| `simulatie-v3.mp4` | Video van de animatie |
+| [assets/views.png](assets/views.png) | Voorbeeldbeeld van het model |
+| [assets/simulatie-v3.mp4](assets/simulatie-v3.mp4) | Video van de animatie |
 
 ```mermaid
 flowchart LR
