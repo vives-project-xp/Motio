@@ -11,9 +11,7 @@ import scherm
 from steunplaat import maakSteunplaat
 from zijkant import maakZijkant
 
-CONCEPT_MAP = Path(__file__).resolve().parents[2] / "Research" / "concept" / "v3"
-CASE_MAP = CONCEPT_MAP / "fusion" / "CycloidDrawerV3" / "cycloid" / "box_design"
-LASER_MAP = CONCEPT_MAP / "lasersnij" / "generator" / "box_design"
+CASE_MAP = Path(__file__).resolve().parents[1] / "BoxV3" / "box_design"
 
 
 def laadModule(naam, map=CASE_MAP):
@@ -48,10 +46,6 @@ class TestWigOpCase(unittest.TestCase):
         self.assertEqual(self.montage.hook_height, maten.CASE_HAAK_HOOGTE)
         self.assertEqual(self.montage.head_width, maten.HAAK_KOP_BREEDTE)
         self.assertEqual(self.montage.slot_height, maten.SLEUF_BREEDTE)
-
-    def test_laserversie_van_de_haakmaten_is_gelijk_aan_de_fusionversie(self):
-        laser = laadModule("wedge_mount", LASER_MAP).WedgeMount()
-        self.assertEqual(vars(laser), vars(self.montage))
 
     def test_wig_past_op_de_case(self):
         self.assertLessEqual(maten.PLAAT_BREEDTE, CASE_BREEDTE)

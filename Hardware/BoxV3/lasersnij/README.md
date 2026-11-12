@@ -22,14 +22,14 @@ flowchart TD
     main["main.py<br/>startpunt"] --> config["config.py<br/>alle maten"]
     main --> layout["layout/<br/>plaatst de 3 motoren, controleert of alles past"]
     main --> parts["parts/<br/>kastpanelen en plateau op een plaat leggen"]
-    parts --> boxdesign["box_design/<br/>panelen en vingerverbindingen berekenen"]
+    parts --> boxdesign["BoxV3/box_design/<br/>gedeeld met Fusion-script"]
     parts --> geometry["geometry/<br/>basisvormen als SVG-pad"]
     main --> export["export/<br/>schrijft SVG en DXF"]
 ```
 
 | Map | Verantwoordelijkheid |
 |---|---|
-| `box_design/` | Berekent de panelen van de kast en hun vingerverbindingen. Bevat geen tekencode. |
+| `../box_design/` | Berekent de panelen van de kast en hun vingerverbindingen. Gedeeld met het Fusion-script, zie [box_design](../box_design/README.md). |
 | `layout/` | Plaatst de motoren op het deksel. Stopt met een melding als iets niet past. |
 | `parts/` | Zet de panelen en het plateau plat op een snijplaat |
 | `geometry/` | Basisvormen (lijnen, cirkels) als SVG-pad |
@@ -37,5 +37,5 @@ flowchart TD
 | `test_sync.py` | Test dat de generator en het Fusion-script dezelfde kast beschrijven |
 
 ## Let op
-- `box_design/` bestaat ook in het Fusion-script ([fusion](../fusion/README.md)). De code is nu **gekopieerd**, omdat Fusion een zelfstandige map nodig heeft. Pas je een van beide aan, doe het dan in allebei; `test_sync.py` helpt controleren.
+- De kastopbouw (`box_design/`) staat maar **één keer**, in `BoxV3/box_design`. Het Fusion-script en deze generator gebruiken dezelfde code. Enkel `config.py` bestaat in beide, omdat Fusion andere eenheden en assen gebruikt; `test_sync.py` controleert dat de maten gelijk blijven.
 - Er is geen kerfcompensatie van de lasersnijder ingebouwd.

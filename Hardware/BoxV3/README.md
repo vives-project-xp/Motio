@@ -8,6 +8,7 @@
 
 | Map of bestand | Wat zit erin? |
 |---|---|
+| [box_design/](box_design/README.md) | Gedeelde code die de kastpanelen en vingerverbindingen berekent. Gebruikt door `lasersnij` en `fusion`. |
 | [lasersnij/](lasersnij/README.md) | De SVG- en DXF-bestanden voor de lasersnijder en de generator die ze maakt |
 | [fusion/](fusion/README.md) | Fusion 360-script dat het 3D-model en de animatie bouwt |
 | [assets/views.png](assets/views.png) | Voorbeeldbeeld van het model |
@@ -53,7 +54,7 @@ Alle maten staan in [config.py](lasersnij/generator/config.py). De generator sto
 1. Fusion 360 → Utilities → Add-Ins → Scripts and Add-Ins → **+** → *Script from my computer*.
 2. Kies de map `fusion/CycloidDrawerV3` en klik *Run*.
 
-Het script bouwt het model in de thuisstand van SIMV7 en biedt daarna een animatie aan (zie hieronder). De maten staan in [cycloid/config.py](fusion/CycloidDrawerV3/cycloid/config.py). Houd die gelijk met `lasersnij/generator/config.py` en `wedge_mount.py` in beide mappen; `python -m unittest` in `lasersnij/generator` controleert de kastmaten en motorposities.
+Het script bouwt het model in de thuisstand van SIMV7 en biedt daarna een animatie aan (zie hieronder). De maten staan in [cycloid/config.py](fusion/CycloidDrawerV3/cycloid/config.py). Houd die gelijk met `lasersnij/generator/config.py` (de kastopbouw zelf staat maar één keer, in [box_design](box_design/README.md)); `python -m unittest` in `lasersnij/generator` controleert de kastmaten en motorposities.
 
 ## Animatie voor video
 

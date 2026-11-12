@@ -7,7 +7,7 @@ Fusion frame: X = box width (left -> right), Y = box depth (front -> back), Z = 
 """
 
 # ---- Material & box -------------------------------------------------------
-from .box_design.spec import BoxSpec  # noqa: E402
+from box_design.spec import BoxSpec  # noqa: E402
 
 MATERIAL = 4.0
 # As small as possible: the lid is the bounding box of the platter and the swept cranks plus 3 mm, with the whole

@@ -9,6 +9,8 @@ Het hoort bij de kast ([BoxV3](../README.md)) en gebruikt dezelfde maten als de 
 ## Gebruik
 Fusion 360 → Utilities → Add-Ins → Scripts and Add-Ins → **+** → *Script from my computer* → kies de map [CycloidDrawerV3](CycloidDrawerV3) → *Run*.
 
+Let op: verplaats de map `CycloidDrawerV3` niet los van de rest van `BoxV3`. Het script gebruikt de gedeelde map `BoxV3/box_design` en de wig uit `Hardware/Bedieningspaneel`.
+
 ## Inhoud van `CycloidDrawerV3/`
 | Onderdeel | Wat doet het? |
 |---|---|
@@ -16,7 +18,7 @@ Fusion 360 → Utilities → Add-Ins → Scripts and Add-Ins → **+** → *Scri
 | `CycloidDrawerV3.manifest` | Laat Fusion het script herkennen |
 | `cycloid/config.py` | **Alle maten**. Hier pas je aan. |
 | `cycloid/assembly.py` | Zet alles in elkaar in de thuisstand |
-| `cycloid/box_design/` | Berekent de kastpanelen en vingerverbindingen (zelfde code als de generator) |
+| `../../box_design/` | Berekent de kastpanelen en vingerverbindingen. Gedeeld met de generator, zie [box_design](../box_design/README.md) |
 | `cycloid/parts/` | Bouwt de losse onderdelen: kast, armen, motoren, wig |
 | `cycloid/geometry/` | Wiskunde van de twee armen (geen Fusion nodig) |
 | `cycloid/animation/` | Berekent en speelt de animatie van de pen |
@@ -29,7 +31,7 @@ flowchart TD
     script["CycloidDrawerV3.py"] --> assembly["assembly.py"]
     assembly --> parts["parts/<br/>onderdelen bouwen"]
     assembly --> anim["animation/<br/>pen laten tekenen"]
-    parts --> boxd["box_design/"]
+    parts --> boxd["BoxV3/box_design/<br/>gedeeld met de generator"]
     parts --> tools["fusion/<br/>hulpfuncties API"]
     anim --> geo["geometry/<br/>kinematica"]
     config["config.py<br/>maten"] -.-> parts

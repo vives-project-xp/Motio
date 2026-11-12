@@ -9,7 +9,7 @@ import math
 import sys
 from pathlib import Path
 
-WEDGE_DIR = Path(__file__).resolve().parents[7] / "Hardware" / "Bedieningspaneel"
+WEDGE_DIR = Path(__file__).resolve().parents[2] / "Bedieningspaneel"
 
 
 def load_wedge_parts() -> tuple:

@@ -4,6 +4,9 @@ Usage: python main.py <output folder>
 """
 import os
 import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parents[2]))  # shared box_design of BoxV3
 
 import config as cfg
 from export import dxf_document

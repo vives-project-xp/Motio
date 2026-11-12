@@ -1,6 +1,6 @@
 """Box: finger-jointed panels from the shared box design."""
 from .. import config as cfg
-from ..box_design.box_design import TwoCompartmentBox
+from box_design.box_design import TwoCompartmentBox
 from ..fusion import sketch_tools as st
 from ..fusion.assembly_tools import frame, new_component
 

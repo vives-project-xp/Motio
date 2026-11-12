@@ -72,14 +72,14 @@ De wig hangt met één T-haak per zijkant in de voorwand van de case (de bovenst
 - De sleuf aan de kabelkant (rechts gezien van voren) loopt door richting het midden. De kabels gaan naast de hals door de sleuf, via het kabelgat in de achterwand van de wig op dezelfde hoogte.
 - Eerst de zijkanten in de case draaien, daarna de wig dichtzetten met bodem en achterwand.
 
-De sleuven staan in de Fusion-case en de laser-generator ([wedge_mount.py](https://github.com/vives-project-xp/Motio/tree/archive/Research/concept/v2/fusion/CycloidDrawerV2/cycloid/box_design/wedge_mount.py)). Bij een gecentreerde wig op een case van 358 mm:
+De sleuven staan in de gedeelde kastcode ([wedge_mount.py](../BoxV3/box_design/wedge_mount.py)), die zowel het Fusion-script als de laser-generator gebruiken. Bij een gecentreerde wig op een case van 358 mm:
 
 | Zijkant | Sleuf (x vanaf de linkerrand, van voren gezien) | Hals op x | z |
 |---|---|---|---|
 | Links | 58,3 tot 90,3 mm | 74,3 mm | 84 mm |
 | Rechts (kabelkant) | 222,7 tot 299,7 mm | 283,7 mm | 84 mm |
 
-Houd `paneel_maten.py` en `wedge_mount.py` gelijk. `python -m unittest` controleert dat ze op elkaar aansluiten.
+Houd `paneel_maten.py` en `BoxV3/box_design/wedge_mount.py` gelijk. `python -m unittest` controleert dat ze op elkaar aansluiten.
 
 ## Bestanden genereren
 

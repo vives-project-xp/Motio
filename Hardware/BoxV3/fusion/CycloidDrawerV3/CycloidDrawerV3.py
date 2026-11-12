@@ -24,7 +24,7 @@ def _use_own_package_path():
 def _fresh_import():
     """Drop cached modules so edits in config.py are picked up on every run."""
     _use_own_package_path()
-    for name in [m for m in sys.modules if m == "cycloid" or m.startswith("cycloid.")]:
+    for name in [m for m in sys.modules if m in ("cycloid", "box_design") or m.startswith(("cycloid.", "box_design."))]:
         del sys.modules[name]
     from cycloid.assembly import DrawerAssembly
     return DrawerAssembly

@@ -1,6 +1,6 @@
 """Control-panel wedge ('houder') on the front of the box, built from the flat parts of Hardware/Bedieningspaneel."""
 from .. import config as cfg
-from ..box_design.wedge_placement import WedgePlacement, load_wedge_parts
+from box_design.wedge_placement import WedgePlacement, load_wedge_parts
 from ..fusion import sketch_tools as st
 from ..fusion.assembly_tools import frame, new_component
 

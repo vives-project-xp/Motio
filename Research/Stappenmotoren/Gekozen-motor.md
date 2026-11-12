@@ -16,7 +16,7 @@ De volledige datasheet staat in [Datasheets](../Datasheets/README.md).
 
 Eventuele driver voor stappenmotoren: https://www.poscope.com/product/bipolar-stepper-motor-driver-postep25-256/
 
-We hebben 2 drivers nodig.
+We hebben 3 stappenmotoren en dus 3 drivers nodig (de gShield v5b heeft er 3).
 
 Gegevens van motor ST42STH38-1684A: https://www.pololu.com/product/2267/pictures
                                     https://www.pololu.com/file/0J714/SY42STH38-1684A.pdf
