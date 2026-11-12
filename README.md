@@ -9,7 +9,7 @@
 > Een innovatief project voor het zichtbaar en tastbaar maken van beweging,
 > door meerdere bewegende elementen om te zetten in fysieke tekeningen op papier.
 
-![cycloide drawing machine](./documentation/assets/cycloide%20drawing%20machine.png)
+![cycloide drawing machine](./Documentation/assets/cycloide-drawing-machine.png)
 
 ## Inhoudsopgave
 
@@ -51,9 +51,9 @@ Het systeem combineert de beweging van meerdere elementen om complexe patronen t
 | Onderdeel | Status | Toelichting |
 | --------- | ------ | ----------- |
 | Concept & onderzoek | Afgerond | Cycloïde-tekenmachine, keuze motoren (SY42STH38-1684A), scherm en lagers. Zie [Research](Research/README.md). |
-| Box V1 | Afgerond | Manueel aangedreven prototype dat één patroon tekent. Zie [UitlegBoxV1](Research/concept/UitlegBoxV1.md). |
+| Box V1 | Afgerond | Manueel aangedreven prototype dat één patroon tekent. Zie [UitlegBoxV1](Research/BoxV1/README.md). |
 | Box V2 | Afgerond (ontwerp) | Parametrisch Fusion-model (CycloidDrawerV2) en lasersnijbestanden met tandwielaandrijving. Vervangen door V3. |
-| Box V3 | Gebouwd | Kast van 4 mm MDF met de motoraandrijving van SIMV7, gemaakt met een generator voor lasersnijbestanden en een Fusion-script. Zie [Box V3](Research/concept/v3/README.md). |
+| Box V3 | Gebouwd | Kast van 4 mm MDF met de motoraandrijving van SIMV7, gemaakt met een generator voor lasersnijbestanden en een Fusion-script. Zie [Box V3](Hardware/BoxV3/README.md). |
 | Simulator | Afgewerkt | SIMV7 met 13 patronen, woordgenerator, veiligheidscontroles en montagehandleiding. Oudere versies staan op de archiefbranch. |
 | Bedieningspaneel | In uitwerking | Wig van 4 mm MDF met 7" Raspberry Pi-scherm; maten en snijbestanden worden gegenereerd. Zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). |
 | Elektronica | Gestart | Schema's voor Raspberry Pi 5 en gShield, testcode voor motoraansturing (PWM). |
@@ -118,7 +118,7 @@ flowchart LR
     C --> PEN
 ```
 
-De pinindeling staat in het [hardwareschema](Schemas/Hardware%20schema.md) en in de [architectuurtekening](documentation/architecture/ArchitectuurFoto.png).
+De pinindeling staat in het [hardwareschema](Hardware/Schemas/README.md) en in de [architectuurtekening](Hardware/Schemas/Architectuur/assets/ArchitectuurFoto1.png).
 
 ### Evolutie van het ontwerp
 
@@ -140,14 +140,14 @@ timeline
 
 ### Hardware
 
-![Box V3 in Fusion: kast van 4 mm MDF met de twee armen, het ronde plateau en het schuine bedieningspaneel](./documentation/assets/box-v3.png)
+![Box V3 in Fusion: kast van 4 mm MDF met de twee armen, het ronde plateau en het schuine bedieningspaneel](./Documentation/assets/box-v3.png)
 
 *Box V3: kast van 4 mm MDF met de twee armen, het plateau met papier en het schuine bedieningspaneel met scherm.*
 
 - Stappenmotoren met dedicated drivers voor precisie-aansturing.
 - Tekeninstrument als uitvoer naar papier.
-- Bedieningspaneel met schuin scherm: zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). Elektronicaschema's staan in [Schemas](Schemas).
-- Raspberry Pi als besturingsplatform (zie [schermkeuzes](Research/Scherm/Scherm_gegevens.md) en [motor-aansturing](Research/Stappenmotoren/Stappenmotor_aansturing.md)).
+- Bedieningspaneel met schuin scherm: zie [Bedieningspaneel](Hardware/Bedieningspaneel/README.md). Elektronicaschema's staan in [Schemas](Hardware/Schemas).
+- Raspberry Pi als besturingsplatform (zie [schermkeuzes](Research/Onderdeelkeuzes.md) en [motor-aansturing](Research/Stappenmotoren/Gekozen-motor.md)).
 
 ### Software
 
@@ -158,7 +158,7 @@ timeline
 
 ## Onderdelenlijst (BOM)
 
-De onderdelenlijst van Box V3: de aandrijving en de PLA-onderdelen van [SIMV7](Software/WARD-SIM/SIMV7/README.md) in een kast van **4 mm MDF** (343,4 × 304,3 × 128 mm, twee compartimenten, zie [Box V3](Research/concept/v3/README.md)). De MDF-onderdelen komen uit de [lasersnijgenerator](Research/concept/v3/lasersnij/generator/config.py). De rest komt uit de SIMV7-[BOM](Software/WARD-SIM/SIMV7/exports/MOTIO-V7-BOM.csv) (kooplinks in [SOURCING.md](Software/WARD-SIM/SIMV7/SOURCING.md)), met twee aanpassingen voor het dunnere hout: motorbouten en verzonken plateaubouten zijn M3×8 in plaats van M3×10. De ribben onder het deksel vervallen. De simulator zelf toont nog de SIMV7-lijst met 6 mm MDF.
+De onderdelenlijst van Box V3: de aandrijving en de PLA-onderdelen van [SIMV7](Software/Simulator/README.md) in een kast van **4 mm MDF** (343,4 × 304,3 × 128 mm, twee compartimenten, zie [Box V3](Hardware/BoxV3/README.md)). De MDF-onderdelen komen uit de [lasersnijgenerator](Hardware/BoxV3/lasersnij/generator/config.py). De rest komt uit de SIMV7-[BOM](Software/Simulator/exports/MOTIO-V7-BOM.csv) (kooplinks in [SOURCING.md](Software/Simulator/SOURCING.md)), met twee aanpassingen voor het dunnere hout: motorbouten en verzonken plateaubouten zijn M3×8 in plaats van M3×10. De ribben onder het deksel vervallen. De simulator zelf toont nog de SIMV7-lijst met 6 mm MDF.
 
 Aantallen en maten zijn de ontwerpwaarden van Box V3, die in 4 mm MDF gebouwd is.
 
@@ -239,58 +239,72 @@ Aantallen en maten zijn de ontwerpwaarden van Box V3, die in 4 mm MDF gebouwd is
 
 ```bash
 Motio/
-├── documentation/    # Projectdocumentatie, afbeeldingen, architectuur en scrumverslagen
-├── Hardware/         # Hardware: bedieningspaneel
-├── Research/         # Onderzoek en keuzes (scherm, stappenmotor-aansturing, huidige Box V3)
-├── Schemas/          # Elektronicaschema's (Raspberry Pi 5, gShield)
-├── Software/         # Softwarecomponenten van het project
-│   ├── Pi-Interface/ # Server die de simulator met de motoren verbindt
-│   └── TestCode/     # Testcode Raspberry Pi 5 en Arduino
-├── Software/WARD-SIM/ # Interactieve simulators
-│   └── SIMV7/        # Laatste versie: PLA, MDF (ontwerp 6 mm, Box V3 bouwt 4 mm), koopdelen, 40 montagestappen
-└── README.md         # Dit bestand
+├── Hardware/            # Alles om de machine te bouwen
+│   ├── BoxV3/           # Huidige kast: Fusion-script en lasersnijgenerator
+│   ├── Bedieningspaneel/# Wig met scherm: maten en snijbestanden
+│   └── Schemas/         # Elektronicaschema's en architectuurtekening
+├── Software/            # Alles wat draait
+│   ├── Simulator/       # Webapp: simulator, ontwerp en montagehandleiding (SIMV7)
+│   ├── Pi-Interface/    # Server op de Raspberry Pi die de motoren aanstuurt
+│   └── TestCode/        # Testcode voor Raspberry Pi 5 en Arduino
+├── Research/            # Onderzoek: datasheets, motoren, scherm, lagers, Box V1
+├── Documentation/       # Scrumverslagen, opstartgids voor de Pi, afbeeldingen
+└── README.md            # Dit bestand
+```
+
+### Waar vind ik wat?
+
+Elke map heeft een eigen `README.md` die uitlegt wat erin zit, waarom het daar staat en hoe je het gebruikt. Begin bij de map die bij je vraag past:
+
+```mermaid
+flowchart TD
+    Vraag{"Wat wil je?"} -->|"De machine bouwen of aanpassen"| H["Hardware/"]
+    Vraag -->|"Een patroon bekijken of het ontwerp begrijpen"| S["Software/Simulator/"]
+    Vraag -->|"De machine laten draaien"| P["Documentation/Pi-opstarten.md"]
+    Vraag -->|"Weten waarom we iets kozen"| R["Research/"]
+    Vraag -->|"Weten wat we besloten"| D["Documentation/Scrum/"]
 ```
 
 ## Scrummeetings
 
-De verslagen van onze scrummeetings staan in [documentation/Scrum](documentation/Scrum). Kopieer voor elke scrummeeting het [scrumtemplate](documentation/Scrum/template.md) en bewaar het ingevulde verslag in die map als `JJJJ-MM-DD-scrum.md`.
+De verslagen van onze scrummeetings staan in [Documentation/Scrum](Documentation/Scrum). Kopieer voor elke scrummeeting het [scrumtemplate](Documentation/Scrum/template.md) en bewaar het ingevulde verslag in die map als `JJJJ-MM-DD-scrum.md`.
 
 ## Simulators
 
-- [MOTIO SIMV7](Software/WARD-SIM/SIMV7/index.html): huidige en laatste versie, opvolger van SIMV6. PLA voor de maatdelen, lasergesneden MDF voor de kast (6 mm in het ontwerp, in Box V3 gebouwd in 4 mm), standaard koopdelen en een handleiding van 40 stappen met kooplinks. Het is een gecontroleerd ontwerp, nog geen fysiek beproefde machine. Zie [ontwerp en bediening](Software/WARD-SIM/SIMV7/README.md).
+- [MOTIO SIMV7](Software/Simulator/index.html): huidige en laatste versie, opvolger van SIMV6. PLA voor de maatdelen, lasergesneden MDF voor de kast (6 mm in het ontwerp, in Box V3 gebouwd in 4 mm), standaard koopdelen en een handleiding van 40 stappen met kooplinks. Het is een gecontroleerd ontwerp, nog geen fysiek beproefde machine. Zie [ontwerp en bediening](Software/Simulator/README.md).
 
 De eerdere simulatoren staan op de [archiefbranch](https://github.com/vives-project-xp/Motio/tree/archive/Software/WARD-SIM).
 
 ### Screenshots
 
-Deze referentiebeelden komen uit [SIMV7](Software/WARD-SIM/SIMV7/index.html), de laatste versie van de simulator. De simulator toont de SIMV7-kast van 358 × 404 × 112 mm in 6 mm MDF; de gebouwde Box V3 is een kleinere kast van 4 mm MDF met dezelfde mechanica (zie hierboven).
+Deze referentiebeelden komen uit [SIMV7](Software/Simulator/index.html), de laatste versie van de simulator. De simulator toont de SIMV7-kast van 358 × 404 × 112 mm in 6 mm MDF; de gebouwde Box V3 is een kleinere kast van 4 mm MDF met dezelfde mechanica (zie hierboven).
 
 **Simulator** – de bloem met vijf blaadjes, getekend op het ronde papier terwijl de machine in bovenaanzicht meebeweegt.
 
-![Simulator met voltooide bloemtekening](./documentation/assets/simulator/simulator-tekening.png)
+![Simulator met voltooide bloemtekening](./Documentation/assets/simulator/simulator-tekening.png)
 
 **Tekeningen** – het eindresultaat van de dertien ingebouwde patronen en een zelf getypt woord, zoals de simulator ze op het ronde papier tekent.
 
 <table>
-  <tr><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-circle.png" width="200" alt="Cirkel"><br><sub>Cirkel</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-flower3.png" width="200" alt="Bloem · 3 blaadjes"><br><sub>Bloem · 3 blaadjes</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-flower5.png" width="200" alt="Bloem · 5 blaadjes"><br><sub>Bloem · 5 blaadjes</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-flower7.png" width="200" alt="Bloem · 7 blaadjes"><br><sub>Bloem · 7 blaadjes</sub></td></tr>
-  <tr><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-ripple12.png" width="200" alt="Golfring"><br><sub>Golfring</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-rosette52.png" width="200" alt="Rozet · 2 rondes"><br><sub>Rozet · 2 rondes</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-rosette73.png" width="200" alt="Rozet · 3 rondes"><br><sub>Rozet · 3 rondes</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-openRosette.png" width="200" alt="Open rozet"><br><sub>Open rozet</sub></td></tr>
-  <tr><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-wovenFlower.png" width="200" alt="Verweven bloem"><br><sub>Verweven bloem</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-wovenRosette.png" width="200" alt="Dichte rozet"><br><sub>Dichte rozet</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-wovenStar.png" width="200" alt="Sterrozet"><br><sub>Sterrozet</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-spiral.png" width="200" alt="Spiraal"><br><sub>Spiraal</sub></td></tr>
-  <tr><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-vives.png" width="200" alt="VIVES"><br><sub>VIVES</sub></td><td align="center"><img src="./documentation/assets/simulator/tekeningen/tekening-word.png" width="200" alt="Eigen woord: MOTIO"><br><sub>Eigen woord: MOTIO</sub></td></tr>
+  <tr><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-circle.png" width="200" alt="Cirkel"><br><sub>Cirkel</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-flower3.png" width="200" alt="Bloem · 3 blaadjes"><br><sub>Bloem · 3 blaadjes</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-flower5.png" width="200" alt="Bloem · 5 blaadjes"><br><sub>Bloem · 5 blaadjes</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-flower7.png" width="200" alt="Bloem · 7 blaadjes"><br><sub>Bloem · 7 blaadjes</sub></td></tr>
+  <tr><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-ripple12.png" width="200" alt="Golfring"><br><sub>Golfring</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-rosette52.png" width="200" alt="Rozet · 2 rondes"><br><sub>Rozet · 2 rondes</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-rosette73.png" width="200" alt="Rozet · 3 rondes"><br><sub>Rozet · 3 rondes</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-openRosette.png" width="200" alt="Open rozet"><br><sub>Open rozet</sub></td></tr>
+  <tr><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-wovenFlower.png" width="200" alt="Verweven bloem"><br><sub>Verweven bloem</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-wovenRosette.png" width="200" alt="Dichte rozet"><br><sub>Dichte rozet</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-wovenStar.png" width="200" alt="Sterrozet"><br><sub>Sterrozet</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-spiral.png" width="200" alt="Spiraal"><br><sub>Spiraal</sub></td></tr>
+  <tr><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-vives.png" width="200" alt="VIVES"><br><sub>VIVES</sub></td><td align="center"><img src="./Documentation/assets/simulator/tekeningen/tekening-word.png" width="200" alt="Eigen woord: MOTIO"><br><sub>Eigen woord: MOTIO</sub></td></tr>
 </table>
 
 **Mechanical Design** – interactief 3D-model van de box en een technisch bovenaanzicht van de armen en het plateau.
 
 |                       Interactief 3D-model                        |                      2D technische tekening                       |
 | :---------------------------------------------------------------: | :---------------------------------------------------------------: |
-| ![Mechanical Design 3D](./documentation/assets/simulator/mechanical-3d.png) | ![Mechanical Design 2D](./documentation/assets/simulator/mechanical-2d.png) |
+| ![Mechanical Design 3D](./Documentation/assets/simulator/mechanical-3d.png) | ![Mechanical Design 2D](./Documentation/assets/simulator/mechanical-2d.png) |
 
 **Validation** – controles op bereik, botsingen, singulariteiten, motorcapaciteit, spelingen en constructiesterkte. Wat nog fysiek getest moet worden staat als *niet bewezen* aangeduid.
 
-![Validation-tabblad](./documentation/assets/simulator/validation.png)
+![Validation-tabblad](./Documentation/assets/simulator/validation.png)
 
 ### Beginposter
 
-<img src="./documentation/assets/begin_poster_motio.png" height="auto" width="420">
+<img src="./Documentation/assets/begin_poster_motio.png" height="auto" width="420">
 
 ## Team
 
