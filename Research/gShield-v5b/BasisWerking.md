@@ -5,7 +5,7 @@ De gShield v5b (grblShield v5) is een stappenmotordriver-shield voor Arduino. He
 
 De gShield kan ook gebruikt worden om TinyG2 te runnen op the Arduino Due. Dit kan omdat TinyG2 een ARM port van de TinyG motion control system is.
 
-<img src="../assets/gShieldWerking1.jpg" height="auto" width="380">
+<img src="afbeeldingen/gShieldWerking1.jpg" height="auto" width="380">
 
 ## Wat doet de gShield v5b?
 - Stuurt tot 3 stappenmotoren aan (X, Y, Z).
@@ -64,7 +64,7 @@ Voor limit switches, reset, spindle-enable en andere GRBL-functies.<br>
 Het is de stappenmotor-driver IC die de signalen van de Arduino omzet in de hoge stromen die nodig zijn om een stappenmotor aan te sturen.
 De volledige werking van de IC is terug te vinden in de documentatie van Texas Instruments.
 
-<img src="../assets/gShieldWerking2.avif" height="auto" width="380">
+<img src="afbeeldingen/gShieldWerking2.avif" height="auto" width="380">
 
 Het bevat twee H-brug-drivers en logica voor microstappen om een stappenmotor te besturen. Hierdoor kan de motor in twee richtingen draaien.
 

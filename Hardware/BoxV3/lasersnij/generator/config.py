@@ -1,6 +1,6 @@
 """All tweakable dimensions in one place (mm).
 
-The drive is the one of MOTIO SIMV7 (Software/WARD-SIM/SIMV7): three stepper motors, mounted with their flange
+The drive is the one of MOTIO SIMV7 (Software/Simulator): three stepper motors, mounted with their flange
 against the underside of the lid, drive two cranks and the platter directly. Only the wood is 4 mm instead of 6 mm.
 """
 import math

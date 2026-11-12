@@ -3,9 +3,9 @@
 ## Wat is een stappenmotor
 Een stappenmotor is een borstelloze synchrone gelijkstroommotor die digitale pulsen omzet in rotatie van een mechanische as.In tegenstelling tot veel andere standaardtypen motoren, draait een stappenmotor niet continu gedurende een bepaald aantal omwentelingen totdat de gelijkspanning die eraan wordt geleverd, wordt uitgeschakeld. Het heeft verschillende spoelen die in groepen zijn georganiseerd, de zogenaamde "fasen". Als elke fase beurtelings wordt ingeschakeld, draait de motor stap voor stap.
 
-<img src="../assets/motorWerking1.png" height="auto" width="380">
+<img src="afbeeldingen/motorWerking1.png" height="auto" width="380">
 
-<img src="../assets/motorWerking2.jpg" height="auto" width="260">
+<img src="afbeeldingen/motorWerking2.jpg" height="auto" width="260">
 
 Stappenmotoren verdelen de gehele draaibeweging in meerdere gelijke stappen. Zolang de motor de juiste afmetingen heeft voor het koppel en de snelheid van de toepassing, kan de positie van de motor worden geregeld om in een van deze stappen te bewegen en daar te blijven zonder enige feedback van een positiesensor.
 
@@ -16,13 +16,13 @@ Verander de volgorde waarin de wikkelingen worden bekrachtigd en de motor zal va
 
 De motor zet elektrische energie om in mechanische energie, en de stappenmotor is een regelelement met open lus dat elektrische pulssignalen omzet in hoekverplaatsing of lineaire verplaatsing. Onder omstandigheden zonder overbelasting zijn het toerental en de stoppositie van de motor alleen afhankelijk van de frequentie en het aantal pulsen van het pulssignaal en worden ze niet beïnvloed door veranderingen in de belasting. Met andere woorden: als een pulssignaal aan de motor wordt toegevoegd, zal de motor een staphoek draaien. Het bestaan ​​van deze lineaire relatie, gekoppeld aan de kenmerken van de stappenmotor die alleen periodieke fouten vertoont en geen geaccumuleerde fouten. Het maakt het heel eenvoudig om stappenmotoren te gebruiken om de snelheid, positie en andere controlegebieden te regelen.
 
-<img src="../assets/motorWerking3.gif" height="auto" width="420">
+<img src="afbeeldingen/motorWerking3.gif" height="auto" width="420">
 
 ## Unipolair en bipolair
 
 Een stappenmotor is een motor die de rotatiehoek regelt door middel van elektrische pulsen. Bipolaire stappenmotoren en unipolaire stappenmotoren zijn twee veel voorkomende typen stappenmotoren. Het belangrijkste verschil tussen beide is de controlemethode. Een bipolaire stappenmotor moet de stroom omkeren om de richting van de rotor te veranderen, dus er zijn 4 elektroden nodig om de richting te regelen, elke elektrode heeft twee toestanden (AAN/UIT).
 
-<img src="../assets/motorWerking4.png" height="auto" width="420">
+<img src="afbeeldingen/motorWerking4.png" height="auto" width="420">
 
 Een unipolaire stappenmotor heeft slechts twee elektroden nodig om de rotatie van de rotor te regelen, en de motor draait door de richting van de stroom te veranderen. Daarom hebben unipolaire stappenmotoren, vergeleken met bipolaire stappenmotoren, slechts 2 elektroden nodig om dezelfde bewegingscontrole te bereiken. Omdat unipolaire stappenmotoren echter de toevoeging van een unipolaire driver in het stuurcircuit vereisen, is de complexiteit van het circuit iets hoger.
 

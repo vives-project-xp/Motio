@@ -1,5 +1,32 @@
 # Bedieningspaneel
 
+## Wat, waarom, inhoud
+
+**Wat:** de schuine wig waarin het 7"-touchscreen en de Raspberry Pi zitten. Hij hangt aan de voorkant van de kast ([BoxV3](../BoxV3/README.md)).
+
+**Waarom een generator?** De maten van het scherm en de vingerverbindingen moeten exact kloppen. De Python-code berekent ze uit één bestand met maten ([paneel_maten.py](paneel_maten.py)) en maakt de lasersnijbestanden.
+
+| Map of bestand | Wat zit erin? |
+|---|---|
+| `paneel_maten.py` | **Alle maten**. Hier pas je aan. |
+| `zijkant.py`, `bovenplaat.py`, `steunplaat.py`, `vulring.py`, `bodem.py`, `achterwand.py` | Eén bestand per onderdeel |
+| `vingers.py` | Tanden en sleuven (gedeeld door alle onderdelen) |
+| `montage.py`, `voorbeeld.py`, `scherm.py` | 3D-opstelling en voorbeeldbeeld (niet voor het snijden) |
+| `export.py`, `genereer.py` | Schrijft de SVG- en DXF-bestanden: start `python genereer.py` |
+| `test_afstemming.py` | Test dat paneel en kast op elkaar aansluiten |
+| [uitvoer/](uitvoer) | De gegenereerde bestanden: `bedieningspaneel.svg/.dxf` (snijden) en `voorbeeld_3d.svg` |
+
+```mermaid
+flowchart LR
+    maten["paneel_maten.py"] --> delen["zijkant, bovenplaat,<br/>steunplaat, vulring,<br/>bodem, achterwand"]
+    vingers["vingers.py"] --> delen
+    delen --> genereer["genereer.py"]
+    genereer --> uitvoer["uitvoer/<br/>SVG + DXF + 3D-voorbeeld"]
+    delen --> montage["montage.py<br/>3D-opstelling"]
+```
+
+De uitleg hieronder is het volledige technische dossier.
+
 Gesloten wig met een schuin scherm (officieel Raspberry Pi Touch Display 7", v1.1 uit 2015, 800 × 480) dat op de bestaande case wordt gemonteerd. Alles is 4 mm MDF, hellingshoek 45°. Alle verbindingen zijn vingerverbindingen (tanden in sleuven).
 
 ## Onderdelen

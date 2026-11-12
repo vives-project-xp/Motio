@@ -1,6 +1,6 @@
 """All dimensions in mm (converted to cm only when talking to Fusion).
 
-The drive is the one of MOTIO SIMV7 (Software/WARD-SIM/SIMV7): three stepper motors with their flange against the
+The drive is the one of MOTIO SIMV7 (Software/Simulator): three stepper motors with their flange against the
 underside of the lid. All heights below count from that flange plane (SIMV7 DESIGN.md). Only the wood is 4 mm.
 Kept in sync with the laser generator (lasersnij/generator/config.py).
 Fusion frame: X = box width (left -> right), Y = box depth (front -> back), Z = up.

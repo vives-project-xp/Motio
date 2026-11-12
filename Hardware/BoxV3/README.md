@@ -1,13 +1,37 @@
 # Box V3 – stappenmotoren
 
-Box V3 vervangt de tandwielaandrijving van [V2](https://github.com/vives-project-xp/Motio/tree/archive/Research/concept/v2) door de aandrijving van Ward's simulator [SIMV7](../../../Software/WARD-SIM/SIMV7/README.md): drie stappenmotoren (SY42STH38-1684A) met de flens tegen de onderkant van het deksel. Motor A en B draaien elk een kruk van 65 mm met een arm (180 en 160 mm), motor C draait het plateau met het papier. De kast blijft de V2-kast van 4 mm MDF (twee compartimenten), maar kleiner: 343 × 304 mm in plaats van 358 × 408 mm en het [bedieningspaneel](../../../Hardware/Bedieningspaneel/README.md) hangt er nog steeds aan.
+## Wat, waarom, inhoud
+
+**Wat:** de houten kast van de machine (4 mm MDF) met de drie motoren onder het deksel, plus alles om die kast te maken.
+
+**Waarom twee manieren?** Het **lasersnijden** gebeurt met bestanden uit een generator. Het **Fusion-model** dient om te controleren, te visualiseren en te animeren. Beide gebruiken dezelfde maten.
+
+| Map of bestand | Wat zit erin? |
+|---|---|
+| [lasersnij/](lasersnij/README.md) | De SVG- en DXF-bestanden voor de lasersnijder en de generator die ze maakt |
+| [fusion/](fusion/README.md) | Fusion 360-script dat het 3D-model en de animatie bouwt |
+| `views.png` | Voorbeeldbeeld van het model |
+| `simulatie-v3.mp4` | Video van de animatie |
+
+```mermaid
+flowchart LR
+    maten["config.py<br/>(maten)"] --> gen["lasersnij/generator"]
+    maten --> fus["fusion/CycloidDrawerV3"]
+    gen --> snij["SVG / DXF<br/>lasersnijder"]
+    fus --> model["3D-model + animatie"]
+    snij --> kast["Gebouwde kast"]
+```
+
+De uitleg hieronder is het volledige technische dossier.
+
+Box V3 vervangt de tandwielaandrijving van [V2](https://github.com/vives-project-xp/Motio/tree/archive/Research/concept/v2) door de aandrijving van Ward's simulator [SIMV7](../../Software/Simulator/README.md): drie stappenmotoren (SY42STH38-1684A) met de flens tegen de onderkant van het deksel. Motor A en B draaien elk een kruk van 65 mm met een arm (180 en 160 mm), motor C draait het plateau met het papier. De kast blijft de V2-kast van 4 mm MDF (twee compartimenten), maar kleiner: 343 × 304 mm in plaats van 358 × 408 mm en het [bedieningspaneel](../Bedieningspaneel/README.md) hangt er nog steeds aan.
 
 ## Indeling
 
 - `lasersnij/generator/` – Python-generator voor de lasersnijbestanden van de kast en het plateau.
 - `fusion/CycloidDrawerV3/` – Fusion 360-script dat het volledige model opbouwt.
 
-De armen, krukken, bussen, penas en lagers zijn de PLA-onderdelen van SIMV7 en worden niet opnieuw gemaakt. Maten en montagevolgorde staan in [SIMV7/DESIGN.md](../../../Software/WARD-SIM/SIMV7/DESIGN.md), de STL-bestanden in `Software/WARD-SIM/SIMV7/exports`.
+De armen, krukken, bussen, penas en lagers zijn de PLA-onderdelen van SIMV7 en worden niet opnieuw gemaakt. Maten en montagevolgorde staan in [SIMV7/DESIGN.md](../../Software/Simulator/DESIGN.md), de STL-bestanden in `Software/Simulator/exports`.
 
 ## Lasersnijbestanden genereren
 

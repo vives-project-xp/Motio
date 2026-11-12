@@ -1,5 +1,29 @@
 # MOTIO SIMV7
 
+## Wat, waarom, inhoud
+
+**Wat:** de simulator en het volledige ontwerp van de machine (SIMV7). Je opent `index.html` in een browser en ziet de machine tekenen, zonder iets te installeren.
+
+**Waarom hier:** de simulator is de bron van de waarheid voor de mechanica. De maten, de onderdelenlijst en de printbestanden komen hieruit; [Hardware/BoxV3](../../Hardware/BoxV3/README.md) en de Pi-code bouwen erop verder.
+
+| Map of bestand | Wat zit erin? |
+|---|---|
+| [index.html](index.html), [style.css](style.css) | De webpagina |
+| [js/](js/README.md) | De code: berekeningen, patronen, tekenen |
+| [exports/](exports/README.md) | Gegenereerde printbestanden (STL), snijbestanden (SVG/DXF), onderdelenlijst en controlerapporten |
+| [tests/](tests/README.md) | Automatische controles en scripts om de exports te maken |
+| [references/](references/) | Referentiebeeld met de motormaten |
+| [DESIGN.md](DESIGN.md) | Montagematen van het ontwerp |
+| [SOURCING.md](SOURCING.md) | Wat je waar koopt |
+
+```mermaid
+flowchart LR
+    js["js/<br/>code"] --> html["index.html<br/>in de browser"]
+    js --> tests["tests/<br/>controleren en exporteren"]
+    tests --> exports["exports/<br/>STL, SVG, DXF, BOM"]
+    exports --> bouw["bouwen:<br/>printen en lasersnijden"]
+```
+
 Officiële opvolger van SIMV6: PLA voor de mechanische maatdelen, 6 mm lasergesneden MDF voor de kast en standaard koopdelen uit de toegestane winkels. Eerdere versies staan op de [archiefbranch](https://github.com/vives-project-xp/Motio/tree/archive/Software/WARD-SIM).
 
 Open [index.html](index.html) in een recente browser. Er is geen installatie of internet nodig. De simulator bevat de bestaande 13 patronen, eigen woorden, 2D/3D-weergave, onderdelenlijst met kooplinks en een aangepaste montagehandleiding van 40 stappen. Bedien met **Power → Home → Play**. Home is een virtuele referentie; de webpagina stuurt zelf geen fysieke motoren aan.
