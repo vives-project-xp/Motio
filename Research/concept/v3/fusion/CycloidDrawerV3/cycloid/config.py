@@ -64,6 +64,21 @@ PEN_AXLE_D, PEN_AXLE_BORE, PEN_AXLE_L, PEN_AXLE_Z = 19.9, 13.0, 50.0, 35.5
 PEN_D, PEN_LENGTH = 10.0, 110.0
 
 
+# ---- Joints: pins and holes the animation turns about ------------------------------
+PIVOT_PIN_D = 8.0                    # pin between a crank tip and its arm
+CRANK_AXIS_HOLE = MOTOR_SHAFT_D      # the motor shaft goes through the crank
+ARM_B_END_HOLE = PEN_AXLE_D          # arm B turns about the pen axle, which sits on arm A
+
+# ---- Animation (rose pattern drawn while the platter turns) -------------------
+# The pen moves along a line from the platter centre pointing along +Y (Fusion) while the platter turns, so the
+# pen radius at each platter angle is the radius of the rose. Every pen position must stay reachable by both arms.
+ANIMATION_FRAMES = 480                    # 16 s at 30 fps
+ANIMATION_PLATTER_TURNS = 2
+ROSE_MEAN_RADIUS, ROSE_AMPLITUDE = 62.0, 36.0       # mm; mean + amplitude must stay inside the paper (radius 105)
+ROSE_PETALS_PER_TURN = 2.5                # x ANIMATION_PLATTER_TURNS must be a whole number, or the rose does not close
+ROSE_GROW_FRACTION = 0.1                  # first part of the animation in which the rose grows out of the centre
+
+
 def to_fusion_xy(svg_x: float, svg_y: float) -> tuple:
     """Laser/SVG frame (y down from the back) -> Fusion frame (y up from the front)."""
     return svg_x, BOX_DEPTH - svg_y

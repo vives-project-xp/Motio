@@ -22,11 +22,17 @@ def frame(origin, x_axis, y_axis, z_axis) -> adsk.core.Matrix3D:
     return m
 
 
-def new_component(parent: adsk.fusion.Component, name: str,
-                  matrix: adsk.core.Matrix3D = None) -> adsk.fusion.Component:
+def new_occurrence(parent: adsk.fusion.Component, name: str,
+                   matrix: adsk.core.Matrix3D = None) -> adsk.fusion.Occurrence:
+    """Like `new_component`, but keeps the occurrence: that is what you move to animate a part."""
     occ = parent.occurrences.addNewComponent(matrix or adsk.core.Matrix3D.create())
     occ.component.name = name
-    return occ.component
+    return occ
+
+
+def new_component(parent: adsk.fusion.Component, name: str,
+                  matrix: adsk.core.Matrix3D = None) -> adsk.fusion.Component:
+    return new_occurrence(parent, name, matrix).component
 
 
 class AppearancePalette:
