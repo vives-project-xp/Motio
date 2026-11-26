@@ -29,3 +29,9 @@ In onderstaande tabellen is het verbruik van de componenten terug te vinden onde
 | SY42STH38-1684A 3     | 2,8              | 1,68       | 9,408        |
 | Touch Display         | 5                | 0,8        | 4            |
 | **Totaal**            | -                | -          | **57,224**   |
+
+We hebben een bron gebruikt om te testen wat de invloed van de spanning is op de vloeibaarheid van de beweging.<br>
+
+We hebben de bewegingen getest op 24 V, 20 V en 12 V. We merkten dat wanneer er meer spanning werd gebruikt, de motoren agressiever bewogen en de bewegingen grilliger waren. Uiteindelijk zijn we geëindigd met 12 V, op deze spanning leek het balans tussen kracht en fijnheid het beste.<br>
+
+Door gebruik te maken van een bron, konden we zien hoeveel stroom de driver verbruikt. We zagen dat de driver nooit meer dan 200 mA verbruikte, wat ook binnen de grenzen van de componenten ligt.<br>
