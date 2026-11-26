@@ -10,10 +10,11 @@ Zo kan iemand zonder Node.js of Python de onderdelen direct printen en snijden. 
 | Soort | Bestanden | Gebruik |
 |---|---|---|
 | 3D-printen | `*.stl` (14 onderdelen + 2 passingproeven + PEN2-vervanger) | Printen in PLA. Aantallen en instellingen: [PRINTING.md](PRINTING.md) |
+| Bewerken in Fusion | `*.step` (dezelfde 17 modellen) | Eén CAD-solid per bestand met exacte ronde vlakken. Openen en aanpassen: [FUSION.md](FUSION.md). Geen oorspronkelijke Fusion-tijdlijn |
 | Lasersnijden | `*-bottom`, `-front-back`, `-platter`, `-rib`, `-side`, `-top-plate` als `.svg` en `.dxf` | Snijden in MDF. `MOTIO-V7-laser-layout.svg` is het snijplan op een plaat |
 | Tekeningen | `*-mechanical`, `-mounting`, `-section`, `-pen-detail` (`.svg`) | Uitleg bij montage |
 | Onderdelenlijst | `MOTIO-V7-BOM.csv` | Wat je moet kopen of maken |
-| Controlerapporten | `design-validation.json`, `pattern-validation.json`, `print-validation.json`, `print-pen2-validation.json` | Ontwerp- en meshcontroles; fysieke klemming apart testen |
+| Controlerapporten | `design-validation.json`, `pattern-validation.json`, `print-validation.json`, `print-pen2-validation.json`, `step-validation.json` | Ontwerp-, mesh- en STEP-controles; fysieke klemming apart testen |
 | Manifests | `laser-manifest.json`, `print-manifest.json`, `print-pen2-manifest.json` | Machineleesbare lijst van de onderdelen |
 | Voorbeeldbeelden | `*-preview.png` | Snel bekijken zonder bestanden te openen |
 
@@ -22,6 +23,8 @@ Zo kan iemand zonder Node.js of Python de onderdelen direct printen en snijden. 
 flowchart LR
     sim["Simulator<br/>(js/)"] --> gen["tests/export.js<br/>tests/print-parts.py"]
     gen --> stl["STL<br/>3D-printen"]
+    sim --> cad["tests/step-parts.py<br/>via printmanifests"]
+    cad --> step["STEP<br/>bewerken in Fusion"]
     gen --> svg["SVG / DXF<br/>lasersnijden"]
     gen --> json["JSON / CSV<br/>controle en lijsten"]
 ```

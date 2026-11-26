@@ -2,6 +2,8 @@
 
 De STL-bestanden staan in deze map en zijn al naar hun bedoelde printoriëntatie gedraaid, met de onderzijde op z=0. Gebruik millimeters. De [printmanifest](print-manifest.json) bevat de geometrie en aantallen; [print-validation.json](print-validation.json) bevat de meshcontroles.
 
+Wil je een onderdeel aanpassen in Fusion? Open het gelijknamige **`.step`-bestand** als CAD-solid. Zie [FUSION.md](FUSION.md) voor de werkwijze en de beperkingen van de geïmporteerde tijdlijn.
+
 | Bestand | Aantal | Onderdeel |
 |---|---:|---|
 | MOTIO-V7-K-A.stl | 1 | Kruk A, vlak |

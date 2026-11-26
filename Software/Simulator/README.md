@@ -10,7 +10,7 @@
 |---|---|
 | [index.html](index.html), [style.css](style.css) | De webpagina |
 | [js/](js/README.md) | De code: berekeningen, patronen, tekenen |
-| [exports/](exports/README.md) | Gegenereerde printbestanden (STL), snijbestanden (SVG/DXF), onderdelenlijst en controlerapporten |
+| [exports/](exports/README.md) | Printbestanden (STL), bewerkbare CAD-solids (STEP), snijbestanden (SVG/DXF), onderdelenlijst en controlerapporten |
 | [tests/](tests/README.md) | Automatische controles en scripts om de exports te maken |
 | [assets/](assets/motor-dimensions.png) | Referentiebeeld met de motormaten |
 | [DESIGN.md](DESIGN.md) | Montagematen van het ontwerp |
@@ -79,3 +79,5 @@ python -m venv .venv
 ```
 
 De meegeleverde exports horen bij de standaardconfiguratie. Aanpassingen in de simulator veranderen bestaande bestanden op schijf niet. Gebruik deze bouwconfiguratie voor de geleverde onderdelen.
+
+Voor elk printbestand staat ook een bewerkbare `.step` in exports. Gebruik [FUSION.md](exports/FUSION.md) om een onderdeel in Fusion te openen en aan te passen. Opnieuw maken: installeer `tests/requirements-cad.txt` en voer `python tests/step-parts.py --compare-stl` uit nadat beide printmanifests en STL's zijn bijgewerkt.

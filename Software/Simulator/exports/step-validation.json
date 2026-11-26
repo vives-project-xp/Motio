@@ -1,0 +1,435 @@
+{
+  "generator": "CadQuery 2.6.1 / OpenCascade; independent STEP reimport",
+  "units": "mm",
+  "native_fusion_history": false,
+  "sources": {
+    "print-manifest.json": "c9ad9471e19658c93d2a5645dbc0eee6627822b46983ef36fa96bb4b712eb56a",
+    "print-pen2-manifest.json": "83e7d0a72ffad37c40bbe4f9379610eb96ed6a04a0cc77b709ee2d55d74e4b50"
+  },
+  "parts": [
+    {
+      "file": "MOTIO-V7-K-A.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        94.0,
+        34.0,
+        6.0
+      ],
+      "volume_mm3": 13219.214253,
+      "faces": {
+        "PLANE": 6,
+        "CYLINDER": 8
+      },
+      "sha256": "86a3da716ffb6e77e0ac1561ba6ed763ec3bfab5b2fd8af154138e551a1382a5",
+      "stl_comparison": {
+        "file": "MOTIO-V7-K-A.stl",
+        "max_dimension_error_mm": 0.000542,
+        "relative_volume_error": 0.00027641,
+        "sha256": "c81c8f1925ca62344c32c51cdbe53f6778d7293425319cb3b0e3f0f39b24898d"
+      },
+      "id": "K-A",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-K-B.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        94.0,
+        34.0,
+        10.0
+      ],
+      "volume_mm3": 15438.435304,
+      "faces": {
+        "PLANE": 7,
+        "CYLINDER": 9
+      },
+      "sha256": "8a9303910d92cbd373be9ff16c9cb9112167cdf9df3e849598c787acba1cc2c5",
+      "stl_comparison": {
+        "file": "MOTIO-V7-K-B.stl",
+        "max_dimension_error_mm": 0.004459,
+        "relative_volume_error": 0.00033928,
+        "sha256": "3ccf8cb32c6d0d990ab8616bf55e722e9e985484568c4632922f3ddbb223307f"
+      },
+      "id": "K-B",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-E-A.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        14.0,
+        14.0,
+        16.5
+      ],
+      "volume_mm3": 1543.904294,
+      "faces": {
+        "CYLINDER": 3,
+        "PLANE": 3
+      },
+      "sha256": "e086057918ce1a02acf80ac1984d5b9d9a31c25e75d228fe02f7ad8cf311da5d",
+      "stl_comparison": {
+        "file": "MOTIO-V7-E-A.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00071377,
+        "sha256": "72ab6e0a7014e53d6e281cd4dea02a6546286fc85570401928146661cccfb71c"
+      },
+      "id": "E-A",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-L-A.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        215.0,
+        40.0,
+        16.0
+      ],
+      "volume_mm3": 45579.08871,
+      "faces": {
+        "PLANE": 16,
+        "CYLINDER": 6
+      },
+      "sha256": "a9bc0465d69f2a676e906b23b047c2c97d9fb7da913c811862c0153531d19544",
+      "stl_comparison": {
+        "file": "MOTIO-V7-L-A.stl",
+        "max_dimension_error_mm": 0.009712,
+        "relative_volume_error": 0.00015175,
+        "sha256": "866b8de6240a79d39ddbfaf071cb22081f0c36f93c58557545988781660eb5a5"
+      },
+      "id": "L-A",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-E-B.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        14.0,
+        14.0,
+        28.5
+      ],
+      "volume_mm3": 2726.148441,
+      "faces": {
+        "CYLINDER": 3,
+        "PLANE": 3
+      },
+      "sha256": "245b8164efbde3778a4be3b9280d4f2889ea713820e00863d31b6403e4335c66",
+      "stl_comparison": {
+        "file": "MOTIO-V7-E-B.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00071378,
+        "sha256": "35da8cfbfad2571144bc7057eca73eeb94438caa13787db94bd4165f03878daf"
+      },
+      "id": "E-B",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-L-B.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        195.0,
+        40.0,
+        16.0
+      ],
+      "volume_mm3": 41499.08871,
+      "faces": {
+        "PLANE": 16,
+        "CYLINDER": 6
+      },
+      "sha256": "e45801c439dcc72ee017f051a00143fec42e899886f5ff17ab77ca5262f81618",
+      "stl_comparison": {
+        "file": "MOTIO-V7-L-B.stl",
+        "max_dimension_error_mm": 0.004887,
+        "relative_volume_error": 0.00016631,
+        "sha256": "b05c0fc2130cca0f252fde2abbc870b062f86a27b9e6ac58652a674e4ff1e875"
+      },
+      "id": "L-B",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-E-SPACER.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        12.0,
+        12.0,
+        4.5
+      ],
+      "volume_mm3": 259.558385,
+      "faces": {
+        "CYLINDER": 2,
+        "PLANE": 2
+      },
+      "sha256": "ddb76f56e49995cbaeb3b7ea9b9557de237a1fbbf4a171c249d4e13b437107f2",
+      "stl_comparison": {
+        "file": "MOTIO-V7-E-SPACER.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00071375,
+        "sha256": "87a7ee32d2820aec26512cd36fdfd18d0f6eb55a6885f8f0b02174e18179b0ed"
+      },
+      "id": "E-SPACER",
+      "quantity": 2,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-P.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        24.0,
+        24.0,
+        50.0
+      ],
+      "volume_mm3": 9621.480931,
+      "faces": {
+        "CYLINDER": 3,
+        "PLANE": 3
+      },
+      "sha256": "796083572b298a2939fb66b0847d10621522f5020488f452ac80531d5ec505f9",
+      "stl_comparison": {
+        "file": "MOTIO-V7-P.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00071383,
+        "sha256": "c3ab4ad51a807d39e348b4cf39e7fee6670c786ddc654971d4122abec486872b"
+      },
+      "id": "P",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-SP-P.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        24.0,
+        24.0,
+        14.0
+      ],
+      "volume_mm3": 1846.816657,
+      "faces": {
+        "CYLINDER": 2,
+        "PLANE": 2
+      },
+      "sha256": "7cf87a66e7cc45ef0895757a760664bce9400015bbcc9f01ab48e3760be6d800",
+      "stl_comparison": {
+        "file": "MOTIO-V7-SP-P.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00071379,
+        "sha256": "d15d0d33beb9c1ae183c3ce9775902bab701b8886807f83a5cb3f08c72ad1605"
+      },
+      "id": "SP-P",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-SP-P-TOP.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        24.0,
+        24.0,
+        9.5
+      ],
+      "volume_mm3": 1253.197017,
+      "faces": {
+        "CYLINDER": 2,
+        "PLANE": 2
+      },
+      "sha256": "501c92b92d4c9fcdc7013c24d11b5197e13dfce58d044266ebf34aa4eee0664a",
+      "stl_comparison": {
+        "file": "MOTIO-V7-SP-P-TOP.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00071379,
+        "sha256": "074e45fe26beec74efe693d87a80ef9cc3af87222f1269eec9ffa0665b645a8a"
+      },
+      "id": "SP-P-TOP",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-PEN.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        35.0,
+        28.0,
+        22.0
+      ],
+      "volume_mm3": 9379.618346,
+      "faces": {
+        "CYLINDER": 7,
+        "PLANE": 30
+      },
+      "sha256": "5aeb450c7f634d13644ccda0b6fba6e83af228afaad9cab646ec24ec9c81515c",
+      "stl_comparison": {
+        "file": "MOTIO-V7-PEN.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00060929,
+        "sha256": "4b38772495337a43260653afa7918552a1cd4a0d233dd56582d12ff612bbf242"
+      },
+      "id": "PEN",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-BUSH.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        16.0,
+        16.0,
+        15.0
+      ],
+      "volume_mm3": 719.212005,
+      "faces": {
+        "CYLINDER": 5,
+        "PLANE": 5
+      },
+      "sha256": "75f0b7335f6925120fc063ab07412841a075cba5b41fc72515d3da4cc86f3584",
+      "stl_comparison": {
+        "file": "MOTIO-V7-BUSH.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00069498,
+        "sha256": "2dd2e60031a86828d0ea451dae76d06298cf9259fe5c6cbc49996a579bc737e8"
+      },
+      "id": "BUSH",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-PAD.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        2.0,
+        6.0,
+        6.0
+      ],
+      "volume_mm3": 72.0,
+      "faces": {
+        "PLANE": 6
+      },
+      "sha256": "5f3f0e4b690123f0f3000e76a2d774e2dff89365efd4de4a50e61e60e040a269",
+      "stl_comparison": {
+        "file": "MOTIO-V7-PAD.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.0,
+        "sha256": "ecf7f0e983ee257c06ed258147d9fb0b924b0bf735ba140fe38872b5fe050b65"
+      },
+      "id": "PAD",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-KNOB.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        16.0,
+        16.0,
+        6.0
+      ],
+      "volume_mm3": 1354.670969,
+      "faces": {
+        "PLANE": 13,
+        "CYLINDER": 1
+      },
+      "sha256": "aff9aa951e4c9d62397abae7d2c7a972fb008f9d152415b15768d5e65fdec8b6",
+      "stl_comparison": {
+        "file": "MOTIO-V7-KNOB.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 2.367e-05,
+        "sha256": "125e6249b97f135d92460719656e27cdb986e947ed0f471491ef5f81e561a3b9"
+      },
+      "id": "KNOB",
+      "quantity": 1,
+      "source": "print-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-PEN2.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        35.0,
+        28.0,
+        22.0
+      ],
+      "volume_mm3": 8764.066405,
+      "faces": {
+        "PLANE": 29,
+        "CYLINDER": 8
+      },
+      "sha256": "2b4ec3e524a1822a7ccb7127c1b8bedb4e7afd22197b3eeb0a26616f16c76940",
+      "stl_comparison": {
+        "file": "MOTIO-V7-PEN2.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00058848,
+        "sha256": "5a70b5d0b62ea61891e67ed99122c9bfd7aaffb914c2233ba5a7be085505fb2b"
+      },
+      "id": "PEN2",
+      "quantity": 1,
+      "source": "print-pen2-manifest.json"
+    },
+    {
+      "file": "MOTIO-V7-fit-coupon.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        150.0,
+        82.0,
+        8.0
+      ],
+      "volume_mm3": 69770.666148,
+      "faces": {
+        "PLANE": 6,
+        "CYLINDER": 6
+      },
+      "sha256": "b3a4622271eb9877aa9580a1c081bfd28487fda17eb8b689079c88cc525f8b54",
+      "stl_comparison": {
+        "file": "MOTIO-V7-fit-coupon.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00029289,
+        "sha256": "94b64377ca2b6dc2214bb6973d95226ce658b870be9fc01c4bf2248434de8ff8"
+      },
+      "id": "fit-coupon",
+      "quantity": 1,
+      "source": "step-parts.py / coupons (same dimensions as print-parts.py)"
+    },
+    {
+      "file": "MOTIO-V7-shaft-coupon.step",
+      "valid": true,
+      "solids": 1,
+      "dimensions_mm": [
+        24.0,
+        24.0,
+        17.0
+      ],
+      "volume_mm3": 3455.076477,
+      "faces": {
+        "CYLINDER": 3,
+        "PLANE": 3
+      },
+      "sha256": "277e664b36f72971445afafec58a77c7daba9051bad900e10e91dbe812c89be1",
+      "stl_comparison": {
+        "file": "MOTIO-V7-shaft-coupon.stl",
+        "max_dimension_error_mm": 0.0,
+        "relative_volume_error": 0.00071382,
+        "sha256": "e1cac28d2b105a55ed5e78daad6ea156a8e77e7e2cdb6b2354f840ffc4f3deea"
+      },
+      "id": "shaft-coupon",
+      "quantity": 1,
+      "source": "step-parts.py / coupons (same dimensions as print-parts.py)"
+    }
+  ]
+}

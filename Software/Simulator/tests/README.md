@@ -32,9 +32,21 @@ node tests/patterns.test.js
 | `export.js` | Schrijft de SVG-, DXF-, JSON- en manifestbestanden naar [exports](../exports/README.md) |
 | `render-preview.js` | Maakt de voorbeeldafbeeldingen (PNG) in exports |
 | `print-parts.py` | Maakt de STL-bestanden voor 3D-printen. Vereist Python en `requirements-print.txt` |
+| `step-parts.py` | Maakt 17 bewerkbare CAD-solids als STEP, uit beide printmanifests plus de passingproeven. Vereist Python en `requirements-cad.txt`. Leest elke STEP opnieuw in en controleert de solid |
 | `serve.js` | Kleine lokale webserver om de simulator te bekijken |
 
 Voor alleen de herziene PEN2-asklem: `node tests/export.js --pen2-only`, daarna `python tests/print-parts.py --pen2-only`. Dit maakt een aparte STL, manifest en meshcontrole zonder de oorspronkelijke V7-bestanden te overschrijven. Zie [printinstructies](../exports/PRINTING.md#pen2--herziene-asklem).
+
+Voor de Fusion-bestanden, nadat manifests en STL's zijn bijgewerkt:
+
+```powershell
+python -m pip install -r tests/requirements-cad.txt
+python tests/step-parts.py --compare-stl
+```
+
+Dit maakt één `.step` per STL en `step-validation.json`. `--compare-stl` controleert ook afmetingen (maximaal 0,05 mm verschil) en volume (maximaal 1% verschil) ten opzichte van de bestaande 96-segment-STL's. Zonder die optie zijn STL-bestanden niet nodig. Voor alleen PEN2 voeg je `--pen2-only` toe; het controlerapport heet dan `step-pen2-validation.json`. De brongeometrie blijft in de simulator en de printmanifests; STEP bevat geen oorspronkelijke Fusion-schetsgeschiedenis. Zie [FUSION.md](../exports/FUSION.md).
+
+`step-parts.py` gebruikt een actieve Python-omgeving, of pakketten in `tmp/cad-tools` onder de repositoryhoofdmap. Met `MOTIO_CAD_MODULES` kun je een andere pakketmap kiezen.
 
 ```mermaid
 flowchart LR
