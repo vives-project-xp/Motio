@@ -16,7 +16,8 @@ import numpy as np
 import trimesh
 
 out = root / 'exports'
-manifest = json.loads((out / 'print-manifest.json').read_text(encoding='utf-8'))
+pen2_only = '--pen2-only' in sys.argv
+manifest = json.loads((out / ('print-pen2-manifest.json' if pen2_only else 'print-manifest.json')).read_text(encoding='utf-8'))
 SEGMENTS = 96
 
 def cylinder(r, h, center, axis='z', angle=0, segments=SEGMENTS):
@@ -72,27 +73,56 @@ def save(solid, filename):
     return dict(file=filename,watertight=True,connected=True,cavity_shells=int(sum(p.volume < 0 for p in imported_shells)),triangles=len(check.faces),
                 dimensions_mm=np.round(check.extents,3).tolist(),volume_mm3=round(check.volume,2))
 
-report=[]
-for item in manifest['parts']:
+def part_solid(item):
     solids = [primitive(b) for b in item['parts']]
     solid = solids[0]
     for piece in solids[1:]:
         solid += piece
     solid = solid.translate((-item['origin']['x'],-item['origin']['y'],0))
     solid = solid.rotate((0,0,math.degrees(item['angle']))).rotate(item['rotate'])
+    return solid
+
+report=[]
+for item in manifest['parts']:
+    solid = part_solid(item)
     entry = save(solid, item['filename'])
     entry.update(id=item['id'],quantity=item['qty'])
     report.append(entry)
     print(item['filename']+' · '+str(entry['triangles'])+' triangles · watertight')
 
-# A real fit coupon is cheaper than reprinting long arms after a tolerance mismatch.
-coupon = md.Manifold.cube((150,82,8))
-for y,diameters in [(21,[22,22.1,22.2]),(60,[32,32.1,32.2])]:
-    for x,diameter in zip([25,75,125],diameters):
-        coupon -= cylinder(diameter/2,12,(x,y,4))
-report.append(save(coupon,'MOTIO-V7-fit-coupon.stl'))
-shaft = cylinder(9.95,14,(0,0,10))-cylinder(6.5,22,(0,0,10))
-shaft += cylinder(12,3,(0,0,1.5))-cylinder(6.5,8,(0,0,1.5))
-report.append(save(shaft,'MOTIO-V7-shaft-coupon.stl'))
-(out/'print-validation.json').write_text(json.dumps({'generator':'manifold3d + independent STL reimport with trimesh','parts':report},indent=2),encoding='utf-8')
+if not pen2_only:
+    # A real fit coupon is cheaper than reprinting long arms after a tolerance mismatch.
+    coupon = md.Manifold.cube((150,82,8))
+    for y,diameters in [(21,[22,22.1,22.2]),(60,[32,32.1,32.2])]:
+        for x,diameter in zip([25,75,125],diameters):
+            coupon -= cylinder(diameter/2,12,(x,y,4))
+    report.append(save(coupon,'MOTIO-V7-fit-coupon.stl'))
+    shaft = cylinder(9.95,14,(0,0,10))-cylinder(6.5,22,(0,0,10))
+    shaft += cylinder(12,3,(0,0,1.5))-cylinder(6.5,8,(0,0,1.5))
+    report.append(save(shaft,'MOTIO-V7-shaft-coupon.stl'))
+validation = {'generator':'manifold3d + independent STL reimport with trimesh','parts':report}
+if pen2_only:
+    item = manifest['parts'][0]
+    original_manifest = json.loads((out/'print-manifest.json').read_text(encoding='utf-8'))
+    original = part_solid(next(p for p in original_manifest['parts'] if p['id'] == 'PEN'))
+    bottom = min(p['z']-p['h']/2 for p in item['parts'])
+    # Test the real union, including ear roots, rather than just nominal metadata.
+    shaft = cylinder(9.95,7.5,(0,0,bottom+3.75))
+    slit = md.Manifold.cube((24,2,7.98),center=True).translate((12,0,bottom+4))
+    upper = md.Manifold.cube((80,80,12),center=True).translate((0,0,bottom+16.02))
+    upper_difference = ((solid-original)^upper).volume()+((original-solid)^upper).volume()
+    bolt = cylinder(1.5,20,(17,0,bottom+4),'x',math.pi/2)
+    # A real M3 nut must enter from outside without hitting an ear or its root.
+    for y in np.linspace(12,6.05,25):
+        nut = cylinder(3.18,2.4,(17,float(y),bottom+4),'x',math.pi/2,6)
+        assert (solid^nut).volume() < 1e-6, 'M3 nut insertion is obstructed'
+    assert (solid^shaft).volume() < 1e-6, 'Nominal shaft cannot slide into PEN2'
+    assert (solid^slit).volume() < 1e-6, 'Clamp ears obstruct the wider slit'
+    assert upper_difference < 1e-6, 'Upper pen clamp changed'
+    assert (solid^bolt).volume() < 1e-6, 'M3 bolt passage is obstructed'
+    validation['revision'] = item['revision']
+    validation['checks'] = dict(nominal_shaft_inserts=True,ear_gap_clear=True,
+                              m3_bolt_passage_clear=True,m3_nut_inserts=True,upper_pen_clamp_unchanged=True)
+    validation['physicalValidation'] = {'tested':False,'required':'Print and test clamp retention on the actual shaft.'}
+(out/('print-pen2-validation.json' if pen2_only else 'print-validation.json')).write_text(json.dumps(validation,indent=2),encoding='utf-8')
 print(str(len(report))+' verified STL files exported.')

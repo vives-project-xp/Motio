@@ -1,0 +1,212 @@
+{
+  "material": "PLA",
+  "parts": [
+    {
+      "id": "PEN2",
+      "name": "PLA-penhouder met nauwere, soepelere asklem",
+      "qty": 1,
+      "filename": "MOTIO-V7-PEN2.stl",
+      "origin": {
+        "x": 97.48425228860974,
+        "y": 217.41416899717956
+      },
+      "angle": 0,
+      "rotate": [
+        0,
+        0,
+        0
+      ],
+      "parts": [
+        {
+          "id": "holderCollar",
+          "bom": "PEN2",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "holder",
+          "mount": "PEN2",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 81.2,
+          "r": 12.5,
+          "h": 6.4,
+          "inner": 10,
+          "holes": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0.7999999999999972,
+              "r": 10,
+              "h": 8.02
+            },
+            {
+              "axis": "x",
+              "x": 10,
+              "y": 0,
+              "r": 2.2,
+              "h": 12,
+              "z": 7.799999999999997
+            },
+            {
+              "axis": "x",
+              "x": 7,
+              "y": 0,
+              "r": 4.4,
+              "h": 5,
+              "z": 7.799999999999997
+            },
+            {
+              "axis": "x",
+              "x": 12.7,
+              "y": 0,
+              "r": 4.15,
+              "h": 3.6,
+              "segments": 6,
+              "z": 7.799999999999997
+            }
+          ],
+          "slots": [
+            {
+              "x": 12,
+              "y": 0,
+              "z": 1.7999999999999972,
+              "w": 24,
+              "l": 2,
+              "h": 10.02
+            }
+          ]
+        },
+        {
+          "id": "holder",
+          "bom": "PEN2",
+          "group": "pen",
+          "shape": "ring",
+          "instance": "holder",
+          "mount": "PEN2",
+          "x": 97.48425228860974,
+          "y": 217.41416899717956,
+          "z": 92.2,
+          "r": 14,
+          "h": 15.6,
+          "inner": 6.5,
+          "holes": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": -10.200000000000003,
+              "r": 10,
+              "h": 8.02
+            },
+            {
+              "axis": "x",
+              "x": 10,
+              "y": 0,
+              "r": 2.2,
+              "h": 12,
+              "z": -3.200000000000003
+            },
+            {
+              "axis": "x",
+              "x": 7,
+              "y": 0,
+              "r": 4.4,
+              "h": 5,
+              "z": -3.200000000000003
+            },
+            {
+              "axis": "x",
+              "x": 12.7,
+              "y": 0,
+              "r": 4.15,
+              "h": 3.6,
+              "segments": 6,
+              "z": -3.200000000000003
+            }
+          ],
+          "slots": [
+            {
+              "x": 12,
+              "y": 0,
+              "z": -9.200000000000003,
+              "w": 24,
+              "l": 2,
+              "h": 10.02
+            }
+          ]
+        },
+        {
+          "id": "holderEar-1",
+          "bom": "PEN2",
+          "group": "pen",
+          "shape": "box",
+          "instance": "holder",
+          "mount": "PEN2",
+          "x": 112.98425228860974,
+          "y": 213.16416899717956,
+          "z": 82,
+          "w": 11,
+          "l": 6.5,
+          "h": 8,
+          "holes": [
+            {
+              "axis": "x",
+              "angle": 1.5707963267948966,
+              "x": 1.5,
+              "y": 0,
+              "z": 0,
+              "r": 1.7,
+              "h": 20
+            }
+          ]
+        },
+        {
+          "id": "holderEar1",
+          "bom": "PEN2",
+          "group": "pen",
+          "shape": "box",
+          "instance": "holder",
+          "mount": "PEN2",
+          "x": 112.98425228860974,
+          "y": 221.66416899717956,
+          "z": 82,
+          "w": 11,
+          "l": 6.5,
+          "h": 8,
+          "holes": [
+            {
+              "axis": "x",
+              "angle": 1.5707963267948966,
+              "x": 1.5,
+              "y": 0,
+              "z": 0,
+              "r": 1.7,
+              "h": 20
+            },
+            {
+              "axis": "x",
+              "angle": 1.5707963267948966,
+              "x": 1.5,
+              "y": 1.8,
+              "r": 3.3,
+              "h": 3,
+              "segments": 6
+            }
+          ]
+        }
+      ],
+      "revision": {
+        "replaces": "MOTIO-V7-PEN.stl",
+        "shaftDiameter": 19.9,
+        "boreDiameter": 20,
+        "shaftEngagement": 7.5,
+        "boreDepth": 8.01,
+        "slotWidth": 2,
+        "slotDepth": 10.01,
+        "collarOuterDiameter": 25,
+        "collarHeight": 6.4,
+        "collarWall": 2.5,
+        "clampBolt": "M3x20",
+        "physicalValidation": false
+      }
+    }
+  ]
+}

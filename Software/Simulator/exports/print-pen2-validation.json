@@ -1,0 +1,45 @@
+{
+  "generator": "manifold3d + independent STL reimport with trimesh",
+  "parts": [
+    {
+      "file": "MOTIO-V7-PEN2.stl",
+      "watertight": true,
+      "connected": true,
+      "cavity_shells": 0,
+      "triangles": 3298,
+      "dimensions_mm": [
+        35.0,
+        28.0,
+        22.0
+      ],
+      "volume_mm3": 8758.91,
+      "id": "PEN2",
+      "quantity": 1
+    }
+  ],
+  "revision": {
+    "replaces": "MOTIO-V7-PEN.stl",
+    "shaftDiameter": 19.9,
+    "boreDiameter": 20,
+    "shaftEngagement": 7.5,
+    "boreDepth": 8.01,
+    "slotWidth": 2,
+    "slotDepth": 10.01,
+    "collarOuterDiameter": 25,
+    "collarHeight": 6.4,
+    "collarWall": 2.5,
+    "clampBolt": "M3x20",
+    "physicalValidation": false
+  },
+  "checks": {
+    "nominal_shaft_inserts": true,
+    "ear_gap_clear": true,
+    "m3_bolt_passage_clear": true,
+    "m3_nut_inserts": true,
+    "upper_pen_clamp_unchanged": true
+  },
+  "physicalValidation": {
+    "tested": false,
+    "required": "Print and test clamp retention on the actual shaft."
+  }
+}
