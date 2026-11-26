@@ -34,6 +34,8 @@ node tests/patterns.test.js
 | `print-parts.py` | Maakt de STL-bestanden voor 3D-printen. Vereist Python en `requirements-print.txt` |
 | `serve.js` | Kleine lokale webserver om de simulator te bekijken |
 
+Voor alleen de herziene PEN2-asklem: `node tests/export.js --pen2-only`, daarna `python tests/print-parts.py --pen2-only`. Dit maakt een aparte STL, manifest en meshcontrole zonder de oorspronkelijke V7-bestanden te overschrijven. Zie [printinstructies](../exports/PRINTING.md#pen2--herziene-asklem).
+
 ```mermaid
 flowchart LR
     js["js/<br/>simulator-code"] --> export["export.js<br/>print-parts.py"]

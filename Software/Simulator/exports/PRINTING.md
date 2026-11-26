@@ -28,6 +28,26 @@ Begininstellingen: normaal **PLA**, 0,4 mm nozzle, 0,2 mm lagen, 6 wanden, 6 bov
 
 Voor de verticale penas helpt een brim tegen loskomen; laat de lagen goed hechten en gebruik geen speedprofiel dat zichtbare onderextrusie geeft. Print de stalen motornaaf, lagers, bouten of schroefdraad niet na. PLA wordt alleen via de metalen naaf aangedreven en raakt het motorhuis niet; de warmteproef uit [README](../README.md) blijft nodig.
 
+## PEN2 · herziene asklem
+
+Gebruik **[MOTIO-V7-PEN2.stl](MOTIO-V7-PEN2.stl)** in plaats van `MOTIO-V7-PEN.stl` wanneer de oorspronkelijke houder onvoldoende vastklemt op de penas. Print één exemplaar; dit is een vervangend onderdeel en geen extra onderdeel in de montage. Het oorspronkelijke bestand blijft beschikbaar.
+
+- Asboring Ø20,0 in plaats van Ø20,2 mm, voor de bestaande nominale Ø19,9 mm penas. De diametrale speling daalt van 0,3 naar 0,1 mm.
+- Klemspleet 2,0 in plaats van 1,0 mm; beide klemoren staan 0,5 mm verder naar buiten. De sleuf loopt 2 mm verder omhoog. De oren en het M3-moervak behouden hun wanddikte.
+- Onderste 6,4 mm van de klem heeft Ø25 in plaats van Ø28 mm buitenmaat: een wand van 2,5 mm die makkelijker kan meegeven. De uitsparing stopt onder de M4-drukkamer.
+- Totale hoogte 22 mm, asboringsdiepte 8,01 mm, penbus, drukblok, M4-penklem en M3×20-klembout blijven bruikbaar. De houder rust op dezelfde bovenste lagerbus.
+
+Print rechtop zoals aangeleverd, op 100% in mm, met de PLA-instellingen hierboven. Houd sleuf, boutgaten en moervakken vrij van supportresten. Schuif de houder eerst los op de as; draai de M3-bout daarna geleidelijk aan tot de houder niet meer draait of verschuift. Leg geen axiale voorspanning op de lagers. De echte geprinte asdiameter is niet gemeten: de verbeterde klemming moet nog op de machine worden beproefd.
+
+Brongeometrie: `pen2Part()` in [fabrication.js](../js/fabrication.js). Apart opnieuw genereren vanuit `Software/Simulator`, zonder de oorspronkelijke exports te overschrijven:
+
+```powershell
+node tests/export.js --pen2-only
+python tests/print-parts.py --pen2-only
+```
+
+Gebruik de Python-pakketten uit `tests/requirements-print.txt`. De aparte [manifest](print-pen2-manifest.json) en [STL-controle](print-pen2-validation.json) horen bij PEN2; die controle bewijst de gesloten mesh en geometrische doorgangen, niet de fysieke klemkracht.
+
 ## Laserbestanden
 
 Alle houtdelen zijn **6 mm MDF**. Per type zijn er een SVG en DXF:

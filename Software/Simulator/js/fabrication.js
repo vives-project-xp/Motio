@@ -51,5 +51,31 @@ function printParts(g){
   return {id:row.id,name:row.name,qty:row.qty,filename:'MOTIO-V7-'+row.id+'.stl',origin,angle,rotate,parts};
  });
 }
-window.MotioFabrication={parts,entities,svg,dxf,layout,layoutSVG,printParts};
+// Separate replacement for the physically loose PEN clamp; keep the V7 originals.
+function pen2Part(g){
+ const item=structuredClone(printParts(g).find(p=>p.id==='PEN'));
+ item.id='PEN2';item.name='PLA-penhouder met nauwere, soepelere asklem';item.filename='MOTIO-V7-PEN2.stl';
+ const holder=item.parts.find(p=>p.id==='holder'),bottom=holder.z-holder.h/2;
+ const bore=holder.holes.find(h=>!h.axis);bore.r=10;
+ // Two axial sections reduce the lower collar wall from 3.9 to 2.5 mm.
+ // Rebase every cutter so the M4 chamber and shaft shoulder stay in place.
+ const section=(id,z,h,r,inner)=>({...structuredClone(holder),id,z,h,r,inner,
+  holes:holder.holes.map(c=>({...c,z:(c.z||0)+holder.z-z})),
+  slots:holder.slots.map(c=>({...c,z:bottom+5-z,h:10.02,l:2}))});
+ // Stop the relief below the M4 chamber (its lowest point is z=6.6).
+ const collar=section('holderCollar',bottom+3.2,6.4,12.5,10);
+ const upper=section('holder',bottom+14.2,15.6,holder.r,holder.inner);
+ item.parts=item.parts.flatMap(p=>p.id==='holder'?[collar,upper]:[p]);
+ // Preserve each ear's wall and captive nut by moving the whole ear outward.
+ for(const p of item.parts){
+  p.bom='PEN2';p.mount='PEN2';
+  if(p.id.startsWith('holderEar'))p.y+=Math.sign(p.y-holder.y)*.5;
+ }
+ item.revision={replaces:'MOTIO-V7-PEN.stl',shaftDiameter:19.9,boreDiameter:20,
+  shaftEngagement:7.5,boreDepth:8.01,slotWidth:2,slotDepth:10.01,
+  collarOuterDiameter:25,collarHeight:6.4,collarWall:2.5,
+  clampBolt:'M3x20',physicalValidation:false};
+ return item;
+}
+window.MotioFabrication={parts,entities,svg,dxf,layout,layoutSVG,printParts,pen2Part};
 })();

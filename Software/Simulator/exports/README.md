@@ -9,12 +9,12 @@ Zo kan iemand zonder Node.js of Python de onderdelen direct printen en snijden. 
 ## Inhoud
 | Soort | Bestanden | Gebruik |
 |---|---|---|
-| 3D-printen | `*.stl` (14 onderdelen + 2 passingproeven) | Printen in PLA. Aantallen en instellingen: [PRINTING.md](PRINTING.md) |
+| 3D-printen | `*.stl` (14 onderdelen + 2 passingproeven + PEN2-vervanger) | Printen in PLA. Aantallen en instellingen: [PRINTING.md](PRINTING.md) |
 | Lasersnijden | `*-bottom`, `-front-back`, `-platter`, `-rib`, `-side`, `-top-plate` als `.svg` en `.dxf` | Snijden in MDF. `MOTIO-V7-laser-layout.svg` is het snijplan op een plaat |
 | Tekeningen | `*-mechanical`, `-mounting`, `-section`, `-pen-detail` (`.svg`) | Uitleg bij montage |
 | Onderdelenlijst | `MOTIO-V7-BOM.csv` | Wat je moet kopen of maken |
-| Controlerapporten | `design-validation.json`, `pattern-validation.json`, `print-validation.json` | Bewijs dat het ontwerp klopt |
-| Manifests | `laser-manifest.json`, `print-manifest.json` | Machineleesbare lijst van de onderdelen |
+| Controlerapporten | `design-validation.json`, `pattern-validation.json`, `print-validation.json`, `print-pen2-validation.json` | Ontwerp- en meshcontroles; fysieke klemming apart testen |
+| Manifests | `laser-manifest.json`, `print-manifest.json`, `print-pen2-manifest.json` | Machineleesbare lijst van de onderdelen |
 | Voorbeeldbeelden | `*-preview.png` | Snel bekijken zonder bestanden te openen |
 
 ## Hoe ontstaan ze?

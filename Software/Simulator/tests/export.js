@@ -3,6 +3,11 @@ global.window=global;
 for(const f of ['math','machineGeometry','kinematics','paperTransform','singularityAnalysis','collisionDetection','structuralEstimate','motorAnalysis','mechanics','validation','bom','bubbleText','patterns','simulation','renderers','fabrication'])require('../js/'+f+'.js');
 const folder=path.resolve(__dirname,'../exports');fs.mkdirSync(folder,{recursive:true});
 const sim=new MotioSimulation.Simulation();
+if(process.argv.includes('--pen2-only')){
+ fs.writeFileSync(path.join(folder,'print-pen2-manifest.json'),JSON.stringify({material:'PLA',parts:[MotioFabrication.pen2Part(sim.geometry)]},null,2));
+ console.log('PEN2 replacement manifest exported. Original V7 exports retained.');
+ process.exit(0);
+}
 fs.writeFileSync(path.join(folder,'MOTIO-V7-mechanical.svg'),MotioRenderers.mechanismSVG(sim,true));
 fs.writeFileSync(path.join(folder,'MOTIO-V7-section.svg'),MotioRenderers.sectionSVG(sim));
 fs.writeFileSync(path.join(folder,'MOTIO-V7-pen-detail.svg'),MotioRenderers.detailSVG(sim,'pen'));
